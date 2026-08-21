@@ -1,155 +1,13 @@
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
-import { SessionBuilderForm } from "../../features/tutor/components/SessionBuilderForm";
-import { SessionManualEditor } from "../../features/tutor/components/SessionManualEditor";
-import { SessionConfig } from "../../features/tutor/schemas/sessionConfig";
-import { Settings2, ArrowLeft, ShieldAlert } from "lucide-react";
-import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
-import { useQuery } from "@tanstack/react-query";
-import { getGlobalAiCredentialStatus } from "../../lib/api/global-ai-credential-api";
+import { MaterialUploaderForm } from "../../features/tutor/components/MaterialUploaderForm";
+import { BookOpen, ArrowLeft } from "lucide-react";
 
 export default function TutorBuilderPage() {
   const navigate = useNavigate();
   const studentShell = useStudentShell("/app/area-mentor");
-
-  const [searchParams] = useSearchParams();
-  const stationId = searchParams.get("id");
-
-  const [mode, setMode] = useState<"build" | "edit">("build");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [config, setConfig] = useState<SessionConfig | null>(null);
-
-  useEffect(() => {
-    if (stationId) {
-      const fetchStation = async () => {
-        try {
-          const supabase = getSupabaseBrowserClient();
-          const { data, error } = await supabase
-            .from('tutor_stations')
-            .select('*')
-            .eq('id', stationId)
-            .single();
-
-          if (error) throw error;
-          
-          setConfig({
-            id: data.id,
-            title: data.title,
-            type: data.type,
-            durationMinutes: data.duration_minutes,
-            objective: data.objective,
-            competence: data.competence,
-            practiceArea: data.practice_area,
-            instructions: data.instructions,
-            reference: data.reference,
-            actorInstructions: data.actor_instructions,
-            rubrics: data.rubrics || [],
-            worksheetTemplate: data.worksheet_template,
-            attachments: [],
-          });
-          setMode("edit");
-        } catch (err: any) {
-          console.error(err);
-          toast.error("Gagal memuat stase TUTOR: " + err.message);
-        }
-      };
-      fetchStation();
-    }
-  }, [stationId]);
-
-  const statusQuery = useQuery({
-    queryKey: ["global-ai-credential-status"],
-    queryFn: () => getGlobalAiCredentialStatus(),
-  });
-  
-  const hasCredential = statusQuery.data?.hasCredential ?? false;
-
-  const handleGenerate = async (prompt?: string, file?: File, scenarioType?: string) => {
-    setIsGenerating(true);
-    
-    try {
-      const supabase = getSupabaseBrowserClient();
-      
-      let body: Record<string, unknown> = { 
-        prompt, 
-        mode: prompt ? "prompt" : "file",
-        scenarioType 
-      };
-      
-      if (file) {
-        const base64 = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result as string;
-            resolve(result.split(',')[1]); // get base64 part
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-        
-        body = { ...body, fileName: file.name, fileBase64: base64, fileType: file.type };
-      }
-      
-      const { data, error } = await supabase.functions.invoke("generate-tutor", {
-        body
-      });
-
-      if (error) {
-        throw new Error(error.message || "Gagal menghubungi AI");
-      }
-      
-      setConfig(data);
-      setMode("edit");
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Terjadi kesalahan saat memproses skenario dengan AI: " + err.message);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handleSave = async (savedConfig: SessionConfig) => {
-    try {
-      const supabase = getSupabaseBrowserClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      const payload = {
-        title: savedConfig.title,
-        type: savedConfig.type,
-        duration_minutes: savedConfig.durationMinutes,
-        objective: savedConfig.objective,
-        competence: savedConfig.competence,
-        practice_area: savedConfig.practiceArea,
-        instructions: savedConfig.instructions,
-        reference: savedConfig.reference,
-        actor_instructions: savedConfig.actorInstructions,
-        rubrics: savedConfig.rubrics,
-        worksheet_template: savedConfig.worksheetTemplate,
-      };
-
-      if (stationId) {
-        const { error } = await supabase.from('tutor_stations').update(payload).eq('id', stationId);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from('tutor_stations').insert({
-          id: savedConfig.id,
-          ...payload,
-          created_by: user?.id
-        });
-        if (error) throw error;
-      }
-
-      toast.success("Konfigurasi TUTOR berhasil disimpan!");
-      navigate("/app/mentor/tutor");
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Gagal menyimpan konfigurasi: " + err.message);
-    }
-  };
 
   return (
     <ProductShell
@@ -173,58 +31,24 @@ export default function TutorBuilderPage() {
             </div>
             <div className="flex items-center gap-3 mt-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Settings2 className="h-5 w-5" />
+                <BookOpen className="h-5 w-5" />
               </div>
               <div>
                 <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-                  Pengatur TUTOR (Station Builder)
+                  Knowledge Base AI Tutor
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Buat dan sesuaikan stase TUTOR dengan bantuan AI atau unggah dokumen skenario.
+                  Unggah materi dan dokumen referensi untuk memperkaya pengetahuan AI Tutor (RAG).
                 </p>
               </div>
             </div>
           </div>
-
-          {mode === "edit" && (
-            <button
-              type="button"
-              onClick={() => setMode("build")}
-              className="self-start md:self-auto px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
-            >
-              + Buat Ulang Skenario
-            </button>
-          )}
         </div>
 
-        {/* API Key Settings (BYOK) Alert */}
-        {mode === "build" && !statusQuery.isLoading && !hasCredential && (
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold">
-              <ShieldAlert className="h-5 w-5 shrink-0" />
-              Kredensial AI Belum Diatur
-            </div>
-            <p className="text-sm text-amber-800/80 dark:text-amber-300/80">
-              Anda membutuhkan kunci API Gemini untuk dapat membuat skenario TUTOR. 
-              Sistem menggunakan skema Bring Your Own Key (BYOK) secara global.
-            </p>
-            <button
-              onClick={() => navigate("/app/settings/ai-config")}
-              className="mt-2 w-fit px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer"
-            >
-              Atur Kredensial AI Sekarang
-            </button>
-          </div>
-        )}
-
         {/* Dynamic Content */}
-        {mode === "build" ? (
-          <div className={!hasCredential ? "opacity-50 pointer-events-none transition-opacity" : "transition-opacity"}>
-            <SessionBuilderForm onGenerate={handleGenerate} isGenerating={isGenerating} />
-          </div>
-        ) : (
-          config && <SessionManualEditor initialConfig={config} onSave={handleSave} />
-        )}
+        <div className="max-w-4xl">
+          <MaterialUploaderForm />
+        </div>
       </div>
     </ProductShell>
   );
