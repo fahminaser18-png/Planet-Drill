@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { StationManualEditor } from '../../../../src/features/osce/components/StationManualEditor';
-import type { StationConfig } from '../../../../src/features/osce/schemas/stationConfig';
+import { SessionManualEditor } from '../../../../src/features/tutor/components/SessionManualEditor';
+import type { SessionConfig } from '../../../../src/features/tutor/schemas/sessionConfig';
 import React from 'react';
 
-const mockConfig: StationConfig = {
+const mockConfig: SessionConfig = {
   id: 'stase-1',
   title: 'Test Stase',
   type: 'komunikasi',
@@ -13,14 +13,14 @@ const mockConfig: StationConfig = {
   attachments: []
 };
 
-describe('StationManualEditor', () => {
+describe('SessionManualEditor', () => {
   afterEach(() => {
     cleanup();
   });
 
   it('renders input fields populated with config data', () => {
     const handleSave = vi.fn();
-    render(<StationManualEditor initialConfig={mockConfig} onSave={handleSave} />);
+    render(<SessionManualEditor initialConfig={mockConfig} onSave={handleSave} />);
     
     expect(screen.getByLabelText(/Judul Stase/i)).toHaveValue('Test Stase');
     expect(screen.getByLabelText(/Durasi \(Menit\)/i)).toHaveValue(8);
@@ -29,7 +29,7 @@ describe('StationManualEditor', () => {
 
   it('updates form fields and calls onSave with updated configuration when saved', () => {
     const handleSave = vi.fn();
-    render(<StationManualEditor initialConfig={mockConfig} onSave={handleSave} />);
+    render(<SessionManualEditor initialConfig={mockConfig} onSave={handleSave} />);
 
     const titleInput = screen.getByLabelText(/Judul Stase/i);
     const durationInput = screen.getByLabelText(/Durasi \(Menit\)/i);
@@ -55,7 +55,7 @@ describe('StationManualEditor', () => {
 
   it('allows temporary empty duration when backspacing and clamps to 1 on blur or save', () => {
     const handleSave = vi.fn();
-    render(<StationManualEditor initialConfig={mockConfig} onSave={handleSave} />);
+    render(<SessionManualEditor initialConfig={mockConfig} onSave={handleSave} />);
 
     const durationInput = screen.getByLabelText(/Durasi \(Menit\)/i);
     const saveButton = screen.getByRole('button', { name: /Simpan Konfigurasi/i });

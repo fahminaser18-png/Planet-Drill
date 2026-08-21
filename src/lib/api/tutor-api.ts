@@ -1,33 +1,33 @@
 import { getSupabaseBrowserClient } from "../supabase/browser-client";
 
-/** Typed transcript entry from OSCE simulation */
-export interface OsceTranscriptEntry {
+/** Typed transcript entry from TUTOR simulation */
+export interface TutorTranscriptEntry {
   role: string;
   text: string;
   timestamp?: string;
 }
 
 /** Typed rubric result from AI evaluation */
-export interface OsceRubricResult {
+export interface TutorRubricResult {
   competency: string;
   score: number;
   reasoning: string;
 }
 
-export async function saveOsceAttempt(payload: {
+export async function saveTutorAttempt(payload: {
   stationId: string;
   totalScore: number;
   maxScore: number;
-  transcript: OsceTranscriptEntry[];
+  transcript: TutorTranscriptEntry[];
   formData: string;
-  rubricResults: OsceRubricResult[];
+  rubricResults: TutorRubricResult[];
   feedback: string;
 }) {
   const supabase = getSupabaseBrowserClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("User not authenticated");
 
-  const { data, error } = await supabase.from('osce_attempts').insert({
+  const { data, error } = await supabase.from('tutor_attempts').insert({
     station_id: payload.stationId,
     user_id: user.id,
     total_score: payload.totalScore,
@@ -42,10 +42,10 @@ export async function saveOsceAttempt(payload: {
   return data;
 }
 
-export async function deleteOsceStation(stationId: string) {
+export async function deleteTutorStation(stationId: string) {
   const supabase = getSupabaseBrowserClient();
   
-  const { error } = await supabase.from('osce_stations')
+  const { error } = await supabase.from('tutor_stations')
     .delete()
     .eq('id', stationId);
 
@@ -53,10 +53,10 @@ export async function deleteOsceStation(stationId: string) {
   return true;
 }
 
-export async function listOsceStations() {
+export async function listTutorStations() {
   const supabase = getSupabaseBrowserClient();
   
-  const { data, error } = await supabase.from('osce_stations')
+  const { data, error } = await supabase.from('tutor_stations')
     .select('id, title, type, duration_minutes, objective')
     .order('created_at', { ascending: false });
 
@@ -64,13 +64,13 @@ export async function listOsceStations() {
   return data;
 }
 
-export async function getOsceAttemptDetail(attemptId: string) {
+export async function getTutorAttemptDetail(attemptId: string) {
   const supabase = getSupabaseBrowserClient();
   
-  const { data, error } = await supabase.from('osce_attempts')
+  const { data, error } = await supabase.from('tutor_attempts')
     .select(`
       *,
-      station:osce_stations (*)
+      station:tutor_stations (*)
     `)
     .eq('id', attemptId)
     .single();
@@ -79,18 +79,18 @@ export async function getOsceAttemptDetail(attemptId: string) {
   return data;
 }
 
-export async function listOsceAttemptHistory() {
+export async function listTutorAttemptHistory() {
   const supabase = getSupabaseBrowserClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("User not authenticated");
   
-  const { data, error } = await supabase.from('osce_attempts')
+  const { data, error } = await supabase.from('tutor_attempts')
     .select(`
       id,
       created_at,
       total_score,
       max_score,
-      station:osce_stations ( title )
+      station:tutor_stations ( title )
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });

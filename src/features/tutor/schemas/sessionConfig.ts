@@ -47,7 +47,7 @@ export const RubricSchema = z.object({
   score0: z.string().optional(),
 });
 
-export const StationConfigSchema = z.object({
+export const SessionConfigSchema = z.object({
   id: z.string(),
   title: z.string(),
   type: z.enum(['komunikasi', 'dokumen', 'hybrid']),
@@ -66,4 +66,4 @@ export const StationConfigSchema = z.object({
   attachments: z.array(AttachmentSchema).default([]),
 });
 
-export type StationConfig = z.infer<typeof StationConfigSchema>;
+export type SessionConfig = z.infer<typeof SessionConfigSchema>;

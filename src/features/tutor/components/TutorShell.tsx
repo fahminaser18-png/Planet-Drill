@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from "sonner";
-import type { StationConfig } from '../schemas/stationConfig';
+import type { SessionConfig } from '../schemas/sessionConfig';
 import { Clock, CheckCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-interface OsceShellProps {
-  config: StationConfig;
+interface TutorShellProps {
+  config: SessionConfig;
   children: React.ReactNode;
   onExit?: () => void;
 }
 
-export function OsceShell({ config, children, onExit }: OsceShellProps) {
+export function TutorShell({ config, children, onExit }: TutorShellProps) {
   const [timeLeft, setTimeLeft] = useState(config.durationMinutes * 60);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export function OsceShell({ config, children, onExit }: OsceShellProps) {
         <div className="p-6 flex-grow overflow-y-auto space-y-6">
           {config.objective && (
             <div>
-              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Tujuan Station</h2>
+              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Tujuan Session</h2>
               <p className="text-slate-700 text-sm">{config.objective}</p>
             </div>
           )}

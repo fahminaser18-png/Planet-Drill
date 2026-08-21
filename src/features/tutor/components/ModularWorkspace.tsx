@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { StationConfig } from '../schemas/stationConfig';
-import { OsceShell } from './OsceShell';
+import type { SessionConfig } from '../schemas/sessionConfig';
+import { TutorShell } from './TutorShell';
 import { LiveCallWidget } from './LiveCallWidget';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -19,9 +19,9 @@ function FormWidget({ value, onChange, template }: { value: string; onChange: (v
       } else if (template) {
         let html = marked.parse(template) as string;
         // Ubah placeholder garis bawah menjadi input teks sebaris
-        html = html.replace(/_{3,}/g, '<span contenteditable="true" class="osce-input"></span>');
+        html = html.replace(/_{3,}/g, '<span contenteditable="true" class="tutor-input"></span>');
         // Ubah sel tabel kosong menjadi input blok
-        html = html.replace(/<td>\s*<\/td>/g, '<td><div contenteditable="true" class="osce-cell-input"></div></td>');
+        html = html.replace(/<td>\s*<\/td>/g, '<td><div contenteditable="true" class="tutor-cell-input"></div></td>');
         
         contentRef.current.innerHTML = html;
         onChange(html);
@@ -46,7 +46,7 @@ function FormWidget({ value, onChange, template }: { value: string; onChange: (v
 }
 
 interface ModularWorkspaceProps {
-  config: StationConfig;
+  config: SessionConfig;
   onExit?: (payload: { transcript: any[], formData: string }) => void;
 }
 
@@ -57,7 +57,7 @@ export function ModularWorkspace({ config, onExit }: ModularWorkspaceProps) {
   const transcriptRef = useRef<any[]>([]);
 
   return (
-    <OsceShell config={config} onExit={() => onExit?.({ transcript: transcriptRef.current, formData })}>
+    <TutorShell config={config} onExit={() => onExit?.({ transcript: transcriptRef.current, formData })}>
       <div className="flex-grow flex flex-col p-2 h-full">
         {/* Attachments Tab Bar would go here */}
         <div className="bg-white px-6 py-3 border-b border-slate-200 text-sm font-medium text-slate-600 flex justify-between items-center">
@@ -77,6 +77,6 @@ export function ModularWorkspace({ config, onExit }: ModularWorkspaceProps) {
           {isDokumen && <div className="flex-1 overflow-y-auto"><FormWidget value={formData} onChange={setFormData} template={config.worksheetTemplate} /></div>}
         </div>
       </div>
-    </OsceShell>
+    </TutorShell>
   );
 }

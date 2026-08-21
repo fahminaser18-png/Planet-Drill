@@ -98,7 +98,7 @@ function LeaderboardPage() {
   });
   const rows = (leaderboardQuery.data ?? []).slice(0, 10);
 
-  if (studentShell.role === "osce_pro") {
+  if (studentShell.role === "tutor_pro") {
     return <Navigate to="/app/scheduled-tryout" replace />;
   }
 

@@ -51,11 +51,11 @@ const STUDY_FEATURES: StudyFeatureCard[] = [
     icon: Sparkles,
   },
   {
-    id: "osce-simulator",
-    title: "Simulasi OSCE",
+    id: "tutor-simulator",
+    title: "Simulasi TUTOR",
     description: "Latih kemampuan komunikasi klinis dan peracikan obat melalui simulasi kasus interaktif bersama AI.",
-    href: "/app/osce-demo",
-    buttonText: "Mulai Simulasi OSCE",
+    href: "/app/tutor-demo",
+    buttonText: "Mulai Simulasi TUTOR",
     icon: Stethoscope,
   },
 ];
@@ -94,11 +94,11 @@ export default function StudyAreaPage() {
         {/* Cards Grid Layout */}
         <div className="grid gap-6 md:grid-cols-3 w-full">
           {STUDY_FEATURES.map((item) => {
-            if (studentShell.role === "osce_pro" && item.id === "flash-card") {
+            if (studentShell.role === "tutor_pro" && item.id === "flash-card") {
               return null;
             }
             const Icon = item.icon;
-            const isAiFeature = item.id === "flash-card" || item.id === "osce-simulator";
+            const isAiFeature = item.id === "flash-card" || item.id === "tutor-simulator";
             const isLocked = isAiFeature && aiStatus.data && !aiStatus.data.hasCredential;
 
             return (

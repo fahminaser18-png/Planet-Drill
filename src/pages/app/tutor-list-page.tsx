@@ -4,30 +4,30 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
-import { listOsceStations, deleteOsceStation } from "../../lib/api/osce-api";
+import { listTutorStations, deleteTutorStation } from "../../lib/api/tutor-api";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Plus, Edit, Trash2, Clock, Activity } from "lucide-react";
 
-export default function OsceListPage() {
+export default function TutorListPage() {
   const navigate = useNavigate();
   const studentShell = useStudentShell("/app/area-mentor");
   const queryClient = useQueryClient();
 
   const { data: stations, isLoading } = useQuery({
-    queryKey: ["osce-stations"],
-    queryFn: listOsceStations,
+    queryKey: ["tutor-stations"],
+    queryFn: listTutorStations,
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteOsceStation,
+    mutationFn: deleteTutorStation,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["osce-stations"] });
+      queryClient.invalidateQueries({ queryKey: ["tutor-stations"] });
     },
   });
 
   const handleDelete = (id: string) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus stase OSCE ini?")) {
+    if (window.confirm("Apakah Anda yakin ingin menghapus stase TUTOR ini?")) {
       deleteMutation.mutate(id);
     }
   };
@@ -42,13 +42,13 @@ export default function OsceListPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border/40">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-              Daftar Stase OSCE
+              Daftar Stase TUTOR
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Kelola daftar stase OSCE yang tersedia untuk simulasi ujian.
+              Kelola daftar stase TUTOR yang tersedia untuk simulasi ujian.
             </p>
           </div>
-          <Button onClick={() => navigate("/app/mentor/osce-builder")}>
+          <Button onClick={() => navigate("/app/mentor/tutor-builder")}>
             <Plus className="mr-2 h-4 w-4" /> Tambah Stase
           </Button>
         </div>
@@ -59,9 +59,9 @@ export default function OsceListPage() {
           </div>
         ) : !stations || stations.length === 0 ? (
           <div className="text-center p-12 bg-muted/30 rounded-2xl border border-border border-dashed">
-            <h3 className="text-lg font-semibold mb-2">Belum ada stase OSCE</h3>
-            <p className="text-muted-foreground mb-4">Mulai buat stase OSCE pertama Anda untuk simulasi ujian.</p>
-            <Button onClick={() => navigate("/app/mentor/osce-builder")} variant="outline">
+            <h3 className="text-lg font-semibold mb-2">Belum ada stase TUTOR</h3>
+            <p className="text-muted-foreground mb-4">Mulai buat stase TUTOR pertama Anda untuk simulasi ujian.</p>
+            <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="outline">
               <Plus className="mr-2 h-4 w-4" /> Buat Stase
             </Button>
           </div>
@@ -89,7 +89,7 @@ export default function OsceListPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => navigate(`/app/mentor/osce-builder?id=${station.id}`)}
+                    onClick={() => navigate(`/app/mentor/tutor-builder?id=${station.id}`)}
                   >
                     <Edit className="h-4 w-4 mr-2" /> Edit
                   </Button>

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { StationConfig } from '../schemas/stationConfig';
+import { SessionConfig } from '../schemas/sessionConfig';
 import { useGeminiLive } from '../../../hooks/use-gemini-live';
 import { Mic, MicOff, PhoneOff, Phone, Loader2, Volume2, AlertTriangle } from 'lucide-react';
 
@@ -9,7 +9,7 @@ export interface TranscriptEntry {
 }
 
 interface Props {
-  config: StationConfig;
+  config: SessionConfig;
   onTranscriptUpdate?: (transcript: TranscriptEntry[]) => void;
 }
 
@@ -49,19 +49,18 @@ export function LiveCallWidget({ config, onTranscriptUpdate }: Props) {
         onTranscriptUpdate(transcriptRef.current);
       }
     },
-    systemInstruction: `Anda sedang bermain peran dalam ujian OSCE Farmasi.
-Skenario: ${config.title}.
+    systemInstruction: `Anda adalah AI Tutor UTBK interaktif di platform Planet Drill UTBK.
+Skenario / Topik Pembelajaran: ${config.title}.
 
 Panduan Karakter:
-- Peran Anda bisa sebagai pasien langsung, ATAU keluarga pasien. BACA dan ikuti sesuai instruksi skenario. Jangan mengaku sebagai orang lain.
-- MULAILAH percakapan segera setelah terhubung dengan menyapa peserta UTBK secara singkat (misal: "Permisi...").
-- Bersikaplah sangat natural dan luwes layaknya manusia sungguhan yang datang ke apotek.
-- JANGAN membaca instruksi skenario secara lantang, gunakan hanya sebagai ingatan latar belakang Anda.
-- ATURAN PALING PENTING: JANGAN OVERSHARING! Anda HARUS menjadi pasien yang PASIF. Jawab HANYA sesuai dengan apa yang ditanyakan peserta UTBK secara spesifik.
-  Contoh: Jika ditanya "Ada yang bisa saya bantu?", Anda HANYA menjawab "Saya ingin beli obat sakit gigi" ATAU sesuai keluhan utama. JANGAN menyebutkan lokasi sakitnya (misal gigi geraham), sudah berapa lama, atau obat yang sudah diminum, KECUALI peserta UTBK secara eksplisit menanyakan hal tersebut (seperti "Yang sakit bagian mana?", "Sudah berapa lama?"). Biarkan peserta UTBK yang aktif menggali informasi.
+- Anda bertugas membantu siswa memahami konsep materi UTBK, membedah soal, atau menjelaskan rumus.
+- MULAILAH percakapan segera setelah terhubung dengan menyapa peserta UTBK secara ramah dan suportif (misal: "Halo! Ada yang bisa saya bantu untuk materi ini?").
+- Gunakan metode Socratic: Bimbing siswa untuk menemukan jawaban sendiri melalui pertanyaan-pertanyaan pancingan. JANGAN sekadar memberikan jawaban atau menyuapi.
+- Bersikaplah sabar, interaktif, dan gunakan bahasa yang mudah dipahami oleh siswa SMA/sederajat.
+- Jika siswa bertanya di luar konteks UTBK, arahkan kembali ke materi pelajaran dengan sopan.
 
-Konteks Karakter / Skenario (Gunakan HANYA sebagai ingatan untuk menjawab jika ditanya):
-${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.'}`,
+Konteks Materi / Instruksi Khusus (Jadikan panduan utama dalam menjawab):
+${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah tutor UTBK yang suportif.'}`,
     onError: (err) => {
       console.error("LiveCall Error:", err);
       setCallError(err.message);
@@ -77,7 +76,7 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
           ) : (
             <span className="w-2 h-2 rounded-full bg-slate-400"></span>
           )}
-          Simulasi Langsung
+          Tanya Tutor Langsung
         </h3>
         <span className="text-xs text-emerald-600 bg-emerald-100 px-2 py-1 rounded font-medium border border-emerald-200">
           Voice Mode
@@ -90,9 +89,9 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
             <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto">
               <Phone className="w-10 h-10" />
             </div>
-            <h4 className="text-xl font-bold text-slate-800">Mulai Simulasi</h4>
+            <h4 className="text-xl font-bold text-slate-800">Mulai Sesi Tutor</h4>
             <p className="text-slate-500 text-sm">
-              Pastikan mikrofon Anda siap. Anda akan terhubung secara *real-time* dengan pasien simulasi untuk stase <strong>{config.title}</strong>.
+              Pastikan mikrofon Anda siap. Anda akan terhubung secara *real-time* dengan AI Tutor untuk topik <strong>{config.title}</strong>.
             </p>
             
             {callError && (
@@ -109,7 +108,7 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
               }}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center gap-2 mx-auto transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 mt-4"
             >
-              <Phone className="w-5 h-5" /> Mulai Simulasi
+              <Phone className="w-5 h-5" /> Hubungi Tutor
             </button>
           </div>
         )}
@@ -117,7 +116,7 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
         {isConnecting && (
           <div className="text-center space-y-4">
             <Loader2 className="w-12 h-12 text-blue-500 animate-spin mx-auto" />
-            <p className="text-slate-500 animate-pulse">Menghubungkan ke Pasien...</p>
+            <p className="text-slate-500 animate-pulse">Menghubungkan ke AI Tutor...</p>
           </div>
         )}
 
@@ -135,9 +134,9 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-2xl font-bold text-slate-800">Pasien Simulasi</h4>
+              <h4 className="text-2xl font-bold text-slate-800">AI Tutor</h4>
               <p className={`text-sm font-medium transition-colors ${isSpeaking ? 'text-blue-600' : 'text-slate-500'}`}>
-                {isSpeaking ? "Pasien sedang berbicara..." : "Pasien sedang mendengarkan..."}
+                {isSpeaking ? "Tutor sedang berbicara..." : "Tutor sedang mendengarkan..."}
               </p>
             </div>
 
@@ -146,7 +145,7 @@ ${config.actorInstructions || 'Tidak ada instruksi khusus. Jadilah pasien biasa.
                 onClick={endCall}
                 className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl flex items-center gap-2 mx-auto transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
               >
-                <PhoneOff className="w-5 h-5" /> Akhiri Simulasi
+                <PhoneOff className="w-5 h-5" /> Akhiri Sesi
               </button>
             </div>
           </div>

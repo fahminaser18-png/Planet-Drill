@@ -4,15 +4,15 @@ import { useNavigate, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
-import { StationBuilderForm } from "../../features/osce/components/StationBuilderForm";
-import { StationManualEditor } from "../../features/osce/components/StationManualEditor";
-import { StationConfig } from "../../features/osce/schemas/stationConfig";
+import { SessionBuilderForm } from "../../features/tutor/components/SessionBuilderForm";
+import { SessionManualEditor } from "../../features/tutor/components/SessionManualEditor";
+import { StationConfig } from "../../features/tutor/schemas/stationConfig";
 import { Settings2, ArrowLeft, ShieldAlert } from "lucide-react";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
 import { useQuery } from "@tanstack/react-query";
 import { getGlobalAiCredentialStatus } from "../../lib/api/global-ai-credential-api";
 
-export default function OsceBuilderPage() {
+export default function TutorBuilderPage() {
   const navigate = useNavigate();
   const studentShell = useStudentShell("/app/area-mentor");
 
@@ -29,7 +29,7 @@ export default function OsceBuilderPage() {
         try {
           const supabase = getSupabaseBrowserClient();
           const { data, error } = await supabase
-            .from('osce_stations')
+            .from('tutor_stations')
             .select('*')
             .eq('id', stationId)
             .single();
@@ -54,7 +54,7 @@ export default function OsceBuilderPage() {
           setMode("edit");
         } catch (err: any) {
           console.error(err);
-          toast.error("Gagal memuat stase OSCE: " + err.message);
+          toast.error("Gagal memuat stase TUTOR: " + err.message);
         }
       };
       fetchStation();
@@ -94,7 +94,7 @@ export default function OsceBuilderPage() {
         body = { ...body, fileName: file.name, fileBase64: base64, fileType: file.type };
       }
       
-      const { data, error } = await supabase.functions.invoke("generate-osce", {
+      const { data, error } = await supabase.functions.invoke("generate-tutor", {
         body
       });
 
@@ -132,10 +132,10 @@ export default function OsceBuilderPage() {
       };
 
       if (stationId) {
-        const { error } = await supabase.from('osce_stations').update(payload).eq('id', stationId);
+        const { error } = await supabase.from('tutor_stations').update(payload).eq('id', stationId);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from('osce_stations').insert({
+        const { error } = await supabase.from('tutor_stations').insert({
           id: savedConfig.id,
           ...payload,
           created_by: user?.id
@@ -143,8 +143,8 @@ export default function OsceBuilderPage() {
         if (error) throw error;
       }
 
-      toast.success("Konfigurasi OSCE berhasil disimpan!");
-      navigate("/app/mentor/osce");
+      toast.success("Konfigurasi TUTOR berhasil disimpan!");
+      navigate("/app/mentor/tutor");
     } catch (err: any) {
       console.error(err);
       toast.error("Gagal menyimpan konfigurasi: " + err.message);
@@ -165,7 +165,7 @@ export default function OsceBuilderPage() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigate("/app/mentor/osce")}
+                onClick={() => navigate("/app/mentor/tutor")}
                 className="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer"
               >
                 <ArrowLeft size={14} /> Kembali ke Daftar Stase
@@ -177,10 +177,10 @@ export default function OsceBuilderPage() {
               </div>
               <div>
                 <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-                  Pengatur OSCE (Station Builder)
+                  Pengatur TUTOR (Station Builder)
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Buat dan sesuaikan stase OSCE dengan bantuan AI atau unggah dokumen skenario.
+                  Buat dan sesuaikan stase TUTOR dengan bantuan AI atau unggah dokumen skenario.
                 </p>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function OsceBuilderPage() {
               Kredensial AI Belum Diatur
             </div>
             <p className="text-sm text-amber-800/80 dark:text-amber-300/80">
-              Anda membutuhkan kunci API Gemini untuk dapat membuat skenario OSCE. 
+              Anda membutuhkan kunci API Gemini untuk dapat membuat skenario TUTOR. 
               Sistem menggunakan skema Bring Your Own Key (BYOK) secara global.
             </p>
             <button
@@ -220,10 +220,10 @@ export default function OsceBuilderPage() {
         {/* Dynamic Content */}
         {mode === "build" ? (
           <div className={!hasCredential ? "opacity-50 pointer-events-none transition-opacity" : "transition-opacity"}>
-            <StationBuilderForm onGenerate={handleGenerate} isGenerating={isGenerating} />
+            <SessionBuilderForm onGenerate={handleGenerate} isGenerating={isGenerating} />
           </div>
         ) : (
-          config && <StationManualEditor initialConfig={config} onSave={handleSave} />
+          config && <SessionManualEditor initialConfig={config} onSave={handleSave} />
         )}
       </div>
     </ProductShell>

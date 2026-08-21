@@ -490,7 +490,7 @@ function TryoutSessionPage() {
     ? resumeMutation.error.message
     : "Sesi yang tertunda belum bisa dilanjutkan.";
 
-  if (studentShell.role === "osce_pro") {
+  if (studentShell.role === "tutor_pro") {
     return <Navigate to="/app/scheduled-tryout" replace />;
   }
 

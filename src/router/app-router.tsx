@@ -50,9 +50,9 @@ const StudyAreaPage = lazy(() => import("../pages/app/study-area-page"));
 const ScheduledEventEditorPage = lazy(() => import("../pages/scheduled-ops/scheduled-event-editor-page"));
 const ScheduledOpsEventsPage = lazy(() => import("../pages/scheduled-ops/scheduled-events-page"));
 const SubscriptionPage = lazy(() => import("../pages/subscription-page"));
-const OsceDemoPage = lazy(() => import("../pages/app/osce-demo-page"));
-const OsceListPage = lazy(() => import("../pages/app/osce-list-page"));
-const OsceBuilderPage = lazy(() => import("../pages/app/osce-builder-page"));
+const TutorDemoPage = lazy(() => import("../pages/app/tutor-demo-page"));
+const TutorListPage = lazy(() => import("../pages/app/tutor-list-page"));
+const TutorBuilderPage = lazy(() => import("../pages/app/tutor-builder-page"));
 const AiConfigPage = lazy(() => import("../pages/app/ai-config-page"));
 
 function RouteLoadingState() {
@@ -94,7 +94,7 @@ function AppRouter() {
             <Route path="scheduled-tryout/leaderboard" element={<ScheduledTryoutLeaderboardPage />} />
             <Route path="scheduled-tryout/session" element={<ScheduledTryoutSessionPage />} />
             <Route path="scheduled-tryout/result" element={<ScheduledTryoutResultPage />} />
-            <Route path="osce-demo" element={<OsceDemoPage />} />
+            <Route path="tutor-demo" element={<TutorDemoPage />} />
             <Route path="settings/ai-config" element={<AiConfigPage />} />
             <Route path="*" element={<Navigate replace to="/app" />} />
           </Route>
@@ -128,8 +128,8 @@ function AppRouter() {
 
         <Route element={<MentorAreaRouteGuard />}>
           <Route path="/app/area-mentor" element={<MentorAreaPage />} />
-          <Route path="/app/mentor/osce" element={<OsceListPage />} />
-          <Route path="/app/mentor/osce-builder" element={<OsceBuilderPage />} />
+          <Route path="/app/mentor/tutor" element={<TutorListPage />} />
+          <Route path="/app/mentor/tutor-builder" element={<TutorBuilderPage />} />
         </Route>
 
         <Route element={<AdminRouteGuard />}>

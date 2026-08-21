@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, cleanup, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { MemoryRouter } from 'react-router';
-import OsceBuilderPage from '../../../src/pages/app/osce-builder-page';
+import TutorBuilderPage from '../../../src/pages/app/tutor-builder-page';
 import React from 'react';
 
 const mockNavigate = vi.fn();
@@ -30,7 +30,7 @@ vi.mock('../../../src/pages/app/use-student-shell', () => ({
   }),
 }));
 
-describe('OsceBuilderPage', () => {
+describe('TutorBuilderPage', () => {
   beforeEach(() => {
     mockNavigate.mockReset();
     mockInvoke.mockReset();
@@ -53,25 +53,25 @@ describe('OsceBuilderPage', () => {
     cleanup();
   });
 
-  it('renders StationBuilderForm initially in build mode', () => {
+  it('renders SessionBuilderForm initially in build mode', () => {
     render(
       <MemoryRouter>
-        <OsceBuilderPage />
+        <TutorBuilderPage />
       </MemoryRouter>
     );
 
     expect(screen.getByText(/Pilih Metode Pembuatan/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Masukkan instruksi skenario OSCE/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Masukkan instruksi skenario TUTOR/i)).toBeInTheDocument();
   });
 
   it('handles AI scenario generation workflow (build -> generating -> edit)', async () => {
     render(
       <MemoryRouter>
-        <OsceBuilderPage />
+        <TutorBuilderPage />
       </MemoryRouter>
     );
 
-    const textarea = screen.getByPlaceholderText(/Masukkan instruksi skenario OSCE/i);
+    const textarea = screen.getByPlaceholderText(/Masukkan instruksi skenario TUTOR/i);
     fireEvent.change(textarea, { target: { value: 'Pasien datang dengan keluhan batuk' } });
 
     const generateBtn = screen.getByRole('button', { name: /^Generate Skenario$/i });
@@ -89,14 +89,14 @@ describe('OsceBuilderPage', () => {
   it('handles document upload scenario generation workflow', async () => {
     render(
       <MemoryRouter>
-        <OsceBuilderPage />
+        <TutorBuilderPage />
       </MemoryRouter>
     );
 
     const uploadTab = screen.getByRole('button', { name: /Upload Dokumen/i });
     fireEvent.click(uploadTab);
 
-    const file = new File(['dummy content'], 'skenario_osce.pdf', { type: 'application/pdf' });
+    const file = new File(['dummy content'], 'skenario_tutor.pdf', { type: 'application/pdf' });
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     fireEvent.change(fileInput, { target: { files: [file] } });
 
@@ -115,11 +115,11 @@ describe('OsceBuilderPage', () => {
   it('saves station configuration and navigates back to mentor area page', async () => {
     render(
       <MemoryRouter>
-        <OsceBuilderPage />
+        <TutorBuilderPage />
       </MemoryRouter>
     );
 
-    const textarea = screen.getByPlaceholderText(/Masukkan instruksi skenario OSCE/i);
+    const textarea = screen.getByPlaceholderText(/Masukkan instruksi skenario TUTOR/i);
     fireEvent.change(textarea, { target: { value: 'Stase Penanganan Asma' } });
     fireEvent.click(screen.getByRole('button', { name: /^Generate Skenario$/i }));
 

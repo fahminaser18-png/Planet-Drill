@@ -21,9 +21,9 @@ begin
     select 1
     from public.profiles
     where id = auth.uid()
-      and role::text in ('pro', 'mentor', 'osce_pro')
+      and role::text in ('pro', 'mentor', 'tutor_pro')
   ) then
-    raise exception 'Akses mulai try out terjadwal hanya tersedia untuk pengguna pro, osce_pro, atau mentor.'
+    raise exception 'Akses mulai try out terjadwal hanya tersedia untuk pengguna pro, tutor_pro, atau mentor.'
       using errcode = '42501';
   end if;
 

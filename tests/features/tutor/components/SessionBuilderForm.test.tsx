@@ -1,16 +1,16 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { StationBuilderForm } from '../../../../src/features/osce/components/StationBuilderForm';
+import { SessionBuilderForm } from '../../../../src/features/tutor/components/SessionBuilderForm';
 import React from 'react';
 
-describe('StationBuilderForm', () => {
+describe('SessionBuilderForm', () => {
   afterEach(() => {
     cleanup();
   });
 
   it('calls onGenerate when prompt is submitted with trimmed text', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
     
     const textarea = screen.getByPlaceholderText(/Masukkan instruksi/i);
     fireEvent.change(textarea, { target: { value: '   Test prompt   ' } });
@@ -23,7 +23,7 @@ describe('StationBuilderForm', () => {
 
   it('disables generate button when prompt is empty in prompt mode', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
     
     const generateBtn = screen.getByRole('button', { name: /^Generate Skenario$/i });
     expect(generateBtn).toBeDisabled();
@@ -31,7 +31,7 @@ describe('StationBuilderForm', () => {
 
   it('disables generate button when prompt contains only whitespace', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
     
     const textarea = screen.getByPlaceholderText(/Masukkan instruksi/i);
     fireEvent.change(textarea, { target: { value: '   ' } });
@@ -42,7 +42,7 @@ describe('StationBuilderForm', () => {
 
   it('switches to upload mode, disables submit button until file is selected, and processes selected file via input', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
     
     const uploadTabBtn = screen.getByRole('button', { name: /Upload Dokumen/i });
     fireEvent.click(uploadTabBtn);
@@ -64,7 +64,7 @@ describe('StationBuilderForm', () => {
 
   it('handles drag and drop file upload', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={false} />);
     
     const uploadTabBtn = screen.getByRole('button', { name: /Upload Dokumen/i });
     fireEvent.click(uploadTabBtn);
@@ -88,7 +88,7 @@ describe('StationBuilderForm', () => {
 
   it('disables mode tabs, inputs, and submit button when isGenerating is true', () => {
     const handleGenerate = vi.fn();
-    render(<StationBuilderForm onGenerate={handleGenerate} isGenerating={true} />);
+    render(<SessionBuilderForm onGenerate={handleGenerate} isGenerating={true} />);
     
     const promptTabBtn = screen.getByRole('button', { name: /AI Generator/i });
     const uploadTabBtn = screen.getByRole('button', { name: /Upload Dokumen/i });

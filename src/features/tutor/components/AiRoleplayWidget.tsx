@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { StationConfig } from '../schemas/stationConfig';
+import { SessionConfig } from '../schemas/sessionConfig';
 import { getSupabaseBrowserClient } from '../../../lib/supabase/browser-client';
 import { Send, Mic } from 'lucide-react';
 
 interface Props {
-  config: StationConfig;
+  config: SessionConfig;
 }
 
 interface Message {
@@ -36,7 +36,7 @@ export function AiRoleplayWidget({ config }: Props) {
 
     try {
       const supabase = getSupabaseBrowserClient();
-      const { data, error } = await supabase.functions.invoke('simulate-osce', {
+      const { data, error } = await supabase.functions.invoke('simulate-tutor', {
         body: { config, history: messages, newMessage: userMessage.content }
       });
 
@@ -56,7 +56,7 @@ export function AiRoleplayWidget({ config }: Props) {
       }
       setMessages(prev => [...prev, { role: 'ai', content: data.text }]);
     } catch (err) {
-      console.error("Simulate OSCE frontend error:", err);
+      console.error("Simulate TUTOR frontend error:", err);
       setMessages(prev => [...prev, { role: 'ai', content: `⚠️ Error: ${(err as Error).message}` }]);
     } finally {
       setIsLoading(false);

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import type { StationConfig } from '../schemas/stationConfig';
+import type { SessionConfig } from '../schemas/sessionConfig';
 import { Save } from 'lucide-react';
 
 interface Props {
-  initialConfig: StationConfig;
-  onSave: (config: StationConfig) => void;
+  initialConfig: SessionConfig;
+  onSave: (config: SessionConfig) => void;
 }
 
-export function StationManualEditor({ initialConfig, onSave }: Props) {
-  const [config, setConfig] = useState<StationConfig>(initialConfig);
+export function SessionManualEditor({ initialConfig, onSave }: Props) {
+  const [config, setConfig] = useState<SessionConfig>(initialConfig);
 
-  const handleChange = <K extends keyof StationConfig>(field: K, value: StationConfig[K]) => {
+  const handleChange = <K extends keyof SessionConfig>(field: K, value: SessionConfig[K]) => {
     setConfig(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = () => {
-    const sanitizedConfig: StationConfig = {
+    const sanitizedConfig: SessionConfig = {
       ...config,
       durationMinutes: Math.max(1, config.durationMinutes)
     };
@@ -41,9 +41,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
 
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="station-title" className="text-sm font-semibold text-slate-600">Judul Stase</label>
+          <label htmlFor="session-title" className="text-sm font-semibold text-slate-600">Judul Stase</label>
           <input 
-            id="station-title"
+            id="session-title"
             type="text" 
             value={config.title}
             onChange={(e) => handleChange('title', e.target.value)}
@@ -51,9 +51,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="station-duration" className="text-sm font-semibold text-slate-600">Durasi (Menit)</label>
+          <label htmlFor="session-duration" className="text-sm font-semibold text-slate-600">Durasi (Menit)</label>
           <input 
-            id="station-duration"
+            id="session-duration"
             type="number" 
             value={config.durationMinutes || ''}
             onChange={(e) => handleChange('durationMinutes', parseInt(e.target.value, 10) || 0)}
@@ -64,9 +64,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
       
       <div className="space-y-2">
-        <label htmlFor="station-objective" className="text-sm font-semibold text-slate-600">Tujuan Station</label>
+        <label htmlFor="session-objective" className="text-sm font-semibold text-slate-600">Tujuan Session</label>
         <input 
-          id="station-objective"
+          id="session-objective"
           type="text"
           value={config.objective || ''}
           onChange={(e) => handleChange('objective', e.target.value)}
@@ -77,9 +77,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
 
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="station-competence" className="text-sm font-semibold text-slate-600">Kompetensi Spesifik</label>
+          <label htmlFor="session-competence" className="text-sm font-semibold text-slate-600">Kompetensi Spesifik</label>
           <textarea 
-            id="station-competence"
+            id="session-competence"
             value={config.competence || ''}
             onChange={(e) => handleChange('competence', e.target.value)}
             className="w-full h-24 p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800 resize-y"
@@ -87,9 +87,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
           />
         </div>
         <div className="space-y-2">
-          <label htmlFor="station-practice-area" className="text-sm font-semibold text-slate-600">Praktek Kefarmasian</label>
+          <label htmlFor="session-practice-area" className="text-sm font-semibold text-slate-600">Praktek Kefarmasian</label>
           <textarea 
-            id="station-practice-area"
+            id="session-practice-area"
             value={config.practiceArea || ''}
             onChange={(e) => handleChange('practiceArea', e.target.value)}
             className="w-full h-24 p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800 resize-y"
@@ -99,9 +99,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="station-instructions" className="text-sm font-semibold text-slate-600">Instruksi Kandidat (Skenario & Tugas)</label>
+        <label htmlFor="session-instructions" className="text-sm font-semibold text-slate-600">Instruksi Kandidat (Skenario & Tugas)</label>
         <textarea 
-          id="station-instructions"
+          id="session-instructions"
           value={config.instructions}
           onChange={(e) => handleChange('instructions', e.target.value)}
           className="w-full h-32 p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800 resize-y"
@@ -110,9 +110,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="station-reference" className="text-sm font-semibold text-slate-600">Referensi</label>
+        <label htmlFor="session-reference" className="text-sm font-semibold text-slate-600">Referensi</label>
         <input 
-          id="station-reference"
+          id="session-reference"
           type="text"
           value={config.reference || ''}
           onChange={(e) => handleChange('reference', e.target.value)}
@@ -122,9 +122,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="station-actor-instructions" className="text-sm font-semibold text-slate-600">Instruksi Pemeran (Pasien Standar)</label>
+        <label htmlFor="session-actor-instructions" className="text-sm font-semibold text-slate-600">Instruksi Pemeran (Pasien Standar)</label>
         <textarea 
-          id="station-actor-instructions"
+          id="session-actor-instructions"
           value={config.actorInstructions || ''}
           onChange={(e) => handleChange('actorInstructions', e.target.value)}
           className="w-full h-48 p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800 resize-y"
@@ -133,9 +133,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
       
       <div className="space-y-2">
-        <label htmlFor="station-actor-gender" className="text-sm font-semibold text-slate-600">Gender Pemeran Standar (Mempengaruhi Suara AI)</label>
+        <label htmlFor="session-actor-gender" className="text-sm font-semibold text-slate-600">Gender Pemeran Standar (Mempengaruhi Suara AI)</label>
         <select
-          id="station-actor-gender"
+          id="session-actor-gender"
           value={config.actorGender || 'auto'}
           onChange={(e) => handleChange('actorGender', e.target.value === 'auto' ? undefined : (e.target.value as 'male' | 'female'))}
           className="w-full p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800"
@@ -147,9 +147,9 @@ export function StationManualEditor({ initialConfig, onSave }: Props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="station-worksheet" className="text-sm font-semibold text-slate-600">Template Lembar Kerja OSCE Internal (Markdown)</label>
+        <label htmlFor="session-worksheet" className="text-sm font-semibold text-slate-600">Template Lembar Kerja TUTOR Internal (Markdown)</label>
         <textarea 
-          id="station-worksheet"
+          id="session-worksheet"
           value={config.worksheetTemplate || ''}
           onChange={(e) => handleChange('worksheetTemplate', e.target.value)}
           className="w-full h-48 p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-800 resize-y font-mono text-sm"

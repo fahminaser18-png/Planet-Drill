@@ -78,11 +78,11 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
     icon: Layers,
   },
   {
-    id: "pengatur-osce",
-    title: "Pengatur OSCE",
-    description: "Buat dan sesuaikan stase OSCE, atur rubric penilaian, dan siapkan prompt persona AI pasien/dokter.",
-    href: "/app/mentor/osce",
-    buttonText: "Pilih Pengatur OSCE",
+    id: "pengatur-tutor",
+    title: "Pengatur TUTOR",
+    description: "Buat dan sesuaikan stase TUTOR, atur rubric penilaian, dan siapkan prompt persona AI pasien/dokter.",
+    href: "/app/mentor/tutor",
+    buttonText: "Pilih Pengatur TUTOR",
     icon: Settings2,
   },
 ];
@@ -122,7 +122,7 @@ export default function MentorAreaPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full">
           {MENTOR_FEATURES.map((item) => {
             const Icon = item.icon;
-            const isAiFeature = item.id === "penyusun-soal" || item.id === "penyusun-flashcard" || item.id === "pengatur-osce";
+            const isAiFeature = item.id === "penyusun-soal" || item.id === "penyusun-flashcard" || item.id === "pengatur-tutor";
             const isLocked = isAiFeature && aiStatus.data && !aiStatus.data.hasCredential;
 
             return (

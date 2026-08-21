@@ -24,7 +24,7 @@ function TryoutSelectionPage() {
     enabled: !!userId,
   });
 
-  if (studentShell.role === "osce_pro") {
+  if (studentShell.role === "tutor_pro") {
     return <Navigate to="/app/scheduled-tryout" replace />;
   }
 

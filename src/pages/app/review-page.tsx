@@ -73,7 +73,7 @@ function ReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const isDetailRoute = Boolean(attemptId);
   const searchSource = searchParams.get("source");
-  const source = searchSource === "scheduled" ? "scheduled" : searchSource === "osce" ? "osce" : "tryout";
+  const source = searchSource === "scheduled" ? "scheduled" : searchSource === "tutor" ? "tutor" : "tryout";
 
   const historyQuery = useQuery({
     queryKey: ["review-history", user?.id],
@@ -99,7 +99,7 @@ function ReviewPage() {
   const reviewSummary = reviewQuery.data?.summary;
   const items = reviewQuery.data?.items ?? [];
   const currentItem = items[currentIndex] ?? items[0] ?? null;
-  const osceData = (reviewQuery.data as any)?.osce_data;
+  const tutorData = (reviewQuery.data as any)?.tutor_data;
 
   return (
     <ProductShell
@@ -153,10 +153,10 @@ function ReviewPage() {
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div>
                           <Badge 
-                            variant={attempt.source === "scheduled" ? "secondary" : attempt.source === "osce" ? "default" : "outline"}
+                            variant={attempt.source === "scheduled" ? "secondary" : attempt.source === "tutor" ? "default" : "outline"}
                             className="font-mono text-xs font-semibold px-2.5 py-0.5"
                           >
-                            {attempt.source === "scheduled" ? "Terjadwal" : attempt.source === "osce" ? "Simulasi OSCE" : "Try out"}
+                            {attempt.source === "scheduled" ? "Terjadwal" : attempt.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
                           </Badge>
                           <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                             {attempt.title}
@@ -203,8 +203,8 @@ function ReviewPage() {
                           })}
                           to={attempt.source === "scheduled"
                             ? `/app/review/${attempt.attemptId}?source=scheduled`
-                            : attempt.source === "osce"
-                            ? `/app/review/${attempt.attemptId}?source=osce`
+                            : attempt.source === "tutor"
+                            ? `/app/review/${attempt.attemptId}?source=tutor`
                             : `/app/review/${attempt.attemptId}`}
                         >
                           Buka pembahasan <ArrowRight className="ml-2 h-4 w-4" />
@@ -245,24 +245,24 @@ function ReviewPage() {
               </Alert>
             ) : (
               <div className="mt-2 space-y-8">
-                {source === "osce" ? (
-                  !osceData ? (
+                {source === "tutor" ? (
+                  !tutorData ? (
                     <Alert className="mt-6 border-border/80 bg-card/60">
                       <Info className="h-4 w-4 text-primary" />
-                      <AlertTitle>Data OSCE tidak ditemukan</AlertTitle>
+                      <AlertTitle>Data TUTOR tidak ditemukan</AlertTitle>
                       <AlertDescription>Belum ada data evaluasi untuk sesi ini.</AlertDescription>
                     </Alert>
                   ) : (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                       <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 text-center">
                         <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
-                        <h2 className="text-2xl font-bold text-slate-800">Detail Evaluasi OSCE</h2>
-                        <p className="text-slate-600">Skor Total: <span className="font-bold text-xl text-blue-600">{osceData.total_score}</span> / {osceData.max_score}</p>
+                        <h2 className="text-2xl font-bold text-slate-800">Detail Evaluasi TUTOR</h2>
+                        <p className="text-slate-600">Skor Total: <span className="font-bold text-xl text-blue-600">{tutorData.total_score}</span> / {tutorData.max_score}</p>
                       </div>
 
                       <div className="space-y-4">
                         <h3 className="font-bold text-lg text-slate-800">Detail Rubrik</h3>
-                        {osceData.rubric_results?.map((r: any, idx: number) => (
+                        {tutorData.rubric_results?.map((r: any, idx: number) => (
                           <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col gap-2">
                             <div className="flex justify-between items-start">
                               <span className="font-bold text-slate-700">{r.competency}</span>
@@ -275,13 +275,13 @@ function ReviewPage() {
 
                       <div className="bg-orange-50 p-4 rounded-xl border border-orange-200">
                         <h4 className="font-bold text-orange-800 mb-1">Feedback Keseluruhan</h4>
-                        <p className="text-sm text-orange-700">{osceData.feedback}</p>
+                        <p className="text-sm text-orange-700">{tutorData.feedback}</p>
                       </div>
 
                       <div className="space-y-4">
                         <h3 className="font-bold text-lg text-slate-800">Log Interaksi</h3>
                         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm max-h-96 overflow-y-auto space-y-2">
-                          {osceData.transcript?.map((t: any, idx: number) => (
+                          {tutorData.transcript?.map((t: any, idx: number) => (
                             <div key={idx} className={`p-3 rounded-lg text-sm ${t.role === 'Kandidat' ? 'bg-blue-50' : 'bg-slate-100'}`}>
                               <span className="font-bold text-xs uppercase text-slate-500 block mb-1">{t.role}</span>
                               <span className="text-slate-800">{t.text}</span>
@@ -293,7 +293,7 @@ function ReviewPage() {
                       <div className="space-y-4">
                         <h3 className="font-bold text-lg text-slate-800">Lembar Kerja</h3>
                         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm whitespace-pre-wrap text-sm text-slate-700 font-mono">
-                          {osceData.form_data || "Tidak ada data lembar kerja."}
+                          {tutorData.form_data || "Tidak ada data lembar kerja."}
                         </div>
                       </div>
                     </div>
@@ -546,10 +546,10 @@ function ReviewPage() {
                         </div>
                         
                         <Badge 
-                          variant={reviewSummary.source === "scheduled" ? "secondary" : reviewSummary.source === "osce" ? "default" : "outline"}
+                          variant={reviewSummary.source === "scheduled" ? "secondary" : reviewSummary.source === "tutor" ? "default" : "outline"}
                           className="font-mono text-xs font-semibold px-3 py-1 self-start sm:self-auto"
                         >
-                          {reviewSummary.source === "scheduled" ? "Terjadwal" : reviewSummary.source === "osce" ? "Simulasi OSCE" : "Try out"}
+                          {reviewSummary.source === "scheduled" ? "Terjadwal" : reviewSummary.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
                         </Badge>
                       </div>
                     </CardHeader>

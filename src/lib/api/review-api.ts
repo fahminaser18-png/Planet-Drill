@@ -7,11 +7,11 @@ import {
   listScheduledSubmittedAttemptHistory,
 } from "./scheduled-tryout-api";
 import {
-  getOsceAttemptDetail,
-  listOsceAttemptHistory,
-} from "./osce-api";
+  getTutorAttemptDetail,
+  listTutorAttemptHistory,
+} from "./tutor-api";
 
-export type ReviewSource = "tryout" | "scheduled" | "osce";
+export type ReviewSource = "tryout" | "scheduled" | "tutor";
 
 export type ReviewHistoryItem = {
   attemptId: string;
@@ -28,10 +28,10 @@ export async function listReviewHistory({
 }: {
   userId: string;
 }): Promise<ReviewHistoryItem[]> {
-  const [tryoutHistory, scheduledHistory, osceHistory] = await Promise.all([
+  const [tryoutHistory, scheduledHistory, tutorHistory] = await Promise.all([
     listSubmittedAttemptHistory({ userId }),
     listScheduledSubmittedAttemptHistory({ userId }),
-    listOsceAttemptHistory(),
+    listTutorAttemptHistory(),
   ]);
 
   return [
@@ -40,14 +40,14 @@ export async function listReviewHistory({
       source: "tryout" as const,
     })),
     ...scheduledHistory,
-    ...osceHistory.map((item: any) => ({
+    ...tutorHistory.map((item: any) => ({
       attemptId: item.id,
-      title: item.station?.title || "Simulasi OSCE",
+      title: item.station?.title || "Simulasi TUTOR",
       submittedAt: item.created_at,
       score: item.total_score,
       correctAnswers: 0,
       wrongAnswers: 0,
-      source: "osce" as const,
+      source: "tutor" as const,
     })),
   ].sort(
     (left, right) =>
@@ -66,8 +66,8 @@ export async function getReviewDetailData({
     return getScheduledAttemptReviewPageData({ attemptId });
   }
 
-  if (source === "osce") {
-    const data = await getOsceAttemptDetail(attemptId);
+  if (source === "tutor") {
+    const data = await getTutorAttemptDetail(attemptId);
     return {
       summary: {
         score: data.total_score,
@@ -75,10 +75,10 @@ export async function getReviewDetailData({
         correctAnswers: 0,
         wrongAnswers: 0,
         submittedAt: data.created_at,
-        source: "osce" as const,
+        source: "tutor" as const,
       },
-      items: [], // Tryout items will be empty, we will pass osce_data directly
-      osce_data: data
+      items: [], // Tryout items will be empty, we will pass tutor_data directly
+      tutor_data: data
     };
   }
 

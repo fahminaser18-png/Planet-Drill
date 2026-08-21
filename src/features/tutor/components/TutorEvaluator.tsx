@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { StationConfig } from "../schemas/stationConfig";
+import { SessionConfig } from "../schemas/sessionConfig";
 import { getRawAiCredentialKey, getGlobalAiCredentialStatus } from "../../../lib/api/global-ai-credential-api";
-import { saveOsceAttempt } from "../../../lib/api/osce-api";
+import { saveTutorAttempt } from "../../../lib/api/tutor-api";
 import { Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 
-interface OsceEvaluatorProps {
-  config: StationConfig;
+interface TutorEvaluatorProps {
+  config: SessionConfig;
   payload: { transcript: any[]; formData: string };
   onClose: () => void;
 }
 
-export function OsceEvaluator({ config, payload, onClose }: OsceEvaluatorProps) {
+export function TutorEvaluator({ config, payload, onClose }: TutorEvaluatorProps) {
   const [isEvaluating, setIsEvaluating] = useState(true);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,11 +28,11 @@ export function OsceEvaluator({ config, payload, onClose }: OsceEvaluatorProps) 
         const status = await getGlobalAiCredentialStatus();
         const targetModel = status.model || "gemini-3.7-flash";
 
-        const systemPrompt = `Anda adalah penguji OSCE yang sangat objektif dan ketat.
+        const systemPrompt = `Anda adalah penguji TUTOR yang sangat objektif dan ketat.
 Nilai performa kandidat HANYA berdasarkan bukti dari Transkrip dan Lembar Kerja.
 Jangan berasumsi. Jika bukti tidak ada, berikan skor 0.
 
-KONTEKS STASE OSCE:
+KONTEKS STASE TUTOR:
 - Judul: ${config.title}
 - Area Praktik: ${config.practiceArea || '-'}
 - Tujuan: ${config.objective || '-'}
@@ -75,8 +75,8 @@ Berikan output JSON dengan format:
         const parsedResult = JSON.parse(jsonText);
         setResult(parsedResult);
 
-        await saveOsceAttempt({
-          stationId: config.id,
+        await saveTutorAttempt({
+          sessionId: config.id,
           totalScore: parsedResult.totalScore,
           maxScore: parsedResult.maxScore,
           transcript: payload.transcript,

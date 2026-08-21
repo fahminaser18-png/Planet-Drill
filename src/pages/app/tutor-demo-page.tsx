@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { ModularWorkspace } from "../../features/osce/components/ModularWorkspace";
-import { OsceEvaluator } from "../../features/osce/components/OsceEvaluator";
-import type { StationConfig } from "../../features/osce/schemas/stationConfig";
+import { ModularWorkspace } from "../../features/tutor/components/ModularWorkspace";
+import { TutorEvaluator } from "../../features/tutor/components/TutorEvaluator";
+import type { StationConfig } from "../../features/tutor/schemas/stationConfig";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
 
-export default function OsceDemoPage() {
+export default function TutorDemoPage() {
   const [stations, setStations] = useState<StationConfig[]>([]);
   const [activeConfig, setActiveConfig] = useState<StationConfig | null>(null);
   const [evalPayload, setEvalPayload] = useState<{ transcript: any[], formData: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const studentShell = useStudentShell("/app/osce-demo");
+  const studentShell = useStudentShell("/app/tutor-demo");
 
   useEffect(() => {
     async function loadStations() {
       const supabase = getSupabaseBrowserClient();
       const { data, error } = await supabase
-        .from('osce_stations')
+        .from('tutor_stations')
         .select('*')
         .order('created_at', { ascending: false });
         
@@ -58,7 +58,7 @@ export default function OsceDemoPage() {
           // SCREEN 1: SELECTION LIST
           <div className="w-full space-y-6">
             <div>
-              <h1 className="text-2xl font-bold text-slate-800">Area Belajar OSCE</h1>
+              <h1 className="text-2xl font-bold text-slate-800">Area Belajar TUTOR</h1>
               <p className="text-slate-500">Pilih skenario stase untuk mulai berlatih.</p>
             </div>
             
@@ -93,7 +93,7 @@ export default function OsceDemoPage() {
         ) : evalPayload ? (
           // SCREEN 3: EVALUATION RESULT
           <div className="flex flex-col h-full w-full bg-white rounded-xl shadow-sm border border-slate-200 p-8 overflow-y-auto">
-            <OsceEvaluator 
+            <TutorEvaluator 
               config={activeConfig} 
               payload={evalPayload} 
               onClose={() => { setActiveConfig(null); setEvalPayload(null); }} 

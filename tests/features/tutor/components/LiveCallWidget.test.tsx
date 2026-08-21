@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { LiveCallWidget } from '../../../../src/features/osce/components/LiveCallWidget';
+import { LiveCallWidget } from '../../../../src/features/tutor/components/LiveCallWidget';
 
 // Mock the hook to prevent WebSocket/Media initialization during component render
 vi.mock('../../../../src/hooks/use-gemini-live', () => ({

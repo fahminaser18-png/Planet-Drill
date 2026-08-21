@@ -6,7 +6,7 @@ interface Props {
   isGenerating: boolean;
 }
 
-export function StationBuilderForm({ onGenerate, isGenerating }: Props) {
+export function SessionBuilderForm({ onGenerate, isGenerating }: Props) {
   const [mode, setMode] = useState<'prompt' | 'upload'>('prompt');
   const [prompt, setPrompt] = useState('');
   const [scenarioType, setScenarioType] = useState('pemeran_standar');
@@ -68,7 +68,7 @@ export function StationBuilderForm({ onGenerate, isGenerating }: Props) {
             value={prompt}
             disabled={isGenerating}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Masukkan instruksi skenario OSCE... (Contoh: Pasien dengan asma eksaserbasi akut)"
+            placeholder="Masukkan instruksi skenario TUTOR... (Contoh: Pasien dengan asma eksaserbasi akut)"
             className="w-full h-32 p-4 rounded-lg border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none resize-none text-slate-700 bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           
