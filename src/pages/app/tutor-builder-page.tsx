@@ -6,7 +6,7 @@ import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { SessionBuilderForm } from "../../features/tutor/components/SessionBuilderForm";
 import { SessionManualEditor } from "../../features/tutor/components/SessionManualEditor";
-import { StationConfig } from "../../features/tutor/schemas/stationConfig";
+import { SessionConfig } from "../../features/tutor/schemas/sessionConfig";
 import { Settings2, ArrowLeft, ShieldAlert } from "lucide-react";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
 import { useQuery } from "@tanstack/react-query";
@@ -21,7 +21,7 @@ export default function TutorBuilderPage() {
 
   const [mode, setMode] = useState<"build" | "edit">("build");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [config, setConfig] = useState<StationConfig | null>(null);
+  const [config, setConfig] = useState<SessionConfig | null>(null);
 
   useEffect(() => {
     if (stationId) {
@@ -112,7 +112,7 @@ export default function TutorBuilderPage() {
     }
   };
 
-  const handleSave = async (savedConfig: StationConfig) => {
+  const handleSave = async (savedConfig: SessionConfig) => {
     try {
       const supabase = getSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();

@@ -15,7 +15,7 @@ export interface TutorRubricResult {
 }
 
 export async function saveTutorAttempt(payload: {
-  stationId: string;
+  sessionId: string;
   totalScore: number;
   maxScore: number;
   transcript: TutorTranscriptEntry[];
@@ -28,7 +28,7 @@ export async function saveTutorAttempt(payload: {
   if (!user) throw new Error("User not authenticated");
 
   const { data, error } = await supabase.from('tutor_attempts').insert({
-    station_id: payload.stationId,
+    station_id: payload.sessionId,
     user_id: user.id,
     total_score: payload.totalScore,
     max_score: payload.maxScore,
@@ -42,12 +42,12 @@ export async function saveTutorAttempt(payload: {
   return data;
 }
 
-export async function deleteTutorStation(stationId: string) {
+export async function deleteTutorStation(sessionId: string) {
   const supabase = getSupabaseBrowserClient();
   
   const { error } = await supabase.from('tutor_stations')
     .delete()
-    .eq('id', stationId);
+    .eq('id', sessionId);
 
   if (error) throw error;
   return true;

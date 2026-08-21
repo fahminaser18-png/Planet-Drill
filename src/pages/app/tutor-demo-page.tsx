@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { ModularWorkspace } from "../../features/tutor/components/ModularWorkspace";
 import { TutorEvaluator } from "../../features/tutor/components/TutorEvaluator";
-import type { StationConfig } from "../../features/tutor/schemas/stationConfig";
+import type { SessionConfig } from "../../features/tutor/schemas/sessionConfig";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
 
 export default function TutorDemoPage() {
-  const [stations, setStations] = useState<StationConfig[]>([]);
-  const [activeConfig, setActiveConfig] = useState<StationConfig | null>(null);
+  const [stations, setStations] = useState<SessionConfig[]>([]);
+  const [activeConfig, setActiveConfig] = useState<SessionConfig | null>(null);
   const [evalPayload, setEvalPayload] = useState<{ transcript: any[], formData: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const studentShell = useStudentShell("/app/tutor-demo");
@@ -23,7 +23,7 @@ export default function TutorDemoPage() {
         .order('created_at', { ascending: false });
         
       if (!error && data) {
-        const mappedStations: StationConfig[] = data.map((row: any) => ({
+        const mappedStations: SessionConfig[] = data.map((row: any) => ({
           id: row.id,
           title: row.title,
           type: row.type as any,
