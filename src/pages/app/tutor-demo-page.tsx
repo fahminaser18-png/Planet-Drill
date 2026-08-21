@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
@@ -38,9 +38,7 @@ export default function TutorDemoPage() {
     <ProductShell
       brand={productShellMeta.brand}
       navItems={studentShell.navItems}
-      user={studentShell.user}
-      activePath={studentShell.activePath}
-      onLogout={studentShell.onLogout}
+      tierLabel={studentShell.tierLabel}
     >
       <div className="flex flex-col h-[calc(100vh-4rem)] p-4 max-w-4xl mx-auto w-full">
         <div className="mb-6">
