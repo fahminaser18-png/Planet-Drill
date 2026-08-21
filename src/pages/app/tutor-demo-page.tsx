@@ -26,12 +26,12 @@ export default function TutorDemoPage() {
     loadMaterials();
   }, []);
 
-  const combinedMaterialsText = materials.map(m => Judul: \nIsi:\n).join("\n\n---\n\n");
+  const combinedMaterialsText = materials.map(m => `Judul: ${m.title}\nIsi:\n${m.content_text}`).join("\n\n---\n\n");
 
   const mockConfig = {
     id: "tutor-session-1",
     title: "Sesi Tanya Jawab Bebas (RAG AI)",
-    actorInstructions: Gunakan referensi materi berikut untuk menjawab pertanyaan siswa. Jika tidak ada di materi, gunakan fitur Google Search Grounding untuk mencari di internet.\n\nMATERI REFERENSI:\n
+    actorInstructions: `Gunakan referensi materi berikut untuk menjawab pertanyaan siswa. Jika tidak ada di materi, gunakan fitur Google Search Grounding untuk mencari di internet.\n\nMATERI REFERENSI:\n${combinedMaterialsText}`
   };
 
   return (
@@ -54,7 +54,7 @@ export default function TutorDemoPage() {
           </div>
         ) : (
           <div className="flex-grow">
-            {/* @ts-ignore: We simplified the config for now */}
+            {/* @ts-ignore */}
             <LiveCallWidget config={mockConfig} />
           </div>
         )}
