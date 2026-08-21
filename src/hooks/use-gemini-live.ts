@@ -192,7 +192,10 @@ export function useGeminiLive(options: UseGeminiLiveOptions = {}) {
             },
             systemInstruction: {
               parts: [{ text: optionsRef.current.systemInstruction || "You are a helpful assistant." }]
-            }
+            },
+            tools: [
+              { googleSearch: {} }
+            ]
           }
         };
         ws.send(JSON.stringify(setupMessage));
