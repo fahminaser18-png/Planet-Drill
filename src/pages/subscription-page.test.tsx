@@ -29,7 +29,7 @@ vi.mock("../lib/api/subscription-api", async (importOriginal) => {
   };
 });
 
-function createSession(email = "baru@pawang.test"): Session {
+function createSession(email = "baru@planet.test"): Session {
   return {
     access_token: "token",
     refresh_token: "refresh",
