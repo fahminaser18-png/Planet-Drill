@@ -13,4 +13,4 @@ CREATE POLICY "Allow public read of tutor_materials"
 
 CREATE POLICY "Allow authenticated insert to tutor_materials"
     ON tutor_materials FOR INSERT
-    WITH CHECK (auth.role() = 'authenticated');
+    WITH CHECK ((exists (select 1 from public.profiles where id = auth.uid() and role in ('admin', 'mentor'))));

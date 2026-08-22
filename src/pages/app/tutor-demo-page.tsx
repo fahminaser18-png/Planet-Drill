@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
@@ -19,7 +19,7 @@ export default function TutorDemoPage() {
       const { data: materialsData, error: materialsError } = await supabase
         .from('tutor_materials')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false }).limit(5);
         
       if (!materialsError && materialsData) {
         setMaterials(materialsData);

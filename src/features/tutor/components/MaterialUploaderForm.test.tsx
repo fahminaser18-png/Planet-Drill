@@ -1,12 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+﻿import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { MaterialUploaderForm } from './MaterialUploaderForm';
 import { toast } from 'sonner';
 
-const mockInsert = vi.fn();
-const mockFrom = vi.fn(() => ({
-  insert: mockInsert,
-}));
+const { mockInsert, mockFrom } = vi.hoisted(() => {
+  const mockInsert = vi.fn();
+  const mockFrom = vi.fn(() => ({
+    insert: mockInsert,
+  }));
+  return { mockInsert, mockFrom };
+});
 
 vi.mock('../../../lib/supabase/browser-client', () => ({
   getSupabaseBrowserClient: () => ({
