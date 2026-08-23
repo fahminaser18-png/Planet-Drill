@@ -15,6 +15,8 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isRegister, setIsRegister] = useState(false);
+
   const fieldClassName = "h-12 bg-background border-border focus-visible:ring-primary";
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -23,10 +25,17 @@ function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      await loginWithPassword({ email, password });
-      navigate("/app/tryout-selection", { replace: true });
+      if (isRegister) {
+        const { registerWithPassword } = await import("../../lib/api/auth-api");
+        await registerWithPassword({ email, password });
+        setErrorMessage("Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.");
+        // We do not redirect here because email confirmation might be required
+      } else {
+        await loginWithPassword({ email, password });
+        navigate("/app/tryout-selection", { replace: true });
+      }
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Masuk belum berhasil. Coba lagi sebentar.");
+      setErrorMessage(error instanceof Error ? error.message : "Proses belum berhasil. Coba lagi sebentar.");
     } finally {
       setIsSubmitting(false);
     }
@@ -39,13 +48,13 @@ function LoginPage() {
         <div className="w-full max-w-md">
           <div className="mb-10">
             <Badge variant="secondary" className="w-fit flex items-center gap-1.5 bg-primary/10 text-primary hover:bg-primary/20">
-              <UserCircle className="w-4 h-4" /> Masuk akun
+              <UserCircle className="w-4 h-4" /> {isRegister ? "Daftar Akun Baru" : "Masuk akun"}
             </Badge>
             <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-foreground font-display">
-              Selamat Datang
+              {isRegister ? "Mulai Perjalananmu" : "Selamat Datang"}
             </h1>
             <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-              Silahkan masukan email dan kata sandi anda untuk lanjut
+              {isRegister ? "Silakan masukkan email dan kata sandi untuk mendaftar" : "Silakan masukkan email dan kata sandi Anda untuk lanjut"}
             </p>
           </div>
 
@@ -60,7 +69,7 @@ function LoginPage() {
                   const { loginWithGoogle } = await import("../../lib/api/auth-api");
                   await loginWithGoogle();
                 } catch (error) {
-                  setErrorMessage(error instanceof Error ? error.message : "Gagal masuk dengan Google.");
+                  setErrorMessage(error instanceof Error ? error.message : "Gagal dengan Google.");
                 }
               }}
             >
@@ -73,7 +82,9 @@ function LoginPage() {
                 <div className="w-full border-t border-border"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-background text-muted-foreground">Atau daftar manual</span>
+                <span className="px-2 bg-background text-muted-foreground">
+                  {isRegister ? "Atau daftar manual" : "Atau masuk manual"}
+                </span>
               </div>
             </div>
           </div>
@@ -107,32 +118,35 @@ function LoginPage() {
                 onChange={(event) => setPassword(event.target.value)}
                 className={fieldClassName}
               />
-              <div className="flex justify-end mt-2">
-                <a
-                  href="https://wa.me/6281313683288?text=Assalamualaikum%20A%20saya%20tidak%20bisa%20login%20di%20web%20pawangapt.%20Mohon%20bantuannya"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-primary hover:text-primary/80 hover:underline transition-all py-1.5 px-1"
-                >
-                  <Send className="w-4 h-4" />
-                  Lupa password
-                </a>
-              </div>
+              {!isRegister && (
+                <div className="flex justify-end mt-2">
+                  <a
+                    href="https://wa.me/6281313683288?text=Assalamualaikum%20A%20saya%20tidak%20bisa%20login%20di%20web%20pawangapt.%20Mohon%20bantuannya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-primary hover:text-primary/80 hover:underline transition-all py-1.5 px-1"
+                  >
+                    <Send className="w-4 h-4" />
+                    Lupa password
+                  </a>
+                </div>
+              )}
             </div>
 
             <Button
               fullWidth
               leadingIcon={<Lock className="w-4 h-4" />}
               loading={isSubmitting}
-              loadingLabel="Memproses masuk..."
+              loadingLabel={isRegister ? "Mendaftar..." : "Memproses masuk..."}
               size="lg"
               trailingIcon={<ArrowRight className="w-4 h-4" />}
               type="submit"
               variant="primary"
               className="h-12 bg-primary hover:bg-primary/90 text-primary-foreground border-transparent font-semibold shadow-sm"
             >
-              Masuk dengan email
+              {isRegister ? "Daftar dengan email" : "Masuk dengan email"}
             </Button>
+
             
             {errorMessage ? (
               <Alert variant="destructive">
@@ -140,6 +154,20 @@ function LoginPage() {
                 <AlertDescription>{errorMessage}</AlertDescription>
               </Alert>
             ) : null}
+
+            <div className="mt-4 text-center text-sm text-muted-foreground">
+              {isRegister ? "Sudah punya akun? " : "Belum punya akun? "}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsRegister(!isRegister);
+                  setErrorMessage(null);
+                }}
+                className="font-bold text-primary hover:underline hover:text-primary/80 transition-colors"
+              >
+                {isRegister ? "Masuk di sini" : "Daftar di sini"}
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -81,6 +81,29 @@ export async function loginWithPassword(
   return data;
 }
 
+export async function registerWithPassword(
+  {
+    client = getSupabaseBrowserClient(),
+    email,
+    password,
+  }: {
+    client?: AuthClient;
+    email: string;
+    password: string;
+  },
+) {
+  const { data, error } = await client.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
 export async function logout(
   client: AuthClient = getSupabaseBrowserClient(),
 ) {
