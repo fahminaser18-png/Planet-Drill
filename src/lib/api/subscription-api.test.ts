@@ -67,7 +67,7 @@ describe("subscription-api", () => {
       submitPaymentProof({
         client: {} as never,
         user: null,
-        packageCode: "pro_30_hari",
+        packageCode: "1_bulan",
         file: new File(["proof"], "proof.png", {
           type: "image/png",
         }),
@@ -118,7 +118,7 @@ describe("subscription-api", () => {
           id: "user-1",
           email: "student@example.com",
         } as User,
-        packageCode: "pro_30_hari",
+        packageCode: "1_bulan",
         file: new File(["proof"], "proof.png", {
           type: "image/png",
         }),
@@ -147,7 +147,7 @@ describe("subscription-api", () => {
       data: {
         id: "submission-1",
         user_id: "student-1",
-        package_code: "pro_30_hari",
+        package_code: "1_bulan",
         payment_proof_path: "student-1/proof.png",
         proof_file_name: "proof.png",
         status: "active",

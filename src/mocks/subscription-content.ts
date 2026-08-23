@@ -41,27 +41,35 @@ export type StatusNotice = {
 
 export const subscriptionPackages: SubscriptionPackage[] = [
   {
-    name: "Sprint 14 Hari",
-    duration: "Akses dua minggu",
-    price: "Rp129.000",
-    summary: "Untuk fokus mengejar blok yang masih lemah sebelum simulasi penuh.",
+    name: "1 Bulan",
+    duration: "Akses 1 bulan",
+    price: "Rp50.000",
+    summary: "Untuk fokus belajar secara intensif dalam waktu singkat.",
     highlights: [
-      "Try out per blok",
-      "Review jawaban salah",
-      "Analitik dasar untuk prioritas belajar",
+      "Akses Tryout Unlimited",
+      "Pembahasan detail dan analitik",
     ],
   },
   {
-    name: "Pro 30 Hari",
-    duration: "Akses satu bulan",
-    price: "Rp229.000",
-    summary: "Pilihan utama untuk fase latihan intensif menjelang ujian.",
+    name: "6 Bulan",
+    duration: "Akses 6 bulan",
+    price: "Rp250.000",
+    summary: "Pilihan paling hemat untuk persiapan jangka menengah.",
     highlights: [
-      "Try out besar 50 soal",
-      "Try out per blok dan review",
-      "Insight AI opsional untuk membaca pola salah",
+      "Akses Tryout Unlimited",
+      "Pembahasan detail dan analitik",
     ],
     emphasis: "accent",
+  },
+  {
+    name: "1 Tahun",
+    duration: "Akses 1 tahun",
+    price: "Rp450.000",
+    summary: "Akses penuh tanpa batas waktu untuk belajar santai.",
+    highlights: [
+      "Akses Tryout Unlimited",
+      "Pembahasan detail dan analitik",
+    ],
   },
 ] as const;
 

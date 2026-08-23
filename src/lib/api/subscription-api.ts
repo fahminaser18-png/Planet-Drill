@@ -62,14 +62,19 @@ export type SubscriptionPackageOption = {
 
 export const subscriptionPackageOptions: SubscriptionPackageOption[] = [
   {
-    code: "sprint_14_hari",
-    name: "Sprint 14 Hari",
-    durationDays: 14,
+    code: "1_bulan",
+    name: "1 Bulan",
+    durationDays: 30,
   },
   {
-    code: "pro_30_hari",
-    name: "Pro 30 Hari",
-    durationDays: 30,
+    code: "6_bulan",
+    name: "6 Bulan",
+    durationDays: 180,
+  },
+  {
+    code: "1_tahun",
+    name: "1 Tahun",
+    durationDays: 365,
   },
 ];
 
