@@ -1,4 +1,4 @@
-export type UserRole = "pendaftar_baru" | "pro" | "mentor" | "admin" | "tutor_pro";
+export type UserRole = "pendaftar_baru" | "pro" | "mentor" | "admin";
 export type SubscriptionState = "pending_review" | "active" | "rejected" | "expired";
 
 export type AppProfile = {
@@ -29,7 +29,7 @@ export type AccessSnapshot = {
 };
 
 export function isUserRole(value: unknown): value is UserRole {
-  return value === "pendaftar_baru" || value === "pro" || value === "mentor" || value === "admin" || value === "tutor_pro";
+  return value === "pendaftar_baru" || value === "pro" || value === "mentor" || value === "admin";
 }
 
 export function isSubscriptionState(value: unknown): value is SubscriptionState {
@@ -77,7 +77,7 @@ export function canAccessStudentApp(access: AccessSnapshot): boolean {
 
   // Role is the source of truth for student access entitlement.
   // Subscription state is still used elsewhere for renewal and payment messaging.
-  return access.role === "pro" || access.role === "tutor_pro";
+  return access.role === "pro";
 }
 
 export function canAccessAdmin(role: UserRole | null | undefined): boolean {

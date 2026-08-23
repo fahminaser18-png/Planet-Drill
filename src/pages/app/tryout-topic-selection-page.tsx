@@ -35,9 +35,7 @@ function TryoutTopicSelectionPage() {
     ? topicOptions
     : topicOptions.filter((item) => item.blockId === activeFilter);
 
-  if (studentShell.role === "tutor_pro") {
-    return <Navigate to="/app/scheduled-tryout" replace />;
-  }
+
 
   return (
     <ProductShell

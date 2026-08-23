@@ -86,9 +86,7 @@ export default function StudyAreaPage() {
         {/* Cards Grid Layout */}
         <div className="grid gap-6 md:grid-cols-3 w-full">
           {STUDY_FEATURES.map((item) => {
-            if (studentShell.role === "tutor_pro" && item.id === "flash-card") {
-              return null;
-            }
+
             const Icon = item.icon;
             const isAiFeature = item.id === "flash-card" || item.id === "tutor-simulator";
             

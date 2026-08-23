@@ -125,18 +125,6 @@ export function createProductNavItems(
       productNavItems[5], // Profil
       productNavItems[6], // Pengaturan AI
     ]
-    : role === "tutor_pro"
-    ? [
-      {
-        href: "/app/scheduled-tryout",
-        label: "Try Out Terjadwal",
-        icon: CalendarDays,
-      },
-      productNavItems[1], // Review
-      productNavItems[4], // Area Belajar
-      productNavItems[5], // Profil
-      productNavItems[6], // Pengaturan AI
-    ]
     : [...productNavItems];
 
   return visibleItems.map((item) => {
@@ -144,7 +132,7 @@ export function createProductNavItems(
     if (item.href === "/app/tryout-selection" && (activeHref.startsWith("/app/tryout") || activeHref.startsWith("/app/scheduled-tryout"))) {
       isActive = true;
     }
-    if (item.href === "/app/area-belajar" && (activeHref.startsWith("/app/area-belajar") || activeHref === "/app/rekaman-kelas" || activeHref === "/app/materi-ppt" || activeHref.startsWith("/app/flash-cards") || activeHref.startsWith("/app/tutor-demo"))) {
+    if (item.href === "/app/area-belajar" && (activeHref.startsWith("/app/area-belajar") || activeHref === "/app/materi-ppt" || activeHref.startsWith("/app/flash-cards") || activeHref.startsWith("/app/tutor-demo"))) {
       isActive = true;
     }
     return { ...item, active: isActive };
@@ -153,7 +141,6 @@ export function createProductNavItems(
 
 export function resolveStudentTierLabel(role: UserRole | null | undefined) {
   if (role === "mentor") return "Mentor";
-  if (role === "tutor_pro") return "Tutor Pro";
   return productShellMeta.tierLabel;
 }
 

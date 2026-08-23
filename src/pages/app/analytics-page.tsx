@@ -34,9 +34,7 @@ function AnalyticsPage() {
   const queryClient = useQueryClient();
   const timezone = resolveUserTimezone();
 
-  if (studentShell.role === "tutor_pro") {
-    return <Navigate to="/app/scheduled-tryout" replace />;
-  }
+
 
   const diagnosisQuery = useQuery({
     queryKey: [

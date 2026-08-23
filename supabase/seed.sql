@@ -4,7 +4,7 @@ declare
   pro_user_id constant uuid := '22222222-2222-2222-2222-222222222222';
   mentor_user_id constant uuid := '44444444-4444-4444-4444-444444444444';
   pendaftar_user_id constant uuid := '33333333-3333-3333-3333-333333333333';
-  tutor_pro_user_id constant uuid := '55555555-5555-5555-5555-555555555555';
+  REMOVED_user_id constant uuid := '55555555-5555-5555-5555-555555555555';
 begin
   insert into auth.users (
     instance_id,
@@ -109,10 +109,10 @@ begin
     ),
     (
       '00000000-0000-0000-0000-000000000000',
-      tutor_pro_user_id,
+      REMOVED_user_id,
       'authenticated',
       'authenticated',
-      'tutor_pro@planet.test',
+      'tutor_pro_removed@planet.test',
       crypt('tutorPro12345!', gen_salt('bf')),
       timezone('utc', now()),
       timezone('utc', now()),
@@ -188,10 +188,10 @@ begin
       timezone('utc', now())
     ),
     (
-      tutor_pro_user_id,
-      tutor_pro_user_id::text,
-      tutor_pro_user_id,
-      format('{"sub":"%s","email":"%s"}', tutor_pro_user_id, 'tutor_pro@planet.test')::jsonb,
+      REMOVED_user_id,
+      REMOVED_user_id::text,
+      REMOVED_user_id,
+      format('{"sub":"%s","email":"%s"}', REMOVED_user_id, 'tutor_pro_removed@planet.test')::jsonb,
       'email',
       timezone('utc', now()),
       timezone('utc', now()),
@@ -220,8 +220,8 @@ begin
   where id = pendaftar_user_id;
 
   update public.profiles
-  set role = 'tutor_pro'
-  where id = tutor_pro_user_id;
+  set role = 'pendaftar_baru'
+  where id = REMOVED_user_id;
 end
 $$;
 

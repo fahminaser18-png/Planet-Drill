@@ -14,9 +14,7 @@ import { useStudentShell } from "./use-student-shell";
 function DashboardPage() {
   const { user } = useSession();
   const studentShell = useStudentShell("/app");
-  if (studentShell.role === "tutor_pro") {
-    return <Navigate to="/app/scheduled-tryout" replace />;
-  }
+
   const summaryView = usePreviewRouteState("summaryView");
   const dashboardQuery = useQuery({
     queryKey: ["student-dashboard", user?.id],
