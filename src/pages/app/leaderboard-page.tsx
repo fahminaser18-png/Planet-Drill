@@ -178,10 +178,20 @@ export default function LeaderboardPage() {
                   <CardContent className="p-0">
                     <div className="flex items-center p-4 gap-4">
                       <div
-                        className={`flex items-center justify-center w-10 h-10 rounded-xl border ${styles.bg}`}
+                        className={`flex items-center justify-center w-10 h-10 shrink-0 rounded-xl border ${styles.bg}`}
                       >
                         {styles.icon}
                       </div>
+
+                      {row.avatarUrl ? (
+                        <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
+                          <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/10 text-primary font-bold border border-primary/20 text-xs uppercase">
+                          {row.alias.substring(0, 2)}
+                        </div>
+                      )}
 
                       <div className="flex-1 min-w-0">
                         <h3 className="font-bold text-base truncate pr-4 text-foreground">

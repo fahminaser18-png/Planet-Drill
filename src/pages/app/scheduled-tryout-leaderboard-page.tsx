@@ -168,6 +168,15 @@ function ScheduledTryoutLeaderboardPage() {
                           <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${rankStyle.bg} shrink-0`}>
                             {rankStyle.icon}
                           </div>
+                          {row.avatarUrl ? (
+                            <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
+                              <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
+                            </div>
+                          ) : (
+                            <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/10 text-primary font-bold border border-primary/20 text-xs uppercase">
+                              {row.alias.substring(0, 2)}
+                            </div>
+                          )}
                           <div>
                             <p className="font-extrabold tracking-tight text-foreground text-base">{row.alias}</p>
                             <p className="text-xs font-medium text-muted-foreground mt-0.5">

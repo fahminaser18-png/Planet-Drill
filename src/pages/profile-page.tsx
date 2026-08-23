@@ -399,7 +399,7 @@ function ProfilePage() {
                 Pilih foto profil
               </Label>
               <div className="flex flex-wrap gap-3">
-                {[1, 2, 3, 4, 5].map((num) => {
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
                   const url = `/avatars/avatar-${num}.jpg`;
                   return (
                     <button

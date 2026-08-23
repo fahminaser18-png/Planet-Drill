@@ -88,6 +88,7 @@ type ScheduledEventLeaderboardRowRpc = {
   event_cycle: number;
   user_id: string;
   alias: string;
+  avatar_url: string | null;
   best_score: number;
   best_score_attempt_number: number;
   attempt_id: string;
@@ -734,6 +735,7 @@ export async function getScheduledEventLeaderboard(
       eventCycle: row.event_cycle,
       userId: row.user_id,
       alias: row.alias,
+      avatarUrl: row.avatar_url,
       bestScore: row.best_score,
       bestScoreAttemptNumber: row.best_score_attempt_number,
       attemptId: row.attempt_id,

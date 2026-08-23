@@ -6,6 +6,7 @@ export type LeaderboardRow = {
   rank: number;
   userId: string;
   alias: string;
+  avatarUrl: string | null;
   score: number;
   timeUsedSeconds: number | null;
   attemptId: string;
@@ -17,6 +18,7 @@ type LeaderboardRpcRow = {
   rank: number;
   user_id: string;
   alias: string;
+  avatar_url: string | null;
   score: number;
   time_used_seconds: number | null;
   attempt_id: string;
@@ -31,6 +33,7 @@ function mapLeaderboardRow(row: LeaderboardRpcRow): LeaderboardRow {
     rank: row.rank,
     userId: row.user_id,
     alias: row.alias,
+    avatarUrl: row.avatar_url,
     score: row.score,
     timeUsedSeconds: row.time_used_seconds,
     attemptId: row.attempt_id,

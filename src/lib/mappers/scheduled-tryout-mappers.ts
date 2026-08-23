@@ -117,6 +117,7 @@ export type ScheduledEventLeaderboardRow = {
   eventCycle: number;
   userId: string;
   alias: string;
+  avatarUrl: string | null;
   bestScore: number;
   bestScoreAttemptNumber: number;
   attemptId: string;
