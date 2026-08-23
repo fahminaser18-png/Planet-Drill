@@ -38,5 +38,9 @@ describe("Login page", () => {
       screen.queryByText(/masuk dengan email dan kata sandi supabase-mu/i),
     ).not.toBeInTheDocument();
     expect(screen.getByText(/belum punya akun/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/platform belajar terpadu untuk persiapan UTBK SNBT/i),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/PSPPA|UKAI|farmasi|apoteker/i)).not.toBeInTheDocument();
   });
 });

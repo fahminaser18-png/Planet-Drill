@@ -218,7 +218,7 @@ function LoginPage() {
           </div>
           <h2 className="text-5xl font-bold mb-6 font-display tracking-tight text-white shadow-sm">Planet Drill UTBK</h2>
           <p className="text-lg opacity-95 font-sans font-medium leading-relaxed text-white/90 whitespace-nowrap">
-            Sistem pembelajaran terpadu untuk siswa PSPPA
+            Platform belajar terpadu untuk persiapan UTBK SNBT
           </p>
         </div>
       </div>

@@ -43,7 +43,7 @@ function TryoutSelectionPage() {
               Pilih Mode Try Out
             </h1>
             <p className="text-base text-muted-foreground mt-2">
-              Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UKAI.
+              Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UTBK SNBT.
             </p>
           </div>
         </div>

@@ -130,7 +130,7 @@ export const homepageCopy = {
   brand: "Planet Drill UTBK",
   heroTitle: "Lolos UTBK dengan latihan yang terasa seperti hari H",
   heroDescription:
-    "Planet Drill UTBK membantu mahasiswa dan lulusan baru farmasi membangun ritme try out sebelum menghadapi UTBK.",
+    "Planet Drill UTBK membantu peserta membangun ritme try out sebelum menghadapi UTBK SNBT.",
   heroLead:
     "Fokusnya bukan sekadar banyak soal, tetapi simulasi, pembacaan area lemah, dan keputusan belajar yang lebih tenang dari sesi ke sesi.",
   heroPrimaryCta: "Mulai perjalanan try out",

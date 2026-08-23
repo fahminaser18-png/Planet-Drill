@@ -17,8 +17,9 @@ describe("WelcomeTutorialPage", () => {
 
     // Hero headline check
     expect(
-      screen.getByText(/panduan lengkap menuju kelulusan ukai/i)
+      screen.getByText(/panduan lengkap persiapan UTBK SNBT/i)
     ).toBeInTheDocument();
+    expect(screen.queryByText(/PSPPA|UKAI|farmasi|apoteker/i)).not.toBeInTheDocument();
 
     // 4-Step Roadmap check
     expect(screen.getByText(/4-step learning roadmap/i)).toBeInTheDocument();

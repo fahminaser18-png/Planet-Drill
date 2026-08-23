@@ -19,6 +19,10 @@ describe("Home page", () => {
       screen.getByText(/lolos UTBK/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
     ).toBeInTheDocument();
     expect(
+      screen.getByText(/peserta membangun ritme try out sebelum menghadapi UTBK SNBT/i),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/PSPPA|UKAI|farmasi|apoteker/i)).not.toBeInTheDocument();
+    expect(
       screen.getByText(/try out, analitik, dan insight ai/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
     ).toBeInTheDocument();
     expect(

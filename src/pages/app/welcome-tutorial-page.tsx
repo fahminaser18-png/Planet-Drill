@@ -100,7 +100,7 @@ export default function WelcomeTutorialPage() {
               href="#tips"
               className="cursor-pointer hover:text-teal-400 transition-colors"
             >
-              Tips UKAI
+              Tips UTBK
             </a>
             <a
               href="#faq"
@@ -136,7 +136,7 @@ export default function WelcomeTutorialPage() {
 
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-            Panduan Lengkap Menuju Kelulusan UKAI & UTBK
+            Panduan Lengkap Persiapan UTBK SNBT
           </h1>
 
           {/* Subheadline */}
@@ -169,7 +169,7 @@ export default function WelcomeTutorialPage() {
                 <Target className="w-5 h-5" />
               </div>
               <p className="text-xl font-bold text-white">500+ Soal</p>
-              <p className="text-xs text-slate-400 mt-0.5">Try Out CBT Standardized UKAI</p>
+              <p className="text-xs text-slate-400 mt-0.5">Try out CBT sesuai format UTBK SNBT</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-emerald-500/40 transition-colors">
@@ -209,7 +209,7 @@ export default function WelcomeTutorialPage() {
             4-Step Learning Roadmap
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
-            Alur belajar sistematis yang dirancang khusus untuk memastikan kesiapan mental dan akademis Anda sebelum ujian UKAI sesungguhnya.
+            Alur belajar sistematis untuk membangun kesiapan mental dan akademis sebelum menghadapi UTBK SNBT.
           </p>
         </div>
 
@@ -224,7 +224,7 @@ export default function WelcomeTutorialPage() {
                 1. Uji Kemampuan Awal
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Mulai dengan mengerjakan Simulasi Try Out untuk mengukur baseline pemahaman awal Anda terhadap 7 kualifikasi kompetensi UKAI.
+                Mulai dengan Simulasi Try Out untuk mengukur pemahaman awal pada materi UTBK SNBT.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-teal-400">
@@ -487,7 +487,7 @@ export default function WelcomeTutorialPage() {
                 Scheduled Try Out & Leaderboard
               </h3>
               <p className="text-slate-300 text-sm leading-relaxed">
-                Simulasi Ujian Akbar Berjadwal serentak nasional. Rasakan tekanan waktu riil CBT UKAI dan lihat peringkat nasional Anda di Leaderboard peserta se-Indonesia.
+                Simulasi Ujian Akbar Berjadwal serentak nasional. Rasakan tekanan waktu simulasi UTBK SNBT dan lihat peringkat nasional Anda di Leaderboard peserta se-Indonesia.
               </p>
 
               {/* Step Badges */}
@@ -521,14 +521,14 @@ export default function WelcomeTutorialPage() {
         </div>
       </section>
 
-      {/* 5. Section 3: Strategi Lulus UKAI (#tips) */}
+      {/* 5. Section 3: Strategi UTBK (#tips) */}
       <section id="tips" className="py-16 lg:py-24 px-4 lg:px-8 max-w-7xl mx-auto border-b border-slate-800/50">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
           <span className="px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
             Rekomendasi Mentor
           </span>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            Strategi Rutin Lulus UKAI
+            Strategi Belajar untuk UTBK SNBT
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
             Kombinasi rutinitas harian dan mingguan ideal yang direkomendasikan peserta UTBK lulusan terbaik.
@@ -604,7 +604,7 @@ export default function WelcomeTutorialPage() {
             FAQ Pengguna Baru
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
-            Pertanyaan yang paling sering ditanyakan oleh mahasiswa profesi peserta UTBK saat memulai.
+            Pertanyaan yang paling sering diajukan peserta UTBK saat mulai belajar.
           </p>
         </div>
 
@@ -674,7 +674,7 @@ export default function WelcomeTutorialPage() {
 
       {/* Simple Footer */}
       <footer className="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 Planet Drill UTBK. Platform Persiapan UKAI & UTBK.</p>
+        <p>© 2026 Planet Drill UTBK. Platform persiapan UTBK SNBT.</p>
       </footer>
     </div>
   );

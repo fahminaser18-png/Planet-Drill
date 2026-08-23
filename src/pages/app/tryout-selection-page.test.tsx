@@ -48,6 +48,8 @@ describe("TryoutSelectionPage", () => {
 
     renderWithProviders();
     expect(screen.getByText("Pilih Mode Try Out")).toBeInTheDocument();
+    expect(screen.getByText(/memaksimalkan persiapan UTBK SNBT/i)).toBeInTheDocument();
+    expect(screen.queryByText(/PSPPA|UKAI|farmasi|apoteker/i)).not.toBeInTheDocument();
     expect(screen.getByText("Unlimited")).toBeInTheDocument();
     expect(screen.getByText("Terjadwal")).toBeInTheDocument();
   });
