@@ -17,7 +17,7 @@ import {
   updateCurrentLeaderboardAlias,
   updateCurrentProfileName,
   updateCurrentUserPassword,
-  uploadCurrentUserAvatar,
+  updateCurrentUserAvatarUrl,
 } from "../lib/api/profile-api";
 import { useSession } from "../lib/auth/use-session";
 import { adminShellMeta, createAdminNavItems } from "../mocks/admin-content";
@@ -275,44 +275,21 @@ function ProfilePage() {
     }
   }
 
-  async function handleAvatarChange(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleAvatarSelect(avatarUrl: string) {
     setAvatarError(null);
     setAvatarSuccess(null);
-
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
 
     if (!user) {
       setAvatarError("Sesi akun tidak ditemukan.");
       return;
     }
 
-    if (!file.type.startsWith("image/")) {
-      setAvatarError("File foto profil harus berupa gambar.");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      return;
-    }
-
-    if (file.size > maxAvatarBytes) {
-      setAvatarError("Ukuran foto profil maksimal 2 MB.");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      return;
-    }
-
     setIsUploadingAvatar(true);
 
     try {
-      const result = await uploadCurrentUserAvatar({
+      const result = await updateCurrentUserAvatarUrl({
         userId: user.id,
-        file,
-        previousAvatarPath: profile?.avatarUrl ?? null,
+        avatarUrl,
       });
       setProfile((currentProfile) =>
         currentProfile
@@ -322,7 +299,7 @@ function ProfilePage() {
           }
           : currentProfile,
       );
-      setAvatarPreviewUrl(URL.createObjectURL(file));
+      setAvatarPreviewUrl(result.avatarUrl);
       setAvatarSuccess("Foto profil berhasil diperbarui.");
     } catch (error) {
       setAvatarError(
@@ -388,9 +365,6 @@ function ProfilePage() {
                       {avatarInitials || "PA"}
                     </div>
                   )}
-                  <div className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs">
-                    <Upload className="h-3.5 w-3.5" />
-                  </div>
                 </div>
 
                 <div className="text-center sm:text-left">
@@ -421,21 +395,35 @@ function ProfilePage() {
             </div>
 
             <div className="space-y-3 pt-2 border-t border-border/40">
-              <Label htmlFor="avatar-upload" className="text-xs font-bold text-foreground block cursor-pointer hover:text-primary transition-colors">
-                Foto profil
+              <Label className="text-xs font-bold text-foreground block">
+                Pilih foto profil
               </Label>
-              <Input
-                ref={fileInputRef}
-                id="avatar-upload"
-                accept="image/png,image/jpeg,image/webp"
-                className="bg-background text-foreground text-xs rounded-xl cursor-pointer"
-                disabled={isUploadingAvatar}
-                name="avatar"
-                type="file"
-                onChange={(event) => void handleAvatarChange(event)}
-              />
+              <div className="flex flex-wrap gap-3">
+                {[1, 2, 3, 4, 5].map((num) => {
+                  const url = `/avatars/avatar-${num}.jpg`;
+                  return (
+                    <button
+                      key={num}
+                      type="button"
+                      disabled={isUploadingAvatar}
+                      onClick={() => void handleAvatarSelect(url)}
+                      className={`relative h-14 w-14 overflow-hidden rounded-xl border-2 transition-all hover:opacity-90 active:scale-95 ${
+                        avatarPreviewUrl === url || profile?.avatarUrl === url
+                          ? "border-primary shadow-sm"
+                          : "border-transparent opacity-70"
+                      }`}
+                    >
+                      <img
+                        alt={`Avatar ${num}`}
+                        src={url}
+                        className="h-full w-full object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
               <p className="text-[11px] text-muted-foreground leading-normal">
-                Format yang didukung: PNG, JPG, atau WEBP. Maksimal 2 MB.
+                Pilih salah satu karakter di atas untuk dijadikan foto profilmu.
               </p>
               {avatarError ? (
                 <Alert variant="destructive" className="border-destructive/50 bg-destructive/5 text-xs">

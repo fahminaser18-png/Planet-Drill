@@ -74,6 +74,10 @@ export async function getProfileAvatarSignedUrl(
   },
   client: ProfileClient = getSupabaseBrowserClient(),
 ) {
+  if (avatarPath.startsWith('/avatars/')) {
+    return avatarPath;
+  }
+
   const { data, error } = await client.storage
     .from("profile-avatars")
     .createSignedUrl(avatarPath, 60 * 60);
@@ -154,35 +158,20 @@ export async function removeProfileAvatarObject(
   }
 }
 
-export async function uploadCurrentUserAvatar(
+export async function updateCurrentUserAvatarUrl(
   {
     userId,
-    file,
-    previousAvatarPath,
+    avatarUrl,
   }: {
     userId: string;
-    file: File;
-    previousAvatarPath?: string | null;
+    avatarUrl: string;
   },
   client: ProfileClient = getSupabaseBrowserClient(),
 ) {
-  const fileExtension = getAvatarFileExtension(file);
-  const avatarPath = `${userId}/avatar.${fileExtension}`;
-  const { error: uploadError } = await client.storage
-    .from("profile-avatars")
-    .upload(avatarPath, file, {
-      contentType: file.type || undefined,
-      upsert: true,
-    });
-
-  if (uploadError) {
-    throw new Error(uploadError.message);
-  }
-
   const { error: updateError } = await client
     .from("profiles")
     .update({
-      avatar_url: avatarPath,
+      avatar_url: avatarUrl,
     })
     .eq("id", userId);
 
@@ -190,17 +179,7 @@ export async function uploadCurrentUserAvatar(
     throw new Error(updateError.message);
   }
 
-  if (previousAvatarPath && previousAvatarPath !== avatarPath) {
-    const { error: removeError } = await client.storage
-      .from("profile-avatars")
-      .remove([previousAvatarPath]);
-
-    if (removeError) {
-      throw new Error(removeError.message);
-    }
-  }
-
   return {
-    avatarUrl: avatarPath,
+    avatarUrl,
   };
 }

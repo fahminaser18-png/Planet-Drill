@@ -10,7 +10,7 @@ const mockGetCurrentProfile = vi.fn();
 const mockGetProfileAvatarSignedUrl = vi.fn();
 const mockUpdateCurrentProfileName = vi.fn();
 const mockUpdateCurrentUserPassword = vi.fn();
-const mockUploadCurrentUserAvatar = vi.fn();
+const mockUpdateCurrentUserAvatarUrl = vi.fn();
 
 vi.mock("../lib/auth/use-session", () => ({
   useSession: () => mockUseSession(),
@@ -25,7 +25,7 @@ vi.mock("../lib/api/profile-api", () => ({
   getProfileAvatarSignedUrl: (...args: unknown[]) => mockGetProfileAvatarSignedUrl(...args),
   updateCurrentProfileName: (...args: unknown[]) => mockUpdateCurrentProfileName(...args),
   updateCurrentUserPassword: (...args: unknown[]) => mockUpdateCurrentUserPassword(...args),
-  uploadCurrentUserAvatar: (...args: unknown[]) => mockUploadCurrentUserAvatar(...args),
+  updateCurrentUserAvatarUrl: (...args: unknown[]) => mockUpdateCurrentUserAvatarUrl(...args),
 }));
 
 function createSession(email = "pro@example.com"): Session {
@@ -81,8 +81,8 @@ beforeEach(() => {
   mockGetProfileAvatarSignedUrl.mockResolvedValue("https://example.com/avatar.webp");
   mockUpdateCurrentProfileName.mockResolvedValue(undefined);
   mockUpdateCurrentUserPassword.mockResolvedValue(undefined);
-  mockUploadCurrentUserAvatar.mockResolvedValue({
-    avatarUrl: "user-1/avatar.webp",
+  mockUpdateCurrentUserAvatarUrl.mockResolvedValue({
+    avatarUrl: "/avatars/avatar-1.jpg",
   });
   mockLogout.mockResolvedValue(undefined);
 });
@@ -213,25 +213,24 @@ describe("ProfilePage", () => {
     expect(await screen.findByText(/kata sandi berhasil diubah/i)).toBeInTheDocument();
   });
 
-  test("rejects non-image avatar uploads before hitting the API", async () => {
+  test("updates avatar on click", async () => {
     renderProfilePage();
 
-    await screen.findByLabelText(/foto profil/i);
-    const fileInput = document.getElementById("avatar-upload") as HTMLInputElement;
-    const invalidFile = new File(["text"], "avatar.txt", {
-      type: "text/plain",
-    });
+    await screen.findByText(/Pilih foto profil/i);
+    const firstAvatar = screen.getByAltText("Avatar 1");
 
-    fireEvent.change(fileInput, {
-      target: {
-        files: [invalidFile],
-      },
+    fireEvent.click(firstAvatar);
+
+    await waitFor(() => {
+      expect(mockUpdateCurrentUserAvatarUrl).toHaveBeenCalledWith({
+        userId: "user-1",
+        avatarUrl: "/avatars/avatar-1.jpg",
+      });
     });
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      /file foto profil harus berupa gambar/i,
+      /foto profil berhasil diperbarui/i,
     );
-    expect(mockUploadCurrentUserAvatar).not.toHaveBeenCalled();
   });
 
   test("calls logout from the profile page", async () => {
