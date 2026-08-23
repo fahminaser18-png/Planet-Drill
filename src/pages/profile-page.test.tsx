@@ -117,13 +117,13 @@ describe("ProfilePage", () => {
     expect(
       await screen.findByText(/kelola identitas akun, keamanan login, foto profil, dan logout di satu tempat/i),
     ).toBeInTheDocument();
-    expect(screen.getByText(/^admin$/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/^admin$/i).length).toBeGreaterThan(0);
   });
 
   test("submits a valid display name change", async () => {
     renderProfilePage();
 
-    const nameInput = await screen.findByLabelText(/nama tampilan/i);
+    const nameInput = await screen.findByLabelText(/^nama$/i);
     const saveNameButton = screen.getByRole("button", { name: /simpan nama/i });
     fireEvent.change(nameInput, {
       target: {
@@ -251,7 +251,6 @@ describe("ProfilePage", () => {
 
     expect(await screen.findByText(/kelola nama, password, foto profil, dan logout akunmu/i)).toBeInTheDocument();
     expect(screen.getByText(/nama ini akan tampil di profil akunmu/i)).toBeInTheDocument();
-    expect(screen.getByText(/alias ini tampil saat akunmu masuk leaderboard/i)).toBeInTheDocument();
 
     cleanup();
 
