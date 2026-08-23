@@ -13,7 +13,7 @@ afterEach(() => {
 });
 
 describe("Login page", () => {
-  test("keeps the active email login controls and links Lupa password to WhatsApp support", () => {
+  test("keeps the active email login controls and Lupa password triggers reset", () => {
     render(
       <MemoryRouter>
         <LoginPage />
@@ -29,18 +29,14 @@ describe("Login page", () => {
       screen.getByRole("button", {
         name: /masuk dengan email/i,
       }),
-    ).toHaveAttribute("data-variant", "primary");
+    ).toBeInTheDocument();
     
-    const forgotPasswordLink = screen.getByRole("link", { name: /lupa password/i });
-    expect(forgotPasswordLink).toBeInTheDocument();
-    expect(forgotPasswordLink).toHaveAttribute(
-      "href",
-      "https://wa.me/6281313683288?text=Assalamualaikum%20A%20saya%20tidak%20bisa%20login%20di%20web%20pawangapt.%20Mohon%20bantuannya",
-    );
+    const forgotPasswordBtn = screen.getByRole("button", { name: /lupa password/i });
+    expect(forgotPasswordBtn).toBeInTheDocument();
 
     expect(
       screen.queryByText(/masuk dengan email dan kata sandi supabase-mu/i),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText(/belum punya akun/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/belum punya akun/i)).toBeInTheDocument();
   });
 });

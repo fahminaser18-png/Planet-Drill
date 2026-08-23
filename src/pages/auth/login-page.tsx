@@ -1,4 +1,4 @@
-import { ArrowRight, Info, Lock, Send, UserCircle, AlertCircle } from "lucide-react";
+import { ArrowRight, Info, Lock, Send, UserCircle, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../../components/ui/button";
@@ -13,22 +13,43 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   const [isRegister, setIsRegister] = useState(false);
 
   const fieldClassName = "h-12 bg-background border-border focus-visible:ring-primary";
 
+  async function handleForgotPassword() {
+    if (!email) {
+      setErrorMessage("Silakan masukkan email Anda terlebih dahulu.");
+      return;
+    }
+    setErrorMessage(null);
+    setSuccessMessage(null);
+    setIsResettingPassword(true);
+    try {
+      await requestPasswordReset({ email });
+      setSuccessMessage("Email verifikasi/lupa password telah dikirim. Silakan cek inbox Anda.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Gagal mengirim email verifikasi.");
+    } finally {
+      setIsResettingPassword(false);
+    }
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage(null);
+    setSuccessMessage(null);
     setIsSubmitting(true);
 
     try {
       if (isRegister) {
         const { registerWithPassword } = await import("../../lib/api/auth-api");
         await registerWithPassword({ email, password });
-        setErrorMessage("Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.");
+        setSuccessMessage("Pendaftaran berhasil! Silakan cek email Anda untuk konfirmasi.");
         // We do not redirect here because email confirmation might be required
       } else {
         await loginWithPassword({ email, password });
@@ -90,15 +111,15 @@ function LoginPage() {
               />
               {!isRegister && (
                 <div className="flex justify-end mt-2">
-                  <a
-                    href="https://wa.me/6281313683288?text=Assalamualaikum%20A%20saya%20tidak%20bisa%20login%20di%20web%20pawangapt.%20Mohon%20bantuannya"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-primary hover:text-primary/80 hover:underline transition-all py-1.5 px-1"
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    disabled={isResettingPassword}
+                    className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-primary hover:text-primary/80 hover:underline transition-all py-1.5 px-1 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Send className="w-4 h-4" />
-                    Lupa password
-                  </a>
+                    {isResettingPassword ? "Mengirim..." : "Lupa password"}
+                  </button>
                 </div>
               )}
             </div>
@@ -153,6 +174,12 @@ function LoginPage() {
                 <AlertDescription>{errorMessage}</AlertDescription>
               </Alert>
             ) : null}
+            {successMessage ? (
+              <Alert className="border-green-500/50 bg-green-500/10 text-green-700 dark:text-green-400">
+                <CheckCircle2 className="h-4 w-4" />
+                <AlertDescription>{successMessage}</AlertDescription>
+              </Alert>
+            ) : null}
 
             <div className="mt-4 text-center text-sm text-muted-foreground">
               {isRegister ? "Sudah punya akun? " : "Belum punya akun? "}
@@ -161,6 +188,7 @@ function LoginPage() {
                 onClick={() => {
                   setIsRegister(!isRegister);
                   setErrorMessage(null);
+                  setSuccessMessage(null);
                 }}
                 className="font-bold text-primary hover:underline hover:text-primary/80 transition-colors"
               >
