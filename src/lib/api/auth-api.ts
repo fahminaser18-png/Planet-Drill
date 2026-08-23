@@ -158,3 +158,22 @@ export async function updatePasswordAfterRecovery(
     throw new Error(normalizeAuthErrorMessage(error.message, (error as any).status));
   }
 }
+
+export async function loginWithGoogle(
+  {
+    client = getSupabaseBrowserClient(),
+  }: {
+    client?: AuthClient;
+  } = {}
+) {
+  const { error } = await client.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/app`,
+    },
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
