@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, useSearchParams } from "react-router";
+import { Link, Navigate, useSearchParams } from "react-router";
 import { Filter, ArrowRight, AlertCircle } from "lucide-react";
 import ProductShell from "../../components/layout/product-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
@@ -26,6 +26,10 @@ function FlashCardsPage() {
   const uniqueGroupLabels = Array.from(
     new Set(allItems.map(t => t.academicGroupLabel).filter(Boolean))
   );
+
+  if (studentShell.role === "pendaftar_baru") {
+    return <Navigate to="/app/subscription" replace />;
+  }
 
   const filteredItems = activeFilter === "ALL"
     ? allItems

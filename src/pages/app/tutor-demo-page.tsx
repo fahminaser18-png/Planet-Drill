@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
@@ -10,6 +11,10 @@ export default function TutorDemoPage() {
   const [examResults, setExamResults] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const studentShell = useStudentShell("/app/tutor-demo");
+
+  if (studentShell.role === "pendaftar_baru") {
+    return <Navigate to="/app/subscription" replace />;
+  }
 
   useEffect(() => {
     async function loadData() {
@@ -71,7 +76,7 @@ export default function TutorDemoPage() {
   const mockConfig = {
     id: "tutor-session-1",
     title: "Sesi Tanya Jawab Bebas (RAG AI)",
-    actorInstructions: `Gunakan referensi materi berikut untuk menjawab pertanyaan siswa. Jika tidak ada di materi, gunakan fitur Google Search Grounding untuk mencari di internet. SESUAIKAN GAYA BAHASA PENJELASAN DENGAN KEMAMPUAN SISWA (berdasarkan data ujian).\n\n${examResults}\n\nMATERI REFERENSI:\n${combinedMaterialsText}`
+    actorInstructions: `Anda adalah AI Tutor resmi Planet Drill UTBK. Anda terintegrasi dengan seluruh bank soal, pembahasan, dan flash card di platform ini. Gunakan MATERI TAMBAHAN KHUSUS berikut sebagai referensi ekstra jika relevan. Jika pertanyaan siswa memerlukan data terbaru atau spesifik di luar database, gunakan fitur Google Search. SESUAIKAN GAYA BAHASA PENJELASAN DENGAN KEMAMPUAN SISWA (berdasarkan data ujian).\n\n${examResults}\n\nMATERI TAMBAHAN KHUSUS:\n${combinedMaterialsText}`
   };
 
   return (
@@ -80,10 +85,10 @@ export default function TutorDemoPage() {
       navItems={studentShell.navItems}
       tierLabel={studentShell.tierLabel}
     >
-      <div className="flex flex-col h-[calc(100vh-4rem)] p-4 max-w-4xl mx-auto w-full">
+      <div className="flex flex-col h-[calc(100vh-4rem)] p-4 md:p-6 w-full">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-800">Ruang AI Tutor (RAG)</h1>
-          <p className="text-slate-500">Tanyakan apa saja seputar UTBK. AI akan merujuk pada {materials.length} materi yang telah diunggah atau mencari di internet.</p>
+          <p className="text-slate-500">Tanyakan apa saja seputar UTBK. AI Tutor terhubung dengan seluruh bank soal, pembahasan, flash card, serta materi tambahan yang ada di platform ini.</p>
         </div>
         
         {isLoading ? (

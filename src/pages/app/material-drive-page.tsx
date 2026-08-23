@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router";
+import { useSearchParams, Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
@@ -15,9 +15,12 @@ export default function MaterialDrivePage({ driveType }: MaterialDrivePageProps)
   const currentHref = `/app/${driveType === 'rekaman' ? 'rekaman-kelas' : 'materi-ppt'}`;
   const studentShell = useStudentShell(currentHref);
   
-  // If mode=student, force student view (read-only) even if logged in as mentor
   const isStudentMode = searchParams.get('mode') === 'student';
   const isMentorOrAdmin = !isStudentMode && (studentShell.role === 'mentor' || studentShell.role === 'admin');
+
+  if (studentShell.role === "pendaftar_baru") {
+    return <Navigate to="/app/subscription" replace />;
+  }
 
   const title = driveType === 'rekaman' ? 'Rekaman' : 'Materi';
   const description = driveType === 'rekaman'

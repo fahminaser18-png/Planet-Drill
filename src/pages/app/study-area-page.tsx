@@ -27,14 +27,6 @@ interface StudyFeatureCard {
 
 const STUDY_FEATURES: StudyFeatureCard[] = [
   {
-    id: "rekaman",
-    title: "Rekaman",
-    description: "Akses seluruh rekaman kelas dan video pembelajaran interaktif yang telah disediakan.",
-    href: "/app/rekaman-kelas?mode=student",
-    buttonText: "Pilih Rekaman",
-    icon: Video,
-  },
-  {
     id: "materi",
     title: "Materi",
     description: "Pelajari modul materi pembelajaran, PDF ringkasan, dan presentasi pembahasan.",
@@ -45,7 +37,7 @@ const STUDY_FEATURES: StudyFeatureCard[] = [
   {
     id: "flash-card",
     title: "Flash Card",
-    description: "Ulang dan kuasai poin-poin penting indikasi, dosis, dan resep obat dengan kartu belajar singkat.",
+    description: "Ulang dan kuasai poin-poin penting materi dan konsep-konsep krusial UTBK dengan kartu belajar singkat.",
     href: "/app/flash-cards",
     buttonText: "Pilih Flash Card",
     icon: Sparkles,
@@ -53,7 +45,7 @@ const STUDY_FEATURES: StudyFeatureCard[] = [
   {
     id: "tutor-simulator",
     title: "Simulasi TUTOR",
-    description: "Latih kemampuan komunikasi klinis dan peracikan obat melalui simulasi kasus interaktif bersama AI.",
+    description: "Latih kemampuan pemahaman konsep dan strategi menyelesaikan soal melalui simulasi interaktif bersama AI Tutor.",
     href: "/app/tutor-demo",
     buttonText: "Mulai Simulasi TUTOR",
     icon: Stethoscope,
@@ -86,7 +78,7 @@ export default function StudyAreaPage() {
               Area Belajar
             </h1>
             <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar untuk memperkuat dasar kefarmasianmu.
+              Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar untuk memperkuat persiapan UTBK-mu.
             </p>
           </div>
         </div>
@@ -99,7 +91,15 @@ export default function StudyAreaPage() {
             }
             const Icon = item.icon;
             const isAiFeature = item.id === "flash-card" || item.id === "tutor-simulator";
-            const isLocked = isAiFeature && aiStatus.data && !aiStatus.data.hasCredential;
+            
+            let lockReason: "premium" | "api_key" | null = null;
+            if (studentShell.role === "pendaftar_baru") {
+              lockReason = "premium";
+            } else if (isAiFeature && aiStatus.data && !aiStatus.data.hasCredential) {
+              lockReason = "api_key";
+            }
+            
+            const isLocked = lockReason !== null;
 
             return (
               <Card
@@ -122,15 +122,32 @@ export default function StudyAreaPage() {
                   <CardDescription className="text-sm leading-relaxed text-muted-foreground">
                     {item.description}
                   </CardDescription>
-                  {isLocked && (
+                  {lockReason === "api_key" && (
                     <div className="mt-4 flex items-center gap-2 text-sm font-medium text-destructive bg-destructive/10 px-3 py-2 rounded-lg">
                       <Lock className="h-4 w-4" />
                       Butuh Pengaturan API Key (BYOK)
                     </div>
                   )}
+                  {lockReason === "premium" && (
+                    <div className="mt-4 flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted/50 px-3 py-2 rounded-lg">
+                      <Lock className="h-4 w-4" />
+                      Fitur Premium
+                    </div>
+                  )}
                 </CardHeader>
                 <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto relative">
-                  {isLocked ? (
+                  {lockReason === "premium" ? (
+                    <Link
+                      {...getButtonStyleProps({
+                        variant: "outline",
+                        className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-2.5 cursor-not-allowed",
+                      })}
+                      to="/app/subscription"
+                    >
+                      <span className="absolute inset-0" aria-hidden="true" />
+                      {item.buttonText} <Lock className="ml-2 h-4 w-4" />
+                    </Link>
+                  ) : lockReason === "api_key" ? (
                     <div
                       {...getButtonStyleProps({
                         variant: "outline",
