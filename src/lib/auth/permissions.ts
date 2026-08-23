@@ -6,7 +6,6 @@ export type AppProfile = {
   email: string | null;
   fullName: string | null;
   avatarUrl?: string | null;
-  leaderboardAlias?: string | null;
   role: UserRole;
   createdAt?: string;
   updatedAt?: string;

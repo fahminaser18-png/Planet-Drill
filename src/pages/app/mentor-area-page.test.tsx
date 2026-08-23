@@ -20,7 +20,7 @@ vi.mock("../../lib/auth/use-session", () => ({
 }));
 
 describe("MentorAreaPage", () => {
-  it("renders header and 6 mentor feature cards including management for Rekaman & Materi", () => {
+  it("renders header and 6 mentor feature cards including management for Materi", () => {
     render(
       <MemoryRouter>
         <MentorAreaPage />
@@ -32,16 +32,11 @@ describe("MentorAreaPage", () => {
     // Feature titles
     expect(screen.getByText("Bank Soal")).toBeInTheDocument();
     expect(screen.getByText("Event Terjadwal")).toBeInTheDocument();
-    expect(screen.getByText("Kelola Rekaman")).toBeInTheDocument();
     expect(screen.getByText("Kelola Materi")).toBeInTheDocument();
     expect(screen.getByText("Penyusun Soal")).toBeInTheDocument();
     expect(screen.getByText("Penyusun Flash Card")).toBeInTheDocument();
 
     // Access buttons
-    expect(screen.getByRole("link", { name: /Pilih Kelola Rekaman/i })).toHaveAttribute(
-      "href",
-      "/app/rekaman-kelas?mode=manage"
-    );
     expect(screen.getByRole("link", { name: /Pilih Kelola Materi/i })).toHaveAttribute(
       "href",
       "/app/materi-ppt?mode=manage"

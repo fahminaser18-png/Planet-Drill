@@ -9,7 +9,6 @@ const mockLogout = vi.fn();
 const mockGetCurrentProfile = vi.fn();
 const mockGetProfileAvatarSignedUrl = vi.fn();
 const mockUpdateCurrentProfileName = vi.fn();
-const mockUpdateCurrentLeaderboardAlias = vi.fn();
 const mockUpdateCurrentUserPassword = vi.fn();
 const mockUploadCurrentUserAvatar = vi.fn();
 
@@ -25,7 +24,6 @@ vi.mock("../lib/api/profile-api", () => ({
   getCurrentProfile: (...args: unknown[]) => mockGetCurrentProfile(...args),
   getProfileAvatarSignedUrl: (...args: unknown[]) => mockGetProfileAvatarSignedUrl(...args),
   updateCurrentProfileName: (...args: unknown[]) => mockUpdateCurrentProfileName(...args),
-  updateCurrentLeaderboardAlias: (...args: unknown[]) => mockUpdateCurrentLeaderboardAlias(...args),
   updateCurrentUserPassword: (...args: unknown[]) => mockUpdateCurrentUserPassword(...args),
   uploadCurrentUserAvatar: (...args: unknown[]) => mockUploadCurrentUserAvatar(...args),
 }));
@@ -78,12 +76,10 @@ beforeEach(() => {
     email: "pro@example.com",
     fullName: "Nadira peserta UTBK",
     avatarUrl: null,
-    leaderboardAlias: null,
     role: "pendaftar_baru",
   });
   mockGetProfileAvatarSignedUrl.mockResolvedValue("https://example.com/avatar.webp");
   mockUpdateCurrentProfileName.mockResolvedValue(undefined);
-  mockUpdateCurrentLeaderboardAlias.mockResolvedValue(undefined);
   mockUpdateCurrentUserPassword.mockResolvedValue(undefined);
   mockUploadCurrentUserAvatar.mockResolvedValue({
     avatarUrl: "user-1/avatar.webp",
@@ -92,12 +88,6 @@ beforeEach(() => {
 });
 
 describe("ProfilePage", () => {
-  test("shows helper text when leaderboard alias is empty", async () => {
-    renderProfilePage();
-
-    expect(await screen.findByText(/alias otomatis di leaderboard/i)).toBeInTheDocument();
-  });
-
   test("re-fetches the live profile when the window regains focus", async () => {
     mockGetCurrentProfile
       .mockResolvedValueOnce({
@@ -105,7 +95,6 @@ describe("ProfilePage", () => {
         email: "pro@example.com",
         fullName: "Nadira peserta UTBK",
         avatarUrl: null,
-        leaderboardAlias: null,
         role: "pendaftar_baru",
       })
       .mockResolvedValueOnce({
@@ -113,7 +102,6 @@ describe("ProfilePage", () => {
         email: "pro@example.com",
         fullName: "Admin Nadira",
         avatarUrl: null,
-        leaderboardAlias: null,
         role: "admin",
       });
 
@@ -130,31 +118,6 @@ describe("ProfilePage", () => {
       await screen.findByText(/kelola identitas akun, keamanan login, foto profil, dan logout di satu tempat/i),
     ).toBeInTheDocument();
     expect(screen.getByText(/^admin$/i)).toBeInTheDocument();
-  });
-
-  test("submits leaderboard alias updates from the profile page", async () => {
-    renderProfilePage();
-
-    const aliasInput = await screen.findByLabelText(/alias leaderboard/i);
-    const saveAliasButton = screen.getByRole("button", { name: /simpan alias/i });
-    fireEvent.change(aliasInput, {
-      target: {
-        value: "FarmasiNad",
-      },
-    });
-    fireEvent.click(saveAliasButton);
-
-    expect(saveAliasButton).toHaveAttribute(
-      "data-variant",
-      "primary",
-    );
-
-    await waitFor(() => {
-      expect(mockUpdateCurrentLeaderboardAlias).toHaveBeenCalledWith({
-        userId: "user-1",
-        leaderboardAlias: "FarmasiNad",
-      });
-    });
   });
 
   test("submits a valid display name change", async () => {

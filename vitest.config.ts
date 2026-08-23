@@ -1,4 +1,4 @@
-import path from "path";
+﻿import { fileURLToPath, URL } from "node:url";
 import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "npm:zod": "zod",
-      "@": path.resolve(__dirname, "./src"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   test: {

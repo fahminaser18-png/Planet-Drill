@@ -25,7 +25,6 @@ type ManagedUserRow = {
   id: string;
   email: string | null;
   full_name: string | null;
-  leaderboard_alias: string | null;
   role: "pendaftar_baru" | "pro" | "mentor" | "admin";
   created_at: string;
 };
@@ -34,7 +33,6 @@ export type ManagedUser = {
   id: string;
   email: string | null;
   fullName: string | null;
-  leaderboardAlias: string | null;
   role: ManagedUserRow["role"];
   createdAt: string;
   filterLabel: "user_aktif" | "belum_bayar" | "admin";
@@ -72,7 +70,6 @@ function mapManagedUser(row: ManagedUserRow): ManagedUser {
     id: row.id,
     email: row.email,
     fullName: row.full_name,
-    leaderboardAlias: row.leaderboard_alias,
     role: row.role,
     createdAt: row.created_at,
     filterLabel: resolveManagedUserFilterLabel(row.role),

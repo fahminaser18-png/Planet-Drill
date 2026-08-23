@@ -68,12 +68,12 @@ export function SessionBuilderForm({ onGenerate, isGenerating }: Props) {
             value={prompt}
             disabled={isGenerating}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Masukkan instruksi skenario TUTOR... (Contoh: Pasien dengan asma eksaserbasi akut)"
+            placeholder="Masukkan instruksi skenario TUTOR... (Contoh: Soal UTBK TPS Penalaran Umum tingkat tinggi)"
             className="w-full h-32 p-4 rounded-lg border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none resize-none text-slate-700 bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           
           <div className="flex flex-col gap-3 py-2">
-            <label className="text-sm font-semibold text-slate-700">Jenis Stase / Skenario</label>
+            <label className="text-sm font-semibold text-slate-700">Jenis Sesi / Topik</label>
             <div className="flex flex-wrap gap-4">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input 

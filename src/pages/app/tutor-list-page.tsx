@@ -27,7 +27,7 @@ export default function TutorListPage() {
   });
 
   const handleDelete = (id: string) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus stase TUTOR ini?")) {
+    if (window.confirm("Apakah Anda yakin ingin menghapus sumber materi ini?")) {
       deleteMutation.mutate(id);
     }
   };
@@ -38,18 +38,18 @@ export default function TutorListPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-6 w-full py-4 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-6 w-full py-4 ">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border/40">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-              Daftar Stase TUTOR
+              Daftar Sumber Tambahan AI Tutor
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Kelola daftar stase TUTOR yang tersedia untuk simulasi ujian.
+              Kelola Daftar Sumber Tambahan AI Tutor yang tersedia untuk simulasi ujian.
             </p>
           </div>
           <Button onClick={() => navigate("/app/mentor/tutor-builder")}>
-            <Plus className="mr-2 h-4 w-4" /> Tambah Stase
+            <Plus className="mr-2 h-4 w-4" /> Tambah Sumber
           </Button>
         </div>
 
@@ -59,10 +59,10 @@ export default function TutorListPage() {
           </div>
         ) : !stations || stations.length === 0 ? (
           <div className="text-center p-12 bg-muted/30 rounded-2xl border border-border border-dashed">
-            <h3 className="text-lg font-semibold mb-2">Belum ada stase TUTOR</h3>
-            <p className="text-muted-foreground mb-4">Mulai buat stase TUTOR pertama Anda untuk simulasi ujian.</p>
+            <h3 className="text-lg font-semibold mb-2">Belum ada sumber tambahan</h3>
+            <p className="text-muted-foreground mb-4">Mulai unggah materi sumber tambahan pertama Anda.</p>
             <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="outline">
-              <Plus className="mr-2 h-4 w-4" /> Buat Stase
+              <Plus className="mr-2 h-4 w-4" /> Tambah Sumber
             </Button>
           </div>
         ) : (

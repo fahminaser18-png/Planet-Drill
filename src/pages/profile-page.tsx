@@ -103,13 +103,9 @@ function ProfilePage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Awaited<ReturnType<typeof getCurrentProfile>> | null>(null);
   const [displayName, setDisplayName] = useState("");
-  const [leaderboardAlias, setLeaderboardAlias] = useState("");
   const [nameError, setNameError] = useState<string | null>(null);
   const [nameSuccess, setNameSuccess] = useState<string | null>(null);
   const [isSavingName, setIsSavingName] = useState(false);
-  const [aliasError, setAliasError] = useState<string | null>(null);
-  const [aliasSuccess, setAliasSuccess] = useState<string | null>(null);
-  const [isSavingAlias, setIsSavingAlias] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [nextPassword, setNextPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -146,7 +142,6 @@ function ProfilePage() {
 
         setProfile(nextProfile);
         setDisplayName(nextProfile.fullName ?? "");
-        setLeaderboardAlias(nextProfile.leaderboardAlias ?? "");
 
         if (nextProfile.avatarUrl) {
           try {
@@ -192,49 +187,6 @@ function ProfilePage() {
       setSurfaceRole(profile.role);
     }
   }, [profile?.role]);
-
-  async function handleLeaderboardAliasSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setAliasError(null);
-    setAliasSuccess(null);
-
-    if (!user) {
-      setAliasError("Sesi akun tidak ditemukan.");
-      return;
-    }
-
-    const normalizedAlias = leaderboardAlias.trim();
-    setIsSavingAlias(true);
-
-    try {
-      await updateCurrentLeaderboardAlias({
-        userId: user.id,
-        leaderboardAlias: normalizedAlias,
-      });
-      setLeaderboardAlias(normalizedAlias);
-      setProfile((currentProfile) =>
-        currentProfile
-          ? {
-            ...currentProfile,
-            leaderboardAlias: normalizedAlias,
-          }
-          : currentProfile,
-      );
-      setAliasSuccess(
-        normalizedAlias
-          ? "Alias leaderboard berhasil diperbarui."
-          : "Alias leaderboard dikosongkan. Sistem akan memakai alias otomatis.",
-      );
-    } catch (error) {
-      setAliasError(
-        error instanceof Error
-          ? error.message
-          : "Alias leaderboard belum bisa diperbarui.",
-      );
-    } finally {
-      setIsSavingAlias(false);
-    }
-  }
 
   async function handleDisplayNameSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -507,7 +459,7 @@ function ProfilePage() {
               <CardHeader className="p-0 space-y-1">
                 <CardTitle className="text-lg font-extrabold tracking-tight text-foreground flex items-center gap-2">
                   <User className="h-4 w-4 text-primary" />
-                  Nama tampilan
+                  Nama
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
                   Nama ini akan tampil di profil akunmu.
@@ -517,7 +469,7 @@ function ProfilePage() {
                 <form className="space-y-4" onSubmit={handleDisplayNameSubmit}>
                   <div className="space-y-2">
                     <Label htmlFor="profile-display-name" className="text-xs font-bold text-foreground">
-                      Nama tampilan
+                      Nama
                     </Label>
                     <Input
                       disabled={isSavingName}
@@ -554,66 +506,6 @@ function ProfilePage() {
               </CardContent>
             </Card>
 
-            {/* Leaderboard Alias Card */}
-            <Card className="border-border/80 bg-card p-6 shadow-xs space-y-4">
-              <CardHeader className="p-0 space-y-1">
-                <CardTitle className="text-lg font-extrabold tracking-tight text-foreground flex items-center gap-2">
-                  <Trophy className="h-4 w-4 text-amber-500" />
-                  Alias leaderboard
-                </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground">
-                  Alias ini tampil saat akunmu masuk leaderboard.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-0 pt-2 space-y-4">
-                <form className="space-y-4" onSubmit={handleLeaderboardAliasSubmit}>
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-leaderboard-alias" className="text-xs font-bold text-foreground">
-                      Alias leaderboard
-                    </Label>
-                    <Input
-                      disabled={isSavingAlias}
-                      id="profile-leaderboard-alias"
-                      name="leaderboardAlias"
-                      type="text"
-                      className="rounded-xl"
-                      value={leaderboardAlias}
-                      onChange={(event) => setLeaderboardAlias(event.target.value)}
-                    />
-                  </div>
-                  {leaderboardAlias.trim() ? (
-                    <p className="text-xs text-muted-foreground">
-                      Alias ini akan tampil apa adanya di leaderboard.
-                    </p>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">
-                      Jika dikosongkan, sistem akan memakai alias otomatis di leaderboard.
-                    </p>
-                  )}
-                  <Button
-                    loading={isSavingAlias}
-                    loadingLabel="Menyimpan alias..."
-                    type="submit"
-                    variant="primary"
-                    className="h-9 px-4 text-xs font-bold cursor-pointer"
-                  >
-                    Simpan alias
-                  </Button>
-                </form>
-                {aliasError ? (
-                  <Alert variant="destructive" className="border-destructive/50 bg-destructive/5 text-xs">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{aliasError}</AlertDescription>
-                  </Alert>
-                ) : null}
-                {aliasSuccess ? (
-                  <Alert className="border-emerald-500/50 bg-emerald-500/10 text-emerald-700 text-xs">
-                    <CheckCircle2 className="h-4 w-4" />
-                    <AlertDescription>{aliasSuccess}</AlertDescription>
-                  </Alert>
-                ) : null}
-              </CardContent>
-            </Card>
 
             {/* Change Password Card */}
             <Card className="border-border/80 bg-card p-6 shadow-xs space-y-4">

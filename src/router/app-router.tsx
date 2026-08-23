@@ -82,7 +82,6 @@ function AppRouter() {
             <Route path="leaderboard" element={<LeaderboardPage />} />
             <Route path="review" element={<ReviewPage />} />
             <Route path="review/:attemptId" element={<ReviewPage />} />
-            <Route path="rekaman-kelas" element={<MaterialDrivePage driveType="rekaman" />} />
             <Route path="materi-ppt" element={<MaterialDrivePage driveType="ppt" />} />
             <Route path="tryout-selection" element={<TryoutSelectionPage />} />
             <Route path="tryout" element={<Navigate replace to="/app/tryout-selection" />} />

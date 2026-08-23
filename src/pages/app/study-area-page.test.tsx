@@ -32,16 +32,11 @@ describe("StudyAreaPage", () => {
       screen.getByText("Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar.")
     ).toBeInTheDocument();
 
-    // 3 feature titles
-    expect(screen.getByText("Rekaman")).toBeInTheDocument();
+    // 2 feature titles
     expect(screen.getByText("Materi")).toBeInTheDocument();
     expect(screen.getByText("Flash Card")).toBeInTheDocument();
 
     // Access links
-    expect(screen.getByRole("link", { name: /Pilih Rekaman/i })).toHaveAttribute(
-      "href",
-      "/app/rekaman-kelas"
-    );
     expect(screen.getByRole("link", { name: /Pilih Materi/i })).toHaveAttribute(
       "href",
       "/app/materi-ppt"

@@ -84,8 +84,8 @@ describe('MaterialDrivePage', () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={['/app/rekaman-kelas']}>
-          <MaterialDrivePage driveType="rekaman" />
+        <MemoryRouter initialEntries={['/app/materi-ppt']}>
+          <MaterialDrivePage driveType="ppt" />
         </MemoryRouter>
       </QueryClientProvider>
     );
@@ -94,7 +94,7 @@ describe('MaterialDrivePage', () => {
     expect(shell).toBeInTheDocument();
     
     const driveExplorer = screen.getByTestId('drive-explorer');
-    expect(driveExplorer).toHaveAttribute('data-drivetype', 'rekaman');
+    expect(driveExplorer).toHaveAttribute('data-drivetype', 'ppt');
     expect(driveExplorer).toHaveAttribute('data-ismentor', 'true');
   });
 });

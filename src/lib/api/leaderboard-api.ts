@@ -1,10 +1,6 @@
 import { getSupabaseBrowserClient } from "../supabase/browser-client";
 
-export type LeaderboardCategory =
-  | "overall"
-  | "clinical_science"
-  | "social_behavior_administrative_pharmacy"
-  | "pharmaceutical_science";
+export type LeaderboardCategory = string;
 
 export type LeaderboardRow = {
   rank: number;

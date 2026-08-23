@@ -21,7 +21,6 @@ function mapProfileRow(row: ProfileRow): AppProfile {
     email: row.email,
     fullName: row.full_name,
     avatarUrl: row.avatar_url ?? null,
-    leaderboardAlias: row.leaderboard_alias ?? null,
     role: row.role,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -136,7 +135,7 @@ export async function bootstrapProfile(
     .upsert(payload, {
       onConflict: "id",
     })
-    .select("id, email, full_name, avatar_url, leaderboard_alias, role, created_at, updated_at")
+    .select("id, email, full_name, avatar_url, role, created_at, updated_at")
     .single();
 
   if (error) {

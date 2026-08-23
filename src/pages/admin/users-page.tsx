@@ -321,9 +321,6 @@ function UsersPage() {
                         <Badge variant={item.role === "admin" ? "default" : item.role === "pendaftar_baru" ? "secondary" : "default"}>
                           {resolveRoleLabel(item.role)}
                         </Badge>
-                        {item.leaderboardAlias ? (
-                          <Badge variant="default">{item.leaderboardAlias}</Badge>
-                        ) : null}
                       </div>
                     </div>
 

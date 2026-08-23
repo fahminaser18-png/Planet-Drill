@@ -26,7 +26,7 @@ export default function TutorBuilderPage() {
                 onClick={() => navigate("/app/mentor/tutor")}
                 className="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer"
               >
-                <ArrowLeft size={14} /> Kembali ke Daftar Stase
+                <ArrowLeft size={14} /> Kembali ke Daftar Sumber
               </button>
             </div>
             <div className="flex items-center gap-3 mt-2">
@@ -46,7 +46,7 @@ export default function TutorBuilderPage() {
         </div>
 
         {/* Dynamic Content */}
-        <div className="max-w-4xl">
+        <div className="w-full">
           <MaterialUploaderForm />
         </div>
       </div>

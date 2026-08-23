@@ -35,17 +35,12 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Bagaimana cara kerja Flash Cards AI & Kartu Saku?",
     answer:
-      "Flash Cards AI membantu Anda mempercepat hafalan dosis, mekanisme kerja obat, interaksi obat, dan indikasi klinik. Anda bisa memakai deck bawaan kurikulum UKAI atau memanfaatkan AI Generator untuk membuat kartu saku otomatis dari rangkuman materi Anda.",
+      "Flash Cards AI membantu Anda mempercepat hafalan rumus, konsep penting, tata bahasa, dan fakta sains. Anda bisa memakai deck bawaan kurikulum UTBK atau memanfaatkan AI Generator untuk membuat kartu saku otomatis dari rangkuman materi Anda.",
   },
   {
     question: "Apakah hasil Try Out saya dapat dilihat kembali untuk dievaluasi?",
     answer:
       "Ya, setiap ujian yang diselesaikan akan tersimpan di Bedah Pembahasan. Anda dapat meninjau rasional jawaban, kunci pembahasan, indikator kesulitan soal, serta grafik analitik kelemahan per kategori topik.",
-  },
-  {
-    question: "Bagaimana cara mengakses rekaman Zoom dan slide materi perkuliahan?",
-    answer:
-      "Semua slide presentasi, ringkasan rumus kefarmasian, dan rekaman sesi live class Zoom dapat diakses di menu Area Belajar & Material Drive. File dapat diunduh atau dipelajari langsung dari dashboard.",
   },
   {
     question: "Bagaimana jika saya ingin fokus pada materi yang nilai performanya masih rendah?",
@@ -146,7 +141,7 @@ export default function WelcomeTutorialPage() {
 
           {/* Subheadline */}
           <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Platform persiapan UKAI terintegrasi nomor 1. Kuasai materi farmasi klinis, industri, dan regulasi melalui simulasi CBT interaktif, analitik pintar, serta Flash Cards AI.
+            Platform persiapan UTBK terintegrasi. Kuasai materi TPS, Literasi, Sains, dan Soshum melalui simulasi CBT interaktif, analitik pintar, serta Flash Cards AI.
           </p>
 
           {/* Quick CTA Actions */}
@@ -190,7 +185,7 @@ export default function WelcomeTutorialPage() {
                 <BrainCircuit className="w-5 h-5" />
               </div>
               <p className="text-xl font-bold text-white">Flash Cards AI</p>
-              <p className="text-xs text-slate-400 mt-0.5">Hafalan Dosis & Mekanisme Obat</p>
+              <p className="text-xs text-slate-400 mt-0.5">Hafalan Rumus & Konsep</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-emerald-500/40 transition-colors">
@@ -323,7 +318,7 @@ export default function WelcomeTutorialPage() {
                 Simulasi Try Out & Latihan
               </h3>
               <p className="text-slate-300 text-sm leading-relaxed">
-                Latihan soal CBT interaktif dengan timer aktif standar UKAI. Anda dapat memilih latihan berdasarkan topik tertentu (Farmasi Klinis, Industri, Komunitas) atau paket Try Out 50 soal komprehensif.
+                Latihan soal CBT interaktif dengan timer aktif standar UTBK. Anda dapat memilih latihan berdasarkan topik tertentu (TPS, Literasi, Kuantitatif) atau paket Try Out 50 soal komprehensif.
               </p>
               
               {/* Step Badges */}
@@ -409,7 +404,7 @@ export default function WelcomeTutorialPage() {
                 Flash Cards AI & Kartu Saku
               </h3>
               <p className="text-slate-300 text-sm leading-relaxed">
-                Hafal nama obat, dosis lazim, mekanisme kerja, dan efek samping tanpa ribet. Gunakan Generator AI untuk mengubah catatan singkat Anda menjadi deck flash card interaktif secara langsung.
+                Kuasai rumus, konsep penting, dan pola soal logika tanpa ribet. Gunakan Generator AI untuk mengubah catatan singkat Anda menjadi deck flash card interaktif secara langsung.
               </p>
 
               {/* Step Badges */}
@@ -452,7 +447,7 @@ export default function WelcomeTutorialPage() {
                 Area Belajar & Material Drive
               </h3>
               <p className="text-slate-300 text-sm leading-relaxed">
-                Pusat dokumen materi perkuliahan UKAI, ringkasan pedoman terapi (Guideline), slide materi mentor, serta link video rekaman Zoom webinar pembelajaran interaktif.
+                Pusat dokumen materi bimbingan belajar UTBK, ringkasan rumus, slide materi mentor, 
               </p>
 
               {/* Step Badges */}
@@ -463,10 +458,7 @@ export default function WelcomeTutorialPage() {
                 <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
                   Langkah 2: Unduh PPT & Summary
                 </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 3: Tonton Rekaman Zoom
-                </span>
-              </div>
+                </div>
             </div>
 
             <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
@@ -563,7 +555,7 @@ export default function WelcomeTutorialPage() {
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
-                <span>Ulas 20 Flash Cards AI untuk memperkuat memori dosis obat dan indikasi klinis.</span>
+                <span>Ulas 20 Flash Cards AI untuk memperkuat memori konsep penting dan rumus.</span>
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />

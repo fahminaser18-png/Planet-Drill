@@ -27,14 +27,14 @@ function MarketingShell({ children, footer }: MarketingShellProps) {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.06)] overflow-hidden shrink-0 bg-white">
-                <img src="/logo.jpg" alt="Logo" className="h-full w-full object-cover" />
+                <img src="/logo.png?v=3" alt="Logo" className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-teal-soft)]">
                   Planet Drill UTBK
                 </p>
                 <p className="mt-1 text-sm leading-6 text-[var(--color-ink-muted)]">
-                  Latihan serius untuk mahasiswa dan lulusan baru farmasi.
+                  Latihan serius untuk persiapan UTBK SNBT.
                 </p>
               </div>
             </div>

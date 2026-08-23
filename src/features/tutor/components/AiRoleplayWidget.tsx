@@ -14,7 +14,7 @@ interface Message {
 
 export function AiRoleplayWidget({ config }: Props) {
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'ai', content: 'Halo. (Pasien masuk ke ruangan)' }
+    { role: 'ai', content: 'Halo. (Tutor siap membantu)' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -76,14 +76,14 @@ export function AiRoleplayWidget({ config }: Props) {
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] rounded-lg p-3 ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-slate-100 text-slate-800 rounded-tl-none'}`}>
-              <div className="text-[10px] uppercase font-bold opacity-70 mb-1">{msg.role === 'user' ? 'Kandidat (Anda)' : 'Pasien (AI)'}</div>
+              <div className="text-[10px] uppercase font-bold opacity-70 mb-1">{msg.role === 'user' ? 'Siswa (Anda)' : 'Tutor (AI)'}</div>
               <div className="text-sm whitespace-pre-wrap">{msg.content}</div>
             </div>
           </div>
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-slate-100 text-slate-500 rounded-lg p-3 text-sm italic rounded-tl-none">Pasien sedang membalas...</div>
+            <div className="bg-slate-100 text-slate-500 rounded-lg p-3 text-sm italic rounded-tl-none">Tutor sedang mengetik...</div>
           </div>
         )}
       </div>

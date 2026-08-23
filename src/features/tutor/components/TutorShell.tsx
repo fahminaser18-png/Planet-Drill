@@ -22,7 +22,7 @@ export function TutorShell({ config, children, onExit }: TutorShellProps) {
   useEffect(() => {
     if (timeLeft <= 0) {
       if (onExit) {
-        toast.info("Waktu habis! Stase otomatis diselesaikan.");
+        toast.info("Waktu habis! Sesi otomatis diselesaikan.");
         onExit();
       }
       return;
@@ -67,7 +67,7 @@ export function TutorShell({ config, children, onExit }: TutorShellProps) {
           )}
           {config.practiceArea && (
             <div>
-              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Praktek Kefarmasian</h2>
+              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Simulasi UTBK</h2>
               <p className="text-slate-700 text-sm">{config.practiceArea}</p>
             </div>
           )}

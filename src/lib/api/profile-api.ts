@@ -7,7 +7,6 @@ type ProfileRow = {
   email: string | null;
   full_name: string | null;
   avatar_url: string | null;
-  leaderboard_alias: string | null;
   role: AppProfile["role"];
   created_at?: string;
   updated_at?: string;
@@ -24,7 +23,6 @@ function mapProfileRow(row: ProfileRow): AppProfile {
     email: row.email,
     fullName: row.full_name,
     avatarUrl: row.avatar_url,
-    leaderboardAlias: row.leaderboard_alias,
     role: row.role,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -58,7 +56,7 @@ export async function getCurrentProfile(
 ): Promise<AppProfile> {
   const { data, error } = await client
     .from("profiles")
-    .select("id, email, full_name, avatar_url, leaderboard_alias, role, created_at, updated_at")
+    .select("id, email, full_name, avatar_url, role, created_at, updated_at")
     .single();
 
   if (error) {
@@ -111,28 +109,6 @@ export async function updateCurrentProfileName(
     .from("profiles")
     .update({
       full_name: fullName,
-    })
-    .eq("id", userId);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-}
-
-export async function updateCurrentLeaderboardAlias(
-  {
-    userId,
-    leaderboardAlias,
-  }: {
-    userId: string;
-    leaderboardAlias: string;
-  },
-  client: ProfileClient = getSupabaseBrowserClient(),
-) {
-  const { error } = await client
-    .from("profiles")
-    .update({
-      leaderboard_alias: leaderboardAlias,
     })
     .eq("id", userId);
 

@@ -2,12 +2,18 @@
 alter table public.payment_submissions
   drop constraint if exists payment_submissions_package_code_check;
 
+update public.payment_submissions set package_code = '1_bulan' where package_code = 'pro_30_hari';
+update public.payment_submissions set package_code = '1_bulan' where package_code = 'sprint_14_hari';
+
 alter table public.payment_submissions
   add constraint payment_submissions_package_code_check
   check (package_code in ('1_bulan', '6_bulan', '1_tahun'));
 
 alter table public.subscriptions
   drop constraint if exists subscriptions_package_code_check;
+
+update public.subscriptions set package_code = '1_bulan' where package_code = 'pro_30_hari';
+update public.subscriptions set package_code = '1_bulan' where package_code = 'sprint_14_hari';
 
 alter table public.subscriptions
   add constraint subscriptions_package_code_check

@@ -20,7 +20,7 @@ describe('MediaPreviewModal', () => {
   const mockLink: MaterialLink = {
     id: 'link-1',
     drive_type: 'VIDEO',
-    title: 'Rekaman Pertemuan 1',
+    title: 'Video Pertemuan 1',
     url: 'https://drive.google.com/file/d/123/view',
     embed_url: 'https://drive.google.com/file/d/123/preview',
     folder_id: null,
@@ -43,8 +43,8 @@ describe('MediaPreviewModal', () => {
 
   it('renders modal with title and embed iframe when link is provided', () => {
     render(<MediaPreviewModal link={mockLink} onClose={() => {}} />);
-    expect(screen.getByText('Rekaman Pertemuan 1')).toBeInTheDocument();
-    expect(screen.getByTitle('Rekaman Pertemuan 1')).toHaveAttribute(
+    expect(screen.getByText('Video Pertemuan 1')).toBeInTheDocument();
+    expect(screen.getByTitle('Video Pertemuan 1')).toHaveAttribute(
       'src',
       'https://drive.google.com/file/d/123/preview'
     );

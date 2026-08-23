@@ -2,7 +2,6 @@ import { describe, expect, test, vi } from "vitest";
 import {
   getCurrentProfile,
   updateCurrentProfileName,
-  updateCurrentLeaderboardAlias,
   updateCurrentUserPassword,
   uploadCurrentUserAvatar,
 } from "./profile-api";
@@ -15,7 +14,6 @@ describe("profile-api", () => {
         email: "nadira@example.com",
         full_name: "Nadira peserta UTBK",
         avatar_url: "user-1/avatar.webp",
-        leaderboard_alias: "FarmasiNad",
         role: "admin",
         created_at: "2026-05-01T00:00:00.000Z",
         updated_at: "2026-05-01T00:00:00.000Z",
@@ -32,7 +30,6 @@ describe("profile-api", () => {
 
     await expect(getCurrentProfile(client as never)).resolves.toMatchObject({
       avatarUrl: "user-1/avatar.webp",
-      leaderboardAlias: "FarmasiNad",
     });
   });
 
@@ -103,32 +100,7 @@ describe("profile-api", () => {
     });
   });
 
-  test("updates leaderboard alias in the profiles table", async () => {
-    const updateEq = vi.fn().mockResolvedValue({
-      data: {
-        id: "user-1",
-        leaderboard_alias: "FarmasiNad",
-      },
-      error: null,
-    });
-    const client = {
-      from: vi.fn(() => ({
-        update: vi.fn(() => ({
-          eq: updateEq,
-        })),
-      })),
-    };
 
-    await updateCurrentLeaderboardAlias(
-      {
-        userId: "user-1",
-        leaderboardAlias: "FarmasiNad",
-      },
-      client as never,
-    );
-
-    expect(updateEq).toHaveBeenCalledWith("id", "user-1");
-  });
 
   test("uploads avatar into the current user's folder and persists avatar_url", async () => {
     const upload = vi.fn().mockResolvedValue({

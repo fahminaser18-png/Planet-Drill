@@ -46,7 +46,7 @@ function ProductShell({
             {/* Left: Brand Logo & Title */}
             <div className="flex items-center gap-3.5 shrink-0">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl shadow-2xs overflow-hidden shrink-0">
-                <img src="/logo.jpg" alt="Logo" className="h-full w-full object-cover" />
+                <img src="/logo.png?v=3" alt="Logo" className="h-full w-full object-cover" />
               </div>
               <div className="flex flex-col">
                 <span className="font-display text-sm font-black uppercase tracking-[0.18em] text-foreground">

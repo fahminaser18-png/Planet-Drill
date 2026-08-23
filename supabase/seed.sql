@@ -1042,7 +1042,7 @@ values
   (
     '66666666-6666-6666-6666-666666666661',
     '33333333-3333-3333-3333-333333333333',
-    'pro_30_hari',
+    '1_bulan',
     '33333333-3333-3333-3333-333333333333/sample-proof-baru.png',
     'sample-proof-baru.png',
     'pending_review',
@@ -1055,7 +1055,7 @@ values
   (
     '66666666-6666-6666-6666-666666666662',
     '22222222-2222-2222-2222-222222222222',
-    'pro_30_hari',
+    '1_bulan',
     '22222222-2222-2222-2222-222222222222/sample-proof-pro.png',
     'sample-proof-pro.png',
     'active',
@@ -1068,7 +1068,7 @@ values
   (
     '66666666-6666-6666-6666-666666666663',
     '33333333-3333-3333-3333-333333333333',
-    'sprint_14_hari',
+    '1_bulan',
     '33333333-3333-3333-3333-333333333333/sample-proof-rejected.png',
     'sample-proof-rejected.png',
     'rejected',
@@ -1105,7 +1105,7 @@ values
   (
     '77777777-7777-7777-7777-777777777771',
     '22222222-2222-2222-2222-222222222222',
-    'pro_30_hari',
+    '1_bulan',
     'active',
     timezone('utc', now()) - interval '25 days',
     timezone('utc', now()) + interval '5 days',
@@ -1117,7 +1117,7 @@ values
   (
     '77777777-7777-7777-7777-777777777772',
     '33333333-3333-3333-3333-333333333333',
-    'pro_30_hari',
+    '1_bulan',
     'pending_review',
     null,
     null,
@@ -1129,7 +1129,7 @@ values
   (
     '77777777-7777-7777-7777-777777777773',
     '22222222-2222-2222-2222-222222222222',
-    'sprint_14_hari',
+    '1_bulan',
     'expired',
     timezone('utc', now()) - interval '60 days',
     timezone('utc', now()) - interval '46 days',
@@ -1164,7 +1164,7 @@ values
     'payment_submission.approved',
     'payment_submission',
     '66666666-6666-6666-6666-666666666662',
-    '{"package_code":"pro_30_hari","decision":"approve"}'::jsonb,
+    '{"package_code":"1_bulan","decision":"approve"}'::jsonb,
     timezone('utc', now()) - interval '25 days'
   ),
   (
@@ -1173,7 +1173,7 @@ values
     'payment_submission.rejected',
     'payment_submission',
     '66666666-6666-6666-6666-666666666663',
-    '{"package_code":"sprint_14_hari","decision":"reject"}'::jsonb,
+    '{"package_code":"1_bulan","decision":"reject"}'::jsonb,
     timezone('utc', now()) - interval '20 days'
   )
 on conflict (id) do update

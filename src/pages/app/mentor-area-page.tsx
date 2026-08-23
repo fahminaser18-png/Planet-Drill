@@ -32,7 +32,7 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
   {
     id: "bank-soal",
     title: "Bank Soal",
-    description: "Kelola database soal kuis & try out farmasi, sunting pertanyaan, opsi jawaban, serta pembahasan.",
+    description: "Kelola database soal kuis & try out UTBK, sunting pertanyaan, opsi jawaban, serta pembahasan.",
     href: "/app/questions",
     buttonText: "Pilih Bank Soal",
     icon: BookOpen,
@@ -46,14 +46,6 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
     icon: CalendarClock,
   },
   {
-    id: "kelola-rekaman",
-    title: "Kelola Rekaman",
-    description: "Tambah, sunting, buat folder, dan atur link Google Drive / YouTube rekaman kelas untuk siswa.",
-    href: "/app/rekaman-kelas?mode=manage",
-    buttonText: "Pilih Kelola Rekaman",
-    icon: Video,
-  },
-  {
     id: "kelola-materi",
     title: "Kelola Materi",
     description: "Unggah dan kelola modul materi pembelajaran, PDF ringkasan, serta presentasi bahan ajar.",
@@ -64,7 +56,7 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
   {
     id: "penyusun-soal",
     title: "Penyusun Soal",
-    description: "Buat draf soal latihan secara otomatis dan efisien menggunakan bantuan AI berbasis referensi farmasi.",
+    description: "Buat draf soal latihan secara otomatis dan efisien menggunakan bantuan AI berbasis referensi UTBK.",
     href: "/app/question-generator",
     buttonText: "Pilih Penyusun Soal",
     icon: Sparkles,
@@ -72,7 +64,7 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
   {
     id: "penyusun-flashcard",
     title: "Penyusun Flash Card",
-    description: "Susun & buat deck kartu belajar instan untuk mempermudah metode hafalan cepat indikasi & dosis obat.",
+    description: "Susun & buat deck kartu belajar instan untuk mempermudah metode hafalan cepat konsep-konsep penting UTBK.",
     href: "/app/flash-card-generator",
     buttonText: "Pilih Penyusun Flash Card",
     icon: Layers,
@@ -80,7 +72,7 @@ const MENTOR_FEATURES: MentorFeatureCard[] = [
   {
     id: "pengatur-tutor",
     title: "Pengatur TUTOR",
-    description: "Buat dan sesuaikan stase TUTOR, atur rubric penilaian, dan siapkan prompt persona AI pasien/dokter.",
+    description: "Kelola sumber materi tambahan agar AI Tutor dapat menjawab pertanyaan spesifik dengan akurat.",
     href: "/app/mentor/tutor",
     buttonText: "Pilih Pengatur TUTOR",
     icon: Settings2,
@@ -113,7 +105,7 @@ export default function MentorAreaPage() {
               Area Mentor
             </h1>
             <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Selesaikan pembuatan soal, kelola rekaman & materi, serta operasional try out untuk membimbing siswa.
+              Selesaikan pembuatan soal, kelola materi, serta operasional try out untuk membimbing siswa.
             </p>
           </div>
         </div>

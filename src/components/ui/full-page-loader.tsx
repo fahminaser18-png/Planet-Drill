@@ -46,7 +46,7 @@ export default function FullPageLoader({
           {/* Brand Logo */}
           <div className="absolute inset-0 overflow-hidden rounded-2xl">
             <img 
-              src="/logo.jpg" 
+              src="/logo.png?v=3" 
               alt="Logo Planet Drill UTBK" 
               className="h-full w-full object-cover" 
             />
