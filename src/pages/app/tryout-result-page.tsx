@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, CheckCircle, Timer, Loader2, AlertTriangle, Package } from "lucide-react";
+import { ArrowRight, CheckCircle, Timer, Loader2, AlertTriangle, Package, Lock } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { getButtonStyleProps } from "../../components/ui/button";
@@ -87,9 +87,21 @@ function TryoutResultPage() {
                 <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm border border-white/20 mb-8">
                   <p className="text-sm font-medium text-white">{weakestBlockInsight}</p>
                 </div>
-                <Link {...getButtonStyleProps({ className: "bg-white text-primary hover:bg-white/90" })} to={`/app/review/${resultData.attemptId}`}>
-                  Review jawaban <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
+                {studentShell.role === "pendaftar_baru" ? (
+                  <Link
+                    {...getButtonStyleProps({ className: "bg-white/50 text-primary/50 cursor-not-allowed hover:bg-white/50" })}
+                    to="/app/subscription"
+                    onClick={(e) => {
+                      // Redirects to subscription
+                    }}
+                  >
+                    Pembahasan Terkunci <Lock className="w-4 h-4 ml-2" />
+                  </Link>
+                ) : (
+                  <Link {...getButtonStyleProps({ className: "bg-white text-primary hover:bg-white/90" })} to={`/app/review/${resultData.attemptId}`}>
+                    Review jawaban <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                )}
               </CardContent>
             </Card>
 

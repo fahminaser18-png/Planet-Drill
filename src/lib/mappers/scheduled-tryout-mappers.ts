@@ -186,6 +186,7 @@ export type ScheduledEventEditorDataViewModel = {
     title: string;
     description: string;
     editorialStatus: "draft" | "published";
+    isFreeAccess: boolean;
     accessStartAt: string;
     accessEndAt: string;
     currentCycle: number;

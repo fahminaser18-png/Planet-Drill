@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, CalendarClock, ArrowRight, Play, Clock } from "lucide-react";
+import { BookOpen, CalendarClock, ArrowRight, Play, Clock, Lock } from "lucide-react";
 import { Link } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
@@ -94,23 +94,41 @@ function TryoutSelectionPage() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground shrink-0">
                   <BookOpen className="h-7 w-7" />
                 </div>
-                <CardTitle className="text-2xl font-extrabold tracking-tight">Unlimited</CardTitle>
+                <CardTitle className="text-2xl font-extrabold tracking-tight flex items-center gap-2">
+                  Unlimited
+                </CardTitle>
               </div>
               <CardDescription className="text-base leading-relaxed text-muted-foreground">
                 Latihan mandiri tanpa batas waktu. Fokus pada pemahaman materi dan blok yang spesifik.
               </CardDescription>
             </CardHeader>
             <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto">
-              <Link
-                {...getButtonStyleProps({
-                  variant: "outline",
-                  className: "w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all font-semibold rounded-xl py-3 text-base justify-center",
-                })}
-                to="/app/tryout/blocks"
-              >
-                <span className="absolute inset-0" aria-hidden="true" />
-                Pilih Unlimited <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+              {studentShell.role === "pendaftar_baru" ? (
+                <Link
+                  {...getButtonStyleProps({
+                    variant: "outline",
+                    className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-3 text-base justify-center relative cursor-not-allowed",
+                  })}
+                  to="/app/subscription"
+                  onClick={(e) => {
+                    // Opsional: Boleh ditangani dengan alert khusus, atau dibiarkan redirect ke halaman langganan
+                  }}
+                >
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  Terkunci <Lock className="ml-2 h-4 w-4" />
+                </Link>
+              ) : (
+                <Link
+                  {...getButtonStyleProps({
+                    variant: "outline",
+                    className: "w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all font-semibold rounded-xl py-3 text-base justify-center",
+                  })}
+                  to="/app/tryout/blocks"
+                >
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  Pilih Unlimited <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              )}
             </CardFooter>
           </Card>
 

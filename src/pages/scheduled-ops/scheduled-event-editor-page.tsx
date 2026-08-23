@@ -59,6 +59,7 @@ const buildInitialFormState = (): EventFormState => ({
   title: "",
   description: "",
   editorialStatus: "draft",
+  isFreeAccess: false,
   accessStartAt: "",
   accessEndAt: "",
   questions: [emptyQuestion()],
@@ -101,6 +102,7 @@ function mapEditorDataToFormState(editorData: ScheduledEventEditorDataViewModel)
     title: editorData.event.title,
     description: editorData.event.description,
     editorialStatus: editorData.event.editorialStatus,
+    isFreeAccess: editorData.event.isFreeAccess,
     accessStartAt: editorData.event.accessStartAt,
     accessEndAt: editorData.event.accessEndAt,
     questions: editorData.questions.map((question) => mapEditorQuestionToFormState(question)),
@@ -150,6 +152,7 @@ function buildInputFromFormState(formState: EventFormState): ScheduledEventMutat
     title,
     description,
     editorialStatus: formState.editorialStatus,
+    isFreeAccess: formState.isFreeAccess,
     accessStartAt: formState.accessStartAt,
     accessEndAt: formState.accessEndAt,
     questions: questions as ScheduledEventMutationInput["questions"],
@@ -765,6 +768,22 @@ function ScheduledEventEditorPage() {
                     <option value="draft">Draft</option>
                     <option value="published">Tayang</option>
                   </select>
+                </label>
+
+                <label className="flex items-center gap-3 mt-4 text-sm font-medium text-foreground cursor-pointer" htmlFor="event-free-access">
+                  <input
+                    id="event-free-access"
+                    type="checkbox"
+                    className="w-5 h-5 rounded border-border text-primary focus:ring-primary"
+                    checked={formState.isFreeAccess}
+                    onChange={(event) => {
+                      setFormState((current) => ({
+                        ...current,
+                        isFreeAccess: event.target.checked,
+                      }));
+                    }}
+                  />
+                  <span>Tersedia untuk Pengguna Gratis (Freemium)</span>
                 </label>
               </section>
 

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertCircle, ArrowRight, CheckCircle, Loader2, Timer } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle, Loader2, Timer, Lock } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { getButtonStyleProps } from "../../components/ui/button";
@@ -86,17 +86,32 @@ function ScheduledTryoutResultPage() {
                 Tinjau jawaban untuk melihat bagian yang perlu diperbaiki.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link
-                  {...getButtonStyleProps({
-                    variant: "primary",
-                  })}
-                  to={`/app/review/${resultData.attemptId}?source=scheduled`}
-                >
-                  <span className="flex items-center gap-2">
-                    Review jawaban
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
+                {studentShell.role === "pendaftar_baru" ? (
+                  <Link
+                    {...getButtonStyleProps({
+                      variant: "outline",
+                      className: "text-muted-foreground cursor-not-allowed",
+                    })}
+                    to="/app/subscription"
+                  >
+                    <span className="flex items-center gap-2">
+                      Pembahasan Terkunci
+                      <Lock className="h-4 w-4" />
+                    </span>
+                  </Link>
+                ) : (
+                  <Link
+                    {...getButtonStyleProps({
+                      variant: "primary",
+                    })}
+                    to={`/app/review/${resultData.attemptId}?source=scheduled`}
+                  >
+                    <span className="flex items-center gap-2">
+                      Review jawaban
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </Link>
+                )}
               </div>
             </Card>
 

@@ -29,6 +29,7 @@ type ScheduledEventRow = {
   title: string;
   description: string;
   editorial_status: "draft" | "published";
+  is_free_access: boolean;
   access_start_at: string;
   access_end_at: string;
   current_cycle: number;
@@ -191,6 +192,7 @@ export type ScheduledEventMutationInput = {
   title: string;
   description: string;
   editorialStatus: "draft" | "published";
+  isFreeAccess: boolean;
   accessStartAt: string;
   accessEndAt: string;
   createdBy?: string | null;
@@ -1110,6 +1112,7 @@ export async function getScheduledEventEditorData(
       title: (eventData as ScheduledEventRow).title,
       description: (eventData as ScheduledEventRow).description,
       editorialStatus: (eventData as ScheduledEventRow).editorial_status,
+      isFreeAccess: (eventData as ScheduledEventRow).is_free_access,
       accessStartAt: formatScheduledAccessForInput((eventData as ScheduledEventRow).access_start_at),
       accessEndAt: formatScheduledAccessForInput((eventData as ScheduledEventRow).access_end_at),
       currentCycle: (eventData as ScheduledEventRow).current_cycle,

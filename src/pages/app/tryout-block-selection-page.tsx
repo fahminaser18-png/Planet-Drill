@@ -54,6 +54,10 @@ export const mapBlockVisuals = (iconName?: string | null, colorTheme?: string | 
 function TryoutBlockSelectionPage() {
   const studentShell = useStudentShell("/app/tryout-selection");
 
+  if (studentShell.role === "pendaftar_baru") {
+    return <Navigate to="/app/subscription" replace />;
+  }
+
   const { data: catalogEntries, isLoading, error } = useQuery({
     queryKey: ["tryout-catalog"],
     queryFn: () => listTryoutCatalogEntries(),
@@ -88,7 +92,7 @@ function TryoutBlockSelectionPage() {
               Latihan Try Out Per Blok
             </h1>
             <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Fokuskan penguasaan materi pada salah satu dari kelompok besar bidang kompetensi kefarmasian.
+              Fokuskan penguasaan materi pada salah satu dari kelompok subtes UTBK.
             </p>
           </div>
         </div>

@@ -16,6 +16,7 @@ export type ScheduledEventEditorDraftFormState = {
   title: string;
   description: string;
   editorialStatus: "draft" | "published";
+  isFreeAccess: boolean;
   accessStartAt: string;
   accessEndAt: string;
   questions: ScheduledEventEditorDraftQuestion[];
@@ -78,6 +79,7 @@ function isDraftFormState(value: unknown): value is ScheduledEventEditorDraftFor
   return typeof formState.title === "string"
     && typeof formState.description === "string"
     && (formState.editorialStatus === "draft" || formState.editorialStatus === "published")
+    && typeof formState.isFreeAccess === "boolean"
     && typeof formState.accessStartAt === "string"
     && typeof formState.accessEndAt === "string"
     && Array.isArray(formState.questions)
