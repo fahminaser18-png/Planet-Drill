@@ -1,11 +1,12 @@
-import { CheckCircle2, Award, Lock, Loader2 } from "lucide-react";
+import { CheckCircle2, Award, Lock, Loader2, Sparkles, CalendarDays } from "lucide-react";
 import Button from "../components/ui/button";
 import { Link } from "react-router";
 import { useState } from "react";
-import { createMidtransTransaction } from "../lib/api/payment-api";
+import { createMidtransTransaction, getCurrentSubscription } from "../lib/api/payment-api";
 import { toast } from "sonner";
 import { useSession } from "../lib/auth/use-session";
 import { useNavigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
 import ProductShell from "../components/layout/product-shell";
 import { useStudentShell } from "./app/use-student-shell";
@@ -54,6 +55,16 @@ export default function SubscriptionPage() {
     }
   };
   const studentShell = useStudentShell("/subscription");
+  const [forcePricing, setForcePricing] = useState(false);
+
+  const subQuery = useQuery({
+    queryKey: ["current-subscription", user?.id],
+    enabled: Boolean(user?.id) && studentShell.role === "pro",
+    queryFn: () => getCurrentSubscription(),
+  });
+
+  const isPro = studentShell.role === "pro";
+  const showActiveSubscription = isPro && !forcePricing;
 
   const features = [
     "Try out unlimited",
@@ -63,6 +74,75 @@ export default function SubscriptionPage() {
     "Asisten AI 24/7",
     "Analisis kelemahan detail"
   ];
+
+  if (showActiveSubscription) {
+    const endsAt = subQuery.data?.ends_at ? new Date(subQuery.data.ends_at) : null;
+    const daysRemaining = endsAt 
+      ? Math.max(0, Math.ceil((endsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+      : 0;
+
+    return (
+      <ProductShell 
+        brand={productShellMeta.brand} 
+        tierLabel={studentShell.tierLabel} 
+        navItems={studentShell.navItems} 
+        disablePadding
+      >
+        <main className="min-h-[100dvh] bg-background">
+          <div className="mx-auto flex flex-col gap-12 px-4 py-12 sm:px-8 lg:px-12 xl:px-20 max-w-[1200px] w-full items-center justify-center pt-24">
+            
+            <div className="bg-card border border-border/60 p-10 rounded-[2rem] shadow-sm max-w-2xl w-full text-center space-y-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-5">
+                <Sparkles className="w-48 h-48" />
+              </div>
+              
+              <div className="space-y-4 relative z-10">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-2">
+                  <Award className="w-10 h-10" />
+                </div>
+                <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
+                  Status Langganan Pro
+                </h1>
+                
+                {subQuery.isLoading ? (
+                  <div className="flex justify-center py-8">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-xl text-muted-foreground mt-4">
+                      Masa berlangganan Anda akan habis dalam
+                    </p>
+                    <div className="py-6">
+                      <span className="text-6xl font-black text-primary">{daysRemaining}</span>
+                      <span className="text-2xl font-bold text-muted-foreground ml-3">hari lagi</span>
+                    </div>
+                    {endsAt && (
+                      <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground bg-muted/50 py-3 rounded-xl">
+                        <CalendarDays className="w-4 h-4" />
+                        <span>Berakhir pada: {endsAt.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <div className="pt-6 relative z-10">
+                <Button 
+                  variant="primary" 
+                  className="w-full sm:w-auto px-8 rounded-xl h-12 text-sm font-bold cursor-pointer"
+                  onClick={() => setForcePricing(true)}
+                >
+                  Perpanjang masa aktif
+                </Button>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </ProductShell>
+    );
+  }
 
   return (
     <ProductShell 
