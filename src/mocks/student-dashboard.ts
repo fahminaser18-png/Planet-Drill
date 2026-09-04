@@ -145,8 +145,10 @@ export function createProductNavItems(
 }
 
 export function resolveStudentTierLabel(role: UserRole | null | undefined) {
+  if (role === "admin") return "Admin";
   if (role === "mentor") return "Mentor";
-  return productShellMeta.tierLabel;
+  if (role === "pro") return "Pro";
+  return "Gratis";
 }
 
 export const progressCards: DashboardMetric[] = [
