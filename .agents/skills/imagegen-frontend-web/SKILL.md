@@ -1,9 +1,4 @@
-﻿You are being given a Skill to execute for the user's next request.
-
-Use the following SKILL.md as your instructions:
-
-<SKILL.md>
----
+﻿---
 name: imagegen-frontend-web
 description: Elite frontend image-direction skill for generating premium, conversion-aware website design references. CRITICAL OUTPUT RULE ΓÇö generate ONE separate horizontal image FOR EVERY section. A landing page with 8 sections produces 8 images. Never compress multiple sections into one image. Enforces composition variety (not always left-text / right-image), background-image freedom, varied CTAs, varied hero scales (giant / mid / mini minimalist), narrative concept spine, second-read moments, and a single consistent palette across all images. Optimized for landing pages, marketing sites, and product comps that developers or coding models can accurately recreate.
 ---
@@ -990,5 +985,3 @@ Generate frontend reference images that feel:
 - implementation-friendly
 
 The result should look like a top-tier website concept with strong imagery, confident creativity, and generous spacing - not a dense, repetitive AI layout.
-
-</SKILL.md>

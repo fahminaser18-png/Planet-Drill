@@ -3,7 +3,7 @@ import {
   getCurrentProfile,
   updateCurrentProfileName,
   updateCurrentUserPassword,
-  uploadCurrentUserAvatar,
+  updateCurrentUserAvatarUrl,
 } from "./profile-api";
 
 describe("profile-api", () => {
@@ -100,15 +100,7 @@ describe("profile-api", () => {
     });
   });
 
-
-
-  test("uploads avatar into the current user's folder and persists avatar_url", async () => {
-    const upload = vi.fn().mockResolvedValue({
-      data: {
-        path: "user-1/avatar.webp",
-      },
-      error: null,
-    });
+  test("persists avatar_url", async () => {
     const updateEq = vi.fn().mockResolvedValue({
       data: {
         id: "user-1",
@@ -120,40 +112,21 @@ describe("profile-api", () => {
       error: null,
     });
     const client = {
-      storage: {
-        from: vi.fn(() => ({
-          upload,
-          remove: vi.fn().mockResolvedValue({
-            error: null,
-          }),
-        })),
-      },
       from: vi.fn(() => ({
         update: vi.fn(() => ({
           eq: updateEq,
         })),
       })),
     };
-    const file = new File(["avatar"], "avatar.webp", {
-      type: "image/webp",
-    });
 
-    await uploadCurrentUserAvatar(
+    await updateCurrentUserAvatarUrl(
       {
         userId: "user-1",
-        file,
+        avatarUrl: "user-1/avatar.webp",
       },
       client as never,
     );
 
-    expect(upload).toHaveBeenCalledWith(
-      "user-1/avatar.webp",
-      file,
-      expect.objectContaining({
-        contentType: "image/webp",
-        upsert: true,
-      }),
-    );
     expect(updateEq).toHaveBeenCalledWith("id", "user-1");
   });
 });

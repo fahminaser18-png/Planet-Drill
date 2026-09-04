@@ -10,6 +10,7 @@ import { listPublishedFlashCardSubtopics } from "../../lib/api/flash-card-api";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getTopicVisuals } from "../../lib/utils/topic-visuals";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 
 function FlashCardsPage() {
   const studentShell = useStudentShell("/app/flash-cards");
@@ -28,7 +29,7 @@ function FlashCardsPage() {
   );
 
   if (studentShell.role === "pendaftar_baru") {
-    return <Navigate to="/app/subscription" replace />;
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
   }
 
   const filteredItems = activeFilter === "ALL"

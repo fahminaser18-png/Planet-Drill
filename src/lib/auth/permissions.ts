@@ -76,7 +76,7 @@ export function canAccessStudentApp(access: AccessSnapshot): boolean {
 
   // Role is the source of truth for student access entitlement.
   // Subscription state is still used elsewhere for renewal and payment messaging.
-  return access.role === "pro";
+  return access.role === "pro" || access.role === "pendaftar_baru";
 }
 
 export function canAccessAdmin(role: UserRole | null | undefined): boolean {

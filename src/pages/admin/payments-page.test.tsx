@@ -85,7 +85,7 @@ beforeEach(() => {
     {
       id: "submission-1",
       userId: "student-1",
-      packageCode: "pro_30_hari",
+      packageCode: "1_bulan",
       paymentProofPath: "student-1/proof.png",
       proofFileName: "proof.png",
       status: "pending_review",
@@ -212,7 +212,7 @@ describe("Payments page", () => {
         {
           id: "submission-1",
           userId: "student-1",
-          packageCode: "pro_30_hari",
+          packageCode: "1_bulan",
           paymentProofPath: "student-1/proof.png",
           proofFileName: "proof.png",
           status: "pending_review",
@@ -226,7 +226,7 @@ describe("Payments page", () => {
         {
           id: "submission-1",
           userId: "student-1",
-          packageCode: "pro_30_hari",
+          packageCode: "1_bulan",
           paymentProofPath: "student-1/proof.png",
           proofFileName: "proof.png",
           status: "pending_review",
@@ -261,7 +261,7 @@ describe("Payments page", () => {
         {
           id: "submission-1",
           userId: "student-1",
-          packageCode: "pro_30_hari",
+          packageCode: "1_bulan",
           paymentProofPath: "student-1/proof.png",
           proofFileName: "proof.png",
           status: "pending_review",

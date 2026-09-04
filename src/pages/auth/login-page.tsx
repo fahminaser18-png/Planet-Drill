@@ -1,6 +1,6 @@
 import { ArrowRight, Info, Lock, Send, UserCircle, AlertCircle, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import Button from "../../components/ui/button";
 import { loginWithPassword, requestPasswordReset } from "../../lib/api/auth-api";
 import { Input } from "../../components/ui/input";
@@ -10,6 +10,7 @@ import { Badge } from "../../components/ui/badge";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -17,7 +18,11 @@ function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
 
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(searchParams.get("view") === "register");
+
+  useEffect(() => {
+    setIsRegister(searchParams.get("view") === "register");
+  }, [searchParams]);
 
   const fieldClassName = "h-12 bg-background border-border focus-visible:ring-primary";
 

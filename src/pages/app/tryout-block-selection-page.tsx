@@ -14,6 +14,7 @@ import { Badge } from "../../components/ui/badge";
 import { Button, getButtonStyleProps } from "../../components/ui/button";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 import { listTryoutCatalogEntries } from "../../lib/api/tryout-api";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import type { ElementType } from "react";
@@ -55,7 +56,7 @@ function TryoutBlockSelectionPage() {
   const studentShell = useStudentShell("/app/tryout-selection");
 
   if (studentShell.role === "pendaftar_baru") {
-    return <Navigate to="/app/subscription" replace />;
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
   }
 
   const { data: catalogEntries, isLoading, error } = useQuery({

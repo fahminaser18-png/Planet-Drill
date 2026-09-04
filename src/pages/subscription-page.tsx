@@ -1,654 +1,271 @@
-import {
-  ArrowRight,
-  CheckCircle,
-  FileUp,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { CheckCircle2, Award, Lock, Loader2 } from "lucide-react";
+import Button from "../components/ui/button";
 import { Link } from "react-router";
-import Button, { getButtonStyleProps } from "../components/ui/button";
-
+import { useState } from "react";
+import { createMidtransTransaction } from "../lib/api/payment-api";
+import { toast } from "sonner";
 import { useSession } from "../lib/auth/use-session";
-import { bootstrapProfile, logout } from "../lib/api/auth-api";
-import {
-  getSubscriptionOverview,
-  submitPaymentProof,
-  subscriptionPackageOptions,
-  type SubscriptionOverview,
-} from "../lib/api/subscription-api";
-import { usePreviewRouteState } from "../lib/preview-route-state";
-import {
-  subscriptionPackages,
-  subscriptionStatuses,
-  transferSteps,
-  uploadChecklist,
-  type SubscriptionPreviewState,
-} from "../mocks/subscription-content";
-import { Card, CardTitle, CardDescription } from "../components/ui/card";
-import { useWindowFocusRefresh } from "../lib/use-window-focus-refresh";
+import { useNavigate } from "react-router";
 
-function resolveLiveStatus(overview: SubscriptionOverview | null): SubscriptionPreviewState {
-  if (!overview) {
-    return "expired";
-  }
+import ProductShell from "../components/layout/product-shell";
+import { useStudentShell } from "./app/use-student-shell";
+import { productShellMeta } from "../mocks/student-dashboard";
 
-  if (overview.subscription?.state === "active") {
-    return "active";
-  }
+export default function SubscriptionPage() {
+  const { user } = useSession();
+  const navigate = useNavigate();
+  const [loadingPkg, setLoadingPkg] = useState<string | null>(null);
 
-  if (overview.latestSubmission?.status === "pending_review") {
-    return "pending_review";
-  }
-
-  if (overview.latestSubmission?.status === "rejected") {
-    return "rejected";
-  }
-
-  if (overview.subscription?.state === "pending_review") {
-    return "pending_review";
-  }
-
-  if (overview.subscription?.state === "rejected") {
-    return "rejected";
-  }
-
-  return "expired";
-}
-
-function SubscriptionPage() {
-  const { status: sessionStatus, user } = useSession();
-  const refreshVersion = useWindowFocusRefresh({
-    enabled: sessionStatus === "authenticated" && Boolean(user),
-  });
-  const [overview, setOverview] = useState<SubscriptionOverview | null>(null);
-  const [isLoadingOverview, setIsLoadingOverview] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [selectedPackageCode, setSelectedPackageCode] = useState("pro_30_hari");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
-  const [refreshIssue, setRefreshIssue] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const statusView = usePreviewRouteState("statusView");
-  const previewStatus = resolveLiveStatus(overview);
-  const status = subscriptionStatuses[previewStatus];
-  const isReadyStatusView = statusView === "ready";
-  const hasLiveOverviewError = isReadyStatusView && !isLoadingOverview && Boolean(loadError);
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    async function hydrateOverview() {
-      if (sessionStatus === "loading") {
-        setIsLoadingOverview(true);
-        return;
-      }
-
-      if (sessionStatus === "anonymous" || !user) {
-        setOverview(null);
-        setLoadError(null);
-        setRefreshIssue(null);
-        setIsLoadingOverview(false);
-        return;
-      }
-
-      setIsLoadingOverview(true);
-      setLoadError(null);
-      setRefreshIssue(null);
-
-      try {
-        await bootstrapProfile({
-          user,
-        });
-        const nextOverview = await getSubscriptionOverview({
-          user,
-        });
-
-        if (!isCancelled) {
-          setOverview(nextOverview);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          setLoadError(
-            error instanceof Error
-              ? error.message
-              : "Status langganan belum berhasil dimuat.",
-          );
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoadingOverview(false);
-        }
-      }
-    }
-
-    void hydrateOverview();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [refreshVersion, sessionStatus, user]);
-
-  async function handleUpload(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitError(null);
-    setSubmitSuccess(null);
-    setRefreshIssue(null);
-
+  const handlePayment = async (packageCode: string) => {
     if (!user) {
-      setSubmitError("Silakan login terlebih dahulu sebelum mengunggah bukti transfer.");
+      toast.info("Silakan login terlebih dahulu untuk berlangganan");
+      navigate("/auth/login?view=register");
       return;
     }
-
-    if (!selectedFile) {
-      setSubmitError("Pilih file bukti transfer terlebih dahulu.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
+    
     try {
-      const nextSubmission = await submitPaymentProof({
-        user,
-        packageCode: selectedPackageCode,
-        file: selectedFile,
-      });
-
-      setSelectedFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      setSubmitSuccess(
-        `Bukti transfer paket ${nextSubmission.packageCode.replaceAll("_", " ")} sudah dikirim dan sedang ditinjau.`,
-      );
-
-      try {
-        const nextOverview = await getSubscriptionOverview({
-          user,
+      setLoadingPkg(packageCode);
+      const data = await createMidtransTransaction(packageCode);
+      
+      // @ts-ignore
+      if (window.snap) {
+        // @ts-ignore
+        window.snap.pay(data.token, {
+          onSuccess: function(result: any) {
+            toast.success("Pembayaran Berhasil! Mohon muat ulang halaman. Akun Anda sedang ditingkatkan ke Pro.");
+          },
+          onPending: function(result: any) {
+            toast.info("Menunggu Pembayaran. Silakan selesaikan pembayaran Anda.");
+          },
+          onError: function(result: any) {
+            toast.error("Pembayaran Gagal. Terjadi kesalahan saat memproses pembayaran.");
+          },
+          onClose: function() {
+            toast.info("Pembayaran Dibatalkan. Anda menutup jendela pembayaran.");
+          }
         });
-
-        setOverview(nextOverview);
-        setLoadError(null);
-      } catch (error) {
-        setRefreshIssue(
-          error instanceof Error
-            ? `Bukti transfer berhasil dikirim, tetapi ${error.message}`
-            : "Bukti transfer berhasil dikirim, tetapi status terbaru belum bisa dimuat.",
-        );
+      } else {
+        toast.error("Midtrans Snap belum dimuat");
       }
-    } catch (error) {
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : "Upload bukti transfer belum berhasil. Coba lagi sebentar.",
-      );
+    } catch (error: any) {
+      toast.error(error.message || "Gagal membuat transaksi");
     } finally {
-      setIsSubmitting(false);
+      setLoadingPkg(null);
     }
-  }
-
-  const renderStatePanel = ({
-    title,
-    description,
-    variant,
-    action,
-    icon: Icon,
-  }: {
-    title: string;
-    description: string;
-    variant: "error" | "empty" | "loading" | "success";
-    action?: React.ReactNode;
-    icon?: React.ElementType;
-  }) => {
-    const isError = variant === 'error';
-    const isEmpty = variant === 'empty';
-    const isLoading = variant === 'loading';
-    const isSuccess = variant === 'success';
-
-    let bgClass = "bg-card text-card-foreground";
-    let iconClass = "text-primary";
-
-    if (isError) {
-      bgClass = "bg-destructive/10 border-destructive/20 text-foreground";
-      iconClass = "text-destructive";
-    } else if (isLoading) {
-      bgClass = "bg-muted text-muted-foreground";
-      iconClass = "text-muted-foreground animate-spin";
-    } else if (isSuccess) {
-      bgClass = "bg-primary/10 border-primary/20 text-foreground";
-      iconClass = "text-primary";
-    } else if (isEmpty) {
-      bgClass = "bg-muted/50 text-foreground";
-      iconClass = "text-muted-foreground";
-    }
-
-    return (
-      <Card className={`rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-sm ${bgClass}`}>
-        {Icon && (
-          <div className={`inline-flex h-16 w-16 items-center justify-center rounded-full bg-background mb-5 shadow-sm border ${iconClass}`}>
-            <Icon className="h-8 w-8" />
-          </div>
-        )}
-        <CardTitle className="text-2xl font-bold mb-2">{title}</CardTitle>
-        <CardDescription className={`mb-6 max-w-md ${isError ? 'text-destructive/80' : 'text-muted-foreground'}`}>{description}</CardDescription>
-        {action && <div>{action}</div>}
-      </Card>
-    );
   };
+  const studentShell = useStudentShell("/subscription");
+
+  const features = [
+    "Try out unlimited",
+    "Try Out soal UTBK tahun-tahun sebelumnya",
+    "Rangkuman Materi",
+    "Flash Card Interaktif",
+    "Asisten AI 24/7",
+    "Analisis kelemahan detail"
+  ];
 
   return (
-    <main className="min-h-[100dvh] bg-background px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-      <div className="mx-auto flex min-h-[100dvh] max-w-[1400px] flex-col gap-6">
-        <header className="rounded-3xl border bg-card px-6 py-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-wider text-primary">
-                Planet Drill UTBK
-              </p>
-              <h1 className="mt-3 text-3xl font-bold leading-tight text-foreground">
-                Aktifkan akses belajar.
-              </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
-                Pilih paket, unggah bukti transfer, lalu pantau statusnya di sini.
-              </p>
-            </div>
+    <ProductShell 
+      brand={productShellMeta.brand} 
+      tierLabel={studentShell.tierLabel} 
+      navItems={studentShell.navItems} 
+      disablePadding
+    >
+      <main className="min-h-[100dvh] bg-background">
+        <div className="mx-auto flex flex-col gap-12 px-4 py-12 sm:px-8 lg:px-12 xl:px-20 max-w-[1800px] w-full">
+          
+          <header className="text-center relative">
+            <h1 className="mt-8 text-4xl font-bold tracking-tight text-foreground sm:text-5xl max-w-4xl mx-auto">
+              Pilihan paket, disesuaikan dengan kebutuhan belajarmu
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+              Mulai belajar gratis, atau pilih paket pro untuk fasilitas lebih lengkap dan dukungan prioritas.
+            </p>
+          </header>
 
-            <div className="flex flex-wrap gap-3">
-              {user ? (
-                <>
-                  <Link
-                    {...getButtonStyleProps({
-                      variant: "outline",
-                    })}
-                    to="/profile"
-                  >
-                    Profil
-                  </Link>
+          <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 items-stretch max-w-full">
+            
+            {/* Gratis Card */}
+            <div className="flex-1 bg-card border border-border/60 p-8 rounded-[2rem] shadow-sm relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300">
+              <div className="mb-4">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Gratis</h3>
+                <p className="text-muted-foreground text-sm">Alat persiapan esensial untuk memulai.</p>
+              </div>
 
-                  <Button
-                    onClick={() => void logout()}
-                    variant="outline"
-                  >
-                    Keluar
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    {...getButtonStyleProps({
-                      variant: "outline",
-                    })}
-                    to="/auth/login"
-                  >
-                    Kembali ke login
-                  </Link>
-                  <Link
-                    {...getButtonStyleProps({
-                      variant: "primary",
-                    })}
-                    to="/auth/login"
-                  >
-                    Masuk akun
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        </header>
+              <div className="hidden xl:block h-6 mb-1"></div>
 
-        {isReadyStatusView && !isLoadingOverview && !loadError ? (
-          renderStatePanel({
-            title: status.title,
-            description: status.description,
-            variant: status.variant,
-            icon: status.icon,
-            action: previewStatus === "active" ? (
-              <Link
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                to="/app"
-              >
-                {status.actionLabel}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            ) : (
-              <a
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                href="#instruksi-transfer"
-              >
-                {status.actionLabel}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            )
-          })
-        ) : hasLiveOverviewError ? (
-          renderStatePanel({
-            title: "Status langganan belum berhasil dimuat",
-            description: loadError ?? "Status langganan belum berhasil dimuat.",
-            variant: "error",
-            icon: AlertCircle,
-            action: (
-              <a
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                href="#instruksi-transfer"
-              >
-                Lihat cara bayar
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            )
-          })
-        ) : statusView === "loading" || isLoadingOverview ? (
-          renderStatePanel({
-            title: "Status pembayaran sedang dicek",
-            description: "Mohon tunggu sebentar.",
-            variant: "loading",
-            icon: Loader2,
-          })
-        ) : statusView === "empty" ? (
-          renderStatePanel({
-            title: "Belum ada pembayaran",
-            description: "Belum ada pembayaran untuk akun ini.",
-            variant: "empty",
-            icon: AlertCircle,
-            action: (
-              <a
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                href="#instruksi-transfer"
-              >
-                Lihat cara bayar
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            )
-          })
-        ) : (
-          renderStatePanel({
-            title: "Status pembayaran belum bisa dimuat",
-            description: "Coba lagi sebentar.",
-            variant: "error",
-            icon: AlertCircle,
-            action: (
-              <a
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                href="#instruksi-transfer"
-              >
-                Lihat cara bayar
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            )
-          })
-        )}
-
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(24rem,0.92fr)] items-start">
-          <div className="grid gap-6">
-            <article className="rounded-3xl border bg-card p-6 shadow-sm">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                    Paket belajar
-                  </div>
-                  <h2 className="mt-4 text-3xl font-bold leading-tight text-foreground">
-                    Pilih paket yang sesuai.
-                  </h2>
+              <div className="mb-10 flex items-baseline gap-2">
+                <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-foreground tracking-tight">Rp 0</span>
+              </div>
+              
+              <ul className="flex flex-col gap-4 mb-12 flex-1">
+                <li className="flex items-start gap-3 text-muted-foreground text-sm">
+                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                  <span>Akses fitur Pro selama 3 hari</span>
+                </li>
+                <li className="flex items-start gap-3 text-muted-foreground text-sm">
+                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                  <span>Akses Try Out gratis</span>
+                </li>
+              </ul>
+              
+              <div className="flex flex-col gap-3 mt-auto">
+                <div className="text-center w-full invisible">
+                  <span className="text-sm font-semibold px-4 py-1.5 inline-block">Spacer</span>
                 </div>
-                <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-                  Pilih paket lalu lanjut bayar.
-                </p>
-              </div>
-
-              <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-                {subscriptionPackages.map((item) => (
-                  <div
-                    key={item.name}
-                    className={`rounded-2xl p-6 border shadow-sm ${
-                      item.emphasis === "accent"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground"
-                    }`}
-                  >
-                    <p
-                      className={`font-mono text-xs font-semibold uppercase tracking-wider ${
-                        item.emphasis === "accent"
-                          ? "text-primary-foreground/70"
-                          : "text-primary"
-                      }`}
-                    >
-                      {item.duration}
-                    </p>
-                    <h3 className="mt-4 text-2xl font-bold">
-                      {item.name}
-                    </h3>
-                    <p
-                      className={`mt-3 text-4xl font-bold tracking-tight ${
-                        item.emphasis === "accent" ? "text-background" : "text-foreground"
-                      }`}
-                    >
-                      {item.price}
-                    </p>
-                    <p
-                      className={`mt-3 text-sm leading-6 ${
-                        item.emphasis === "accent"
-                          ? "text-primary-foreground/80"
-                          : "text-muted-foreground"
-                      }`}
-                    >
-                      {item.summary}
-                    </p>
-
-                    <ul className="mt-6 space-y-3">
-                      {item.highlights.map((highlight) => (
-                        <li key={highlight} className="flex items-start gap-3">
-                          <CheckCircle
-                            className={`mt-0.5 h-5 w-5 shrink-0 ${
-                              item.emphasis === "accent"
-                                ? "text-background"
-                                : "text-primary"
-                            }`}
-                          />
-                          <span
-                            className={`text-sm leading-6 ${
-                              item.emphasis === "accent"
-                                ? "text-primary-foreground/90"
-                                : "text-muted-foreground"
-                            }`}
-                          >
-                            {highlight}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </article>
-          </div>
-
-          <div className="grid gap-6">
-            <article
-              className="rounded-3xl border bg-muted p-6 shadow-sm"
-              id="instruksi-transfer"
-            >
-              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                <FileUp className="h-4 w-4" />
-                Cara bayar
-              </div>
-              <div className="mt-6 space-y-3">
-                {transferSteps.map((step, index) => {
-                  const Icon = step.icon;
-                  return (
-                    <div
-                      key={step.title}
-                      className="grid gap-4 rounded-2xl border bg-card px-5 py-5 sm:grid-cols-[auto_1fr] shadow-sm"
-                    >
-                      <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-primary">
-                          Langkah {index + 1}
-                        </p>
-                        <h3 className="mt-2 text-lg font-bold text-foreground">
-                          {step.title}
-                        </h3>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                          {step.description}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </article>
-
-            <article className="rounded-3xl border bg-card p-6 shadow-sm">
-              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                <FileUp className="h-4 w-4" />
-                Unggah bukti transfer
-              </div>
-              <form className="mt-6 space-y-5" onSubmit={handleUpload}>
-                <div className="rounded-2xl border border-dashed border-primary/30 bg-primary/5 px-6 py-10 text-center">
-                  <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full bg-background text-primary shadow-sm border">
-                    <FileUp className="h-8 w-8" />
-                  </div>
-                  <h3 className="mt-5 text-xl font-bold text-foreground">
-                    Unggah bukti transfer
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    Unggah bukti transfer untuk verifikasi.
-                  </p>
-
-                  <div className="mt-6 grid gap-4 text-left sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-                    <label className="block">
-                      <span className="text-sm font-semibold text-foreground">
-                        Paket yang dibeli
-                      </span>
-                      <select
-                        className="mt-2 min-h-12 w-full rounded-xl border bg-background px-4 text-sm text-foreground outline-none transition duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                        value={selectedPackageCode}
-                        onChange={(event) => setSelectedPackageCode(event.target.value)}
-                      >
-                        {subscriptionPackageOptions.map((item) => (
-                          <option key={item.code} value={item.code}>
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <div>
-                      <input
-                        ref={fileInputRef}
-                        className="hidden"
-                        type="file"
-                        accept="image/*,.pdf"
-                        onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
-                      />
-                      <Button
-                        onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        type="button"
-                      >
-                        Pilih file
-                      </Button>
-                    </div>
-                  </div>
-
-                  <p className="mt-5 text-sm font-medium text-muted-foreground">
-                    {selectedFile
-                      ? `File terpilih: ${selectedFile.name}`
-                      : "Belum ada file dipilih."}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {user
-                      ? "Akun siap kirim bukti transfer."
-                      : "Login untuk kirim bukti transfer."}
-                  </p>
-                </div>
-
-                <Button
-                  fullWidth
-                  loading={isSubmitting}
-                  loadingLabel="Mengirim bukti transfer..."
-                  type="submit"
-                  variant="primary"
-                >
-                  Kirim bukti transfer
+                <Button asChild variant="outline" className="w-full h-14 rounded-full text-base font-semibold border-border hover:bg-muted">
+                  <Link to="/app/tryout-selection">Lanjutkan Gratis</Link>
                 </Button>
+                <div className="h-5 mt-2"></div>
+              </div>
+            </div>
 
-                {submitError ? (
-                  <p
-                    className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
-                    role="alert"
-                  >
-                    {submitError}
-                  </p>
-                ) : null}
+            {/* Pro 1 Bulan Card */}
+            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
+              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
+                <Award className="w-48 h-48 text-primary-foreground" />
+              </div>
+              
+              <div className="mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Bulan</h3>
+                <p className="text-primary-foreground/80 text-sm">Fokus belajar secara intensif.</p>
+              </div>
 
-                {submitSuccess ? (
-                  <p
-                    className="rounded-xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm font-medium text-primary"
-                    role="status"
-                  >
-                    {submitSuccess}
-                  </p>
-                ) : null}
+              <div className="mb-10 flex flex-col gap-1 relative z-10">
+                <div className="h-6"></div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 70rb</span>
+                  <span className="text-primary-foreground/70 font-medium text-sm">/bulan</span>
+                </div>
+              </div>
 
-                {refreshIssue ? (
-                  <p className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-600">
-                    {refreshIssue}
-                  </p>
-                ) : null}
-              </form>
-
-              <ul className="mt-6 space-y-3">
-                {uploadChecklist.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-6 text-muted-foreground">
-                    <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                    <span>{item}</span>
+              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
+                {features.map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
+                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
+                    <span>{f}</span>
                   </li>
                 ))}
               </ul>
 
-              {loadError ? (
-                <p className="mt-6 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive">
-                  {loadError}
-                </p>
-              ) : null}
-
-              {overview?.latestSubmission ? (
-                <div className="mt-6 rounded-2xl border bg-muted/50 px-5 py-5 shadow-sm">
-                  <p className="font-semibold text-foreground">
-                    Pengiriman terakhir: {overview.latestSubmission.packageCode.replaceAll("_", " ")}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Dikirim {new Date(overview.latestSubmission.createdAt).toLocaleString("id-ID")}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Status: {overview.latestSubmission.status.replaceAll("_", " ")}
-                  </p>
-                  {overview.latestSubmission.reviewerNotes ? (
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      Catatan: {overview.latestSubmission.reviewerNotes}
-                    </p>
-                  ) : null}
+              <div className="flex flex-col gap-3 mt-auto relative z-10">
+                <div className="text-center w-full">
+                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
+                    Setara Rp 2.400/hari
+                  </span>
                 </div>
-              ) : null}
-            </article>
-          </div>
-        </section>
-      </div>
-    </main>
+                <Button onClick={() => handlePayment("1_bulan")} disabled={loadingPkg === "1_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                  {loadingPkg === "1_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Bulan"}
+                </Button>
+                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
+                  <Lock className="w-3.5 h-3.5" />
+                  Pembayaran Aman & Instan
+                </p>
+              </div>
+            </div>
+
+            {/* Pro 6 Bulan Card */}
+            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
+              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
+                <Award className="w-48 h-48 text-primary-foreground" />
+              </div>
+              
+              <div className="mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 6 Bulan</h3>
+                <p className="text-primary-foreground/80 text-sm">Pilihan hemat untuk jangka menengah.</p>
+              </div>
+
+              <div className="mb-10 flex flex-col gap-1 relative z-10">
+                <div className="flex items-center h-6">
+                  <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 420rb</span>
+                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2 animate-pulse">
+                    Promo Terbatas
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 250rb</span>
+                  <span className="text-primary-foreground/70 font-medium text-sm">/6 bulan</span>
+                </div>
+              </div>
+
+              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
+                {features.map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
+                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-col gap-3 mt-auto relative z-10">
+                <div className="text-center w-full">
+                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
+                    Setara Rp 1.400/hari
+                  </span>
+                </div>
+                <Button onClick={() => handlePayment("6_bulan")} disabled={loadingPkg === "6_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                  {loadingPkg === "6_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 6 Bulan"}
+                </Button>
+                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
+                  <Lock className="w-3.5 h-3.5" />
+                  Pembayaran Aman & Instan
+                </p>
+              </div>
+            </div>
+
+            {/* Pro 1 Tahun Card */}
+            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
+              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
+                <Award className="w-48 h-48 text-primary-foreground" />
+              </div>
+              
+              <div className="mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Tahun</h3>
+                <p className="text-primary-foreground/80 text-sm">Akses penuh belajar santai.</p>
+              </div>
+
+              <div className="mb-10 flex flex-col gap-1 relative z-10">
+                <div className="flex items-center h-6">
+                  <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 840rb</span>
+                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2 animate-pulse">
+                    Promo Terbatas
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 500rb</span>
+                  <span className="text-primary-foreground/70 font-medium text-sm">/1 tahun</span>
+                </div>
+              </div>
+
+              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
+                {features.map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
+                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-col gap-3 mt-auto relative z-10">
+                <div className="text-center w-full">
+                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
+                    Setara Rp 1.400/hari
+                  </span>
+                </div>
+                <Button onClick={() => handlePayment("1_tahun")} disabled={loadingPkg === "1_tahun"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                  {loadingPkg === "1_tahun" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Tahun"}
+                </Button>
+                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
+                  <Lock className="w-3.5 h-3.5" />
+                  Pembayaran Aman & Instan
+                </p>
+              </div>
+            </div>
+
+          </section>
+
+        </div>
+      </main>
+    </ProductShell>
   );
 }
-
-export default SubscriptionPage;

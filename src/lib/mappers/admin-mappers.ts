@@ -44,12 +44,16 @@ function formatCount(value: number) {
 }
 
 function formatPackageName(packageCode: string) {
-  if (packageCode === "pro_30_hari") {
-    return "Pro 30 Hari";
+  if (packageCode === "1_bulan") {
+    return "1 Bulan";
   }
 
-  if (packageCode === "sprint_14_hari") {
-    return "Sprint 14 Hari";
+  if (packageCode === "6_bulan") {
+    return "6 Bulan";
+  }
+
+  if (packageCode === "1_tahun") {
+    return "1 Tahun";
   }
 
   return packageCode;

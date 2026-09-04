@@ -11,6 +11,7 @@ import {
   getLeaderboard,
   type LeaderboardCategory,
 } from "../../lib/api/leaderboard-api";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
@@ -104,7 +105,7 @@ export default function LeaderboardPage() {
   });
 
   if (studentShell.role === "pendaftar_baru") {
-    return <Navigate to="/app/beranda" replace />;
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
   }
 
   return (

@@ -8,51 +8,37 @@ afterEach(() => {
 });
 
 describe("Home page", () => {
-  test("renders the public homepage sections with Indonesian labels and a start CTA", () => {
+  test("renders the minimalist public homepage with clear program sections and CTAs", () => {
     render(
       <MemoryRouter>
         <HomePage />
       </MemoryRouter>,
     );
 
-    expect(
-      screen.getByText(/lolos UTBK/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/peserta membangun ritme try out sebelum menghadapi UTBK SNBT/i),
-    ).toBeInTheDocument();
-    expect(screen.queryByText(/PSPPA|UKAI|farmasi|apoteker/i)).not.toBeInTheDocument();
-    expect(
-      screen.getByText(/try out, analitik, dan insight ai/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/simulasi penuh dan try out per blok/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/analitik area lemah/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/insight ai opsional/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/pilih ritme belajar/i, { selector: 'h1, h2, h3, h4, h5, h6, [data-slot="card-title"], [data-slot="alert-title"]' }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/ringkasan fitur/i)).toBeInTheDocument();
-    expect(screen.getByText(/lapisan opsional/i)).toBeInTheDocument();
-    expect(screen.getByText(/alur berbasis simulasi/i)).toBeInTheDocument();
-    expect(screen.getByText(/pratinjau langganan/i)).toBeInTheDocument();
-    expect(screen.getByText(/pemanasan 7 hari/i)).toBeInTheDocument();
+    // Hero title check
+    expect(screen.getByRole("heading", { name: /fokus belajar.*tembus ptn impian/i, level: 1 })).toBeInTheDocument();
 
-    const journeyLinks = screen.getAllByRole("link", {
-      name: /mulai perjalanan try out/i,
+    // Value proposition / subtitle
+    expect(screen.getByText(/sistem drill soal cerdas, simulasi cbt akurat/i)).toBeInTheDocument();
+
+    // Program section
+    expect(screen.getByText(/senjata utama lolos ptn/i)).toBeInTheDocument();
+    expect(screen.getByText(/cbt presisi/i)).toBeInTheDocument();
+    expect(screen.getByText(/analitik ai/i)).toBeInTheDocument();
+
+    // Pricing
+    expect(screen.getByText(/pilih paket belajar/i)).toBeInTheDocument();
+    expect(screen.getByText(/paket 30 hari/i)).toBeInTheDocument();
+
+    // Testimonials
+    expect(screen.getByText(/mengantarkan ribuan siswa ke kampus/i)).toBeInTheDocument();
+
+    // CTA links
+    const startCta = screen.getByRole("link", {
+      name: /mulai belajar sekarang/i,
     });
-
-    expect(journeyLinks.length).toBeGreaterThan(0);
-    expect(journeyLinks.every((link) => link.getAttribute("href") === "/auth/login")).toBe(true);
-    expect(journeyLinks.some((link) => link.getAttribute("data-variant") === "primary")).toBe(true);
-    expect(journeyLinks.some((link) => link.getAttribute("data-variant") === "outline")).toBe(true);
-    expect(screen.getByRole("link", { name: /^masuk$/i })).toHaveAttribute("data-variant", "primary");
-    expect(screen.getByRole("link", { name: /lihat alur belajar/i })).toHaveAttribute("data-variant", "outline");
+    expect(startCta).toBeInTheDocument();
+    expect(startCta).toHaveAttribute("href", "/auth/login");
   });
 
   test("exposes the key homepage sections and navigation anchors", () => {
@@ -62,12 +48,8 @@ describe("Home page", () => {
       </MemoryRouter>,
     );
 
-    expect(container.querySelector("#fitur")).toBeInTheDocument();
-    expect(container.querySelector("#simulasi")).toBeInTheDocument();
-    expect(container.querySelector("#harga")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /fitur/i })).toHaveAttribute("href", "#fitur");
-    expect(screen.getByRole("link", { name: /simulasi/i })).toHaveAttribute("href", "#simulasi");
-    expect(screen.getByRole("link", { name: /harga/i })).toHaveAttribute("href", "#harga");
-    expect(screen.queryByText(/sumber data aktif/i)).not.toBeInTheDocument();
+    expect(container.querySelector("#program")).toBeInTheDocument();
+    expect(container.querySelector("#biaya")).toBeInTheDocument();
+    expect(container.querySelector("#testimoni")).toBeInTheDocument();
   });
 });

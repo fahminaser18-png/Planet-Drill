@@ -17,7 +17,7 @@ function createDraftPayload(overrides: Partial<ScheduledEventEditorDraftPayload>
     formState: {
       title: "TO Klinik Draft",
       description: "Draft browser-local",
-      editorialStatus: "draft",
+      editorialStatus: "draft", isFreeAccess: false,
       accessStartAt: "2026-06-10T08:00",
       accessEndAt: "2026-06-12T21:00",
       questions: [

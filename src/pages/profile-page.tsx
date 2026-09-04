@@ -14,7 +14,7 @@ import { logout } from "../lib/api/auth-api";
 import {
   getCurrentProfile,
   getProfileAvatarSignedUrl,
-  updateCurrentLeaderboardAlias,
+  
   updateCurrentProfileName,
   updateCurrentUserPassword,
   updateCurrentUserAvatarUrl,

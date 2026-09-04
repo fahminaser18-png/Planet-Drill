@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
+import { PaywallModal } from "../../components/layout/paywall-gate";
 import {
   Video,
   Presentation,
@@ -55,6 +56,7 @@ const STUDY_FEATURES: StudyFeatureCard[] = [
 export default function StudyAreaPage() {
   const currentHref = "/app/area-belajar";
   const studentShell = useStudentShell(currentHref);
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const aiStatus = useQuery({
     queryKey: ["global-ai-credential-status"],
@@ -135,16 +137,19 @@ export default function StudyAreaPage() {
                 </CardHeader>
                 <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto relative">
                   {lockReason === "premium" ? (
-                    <Link
+                    <button
                       {...getButtonStyleProps({
                         variant: "outline",
-                        className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-2.5 cursor-not-allowed",
+                        className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-2.5 cursor-pointer hover:bg-muted",
                       })}
-                      to="/app/subscription"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowPaywall(true);
+                      }}
                     >
                       <span className="absolute inset-0" aria-hidden="true" />
                       {item.buttonText} <Lock className="ml-2 h-4 w-4" />
-                    </Link>
+                    </button>
                   ) : lockReason === "api_key" ? (
                     <div
                       {...getButtonStyleProps({
@@ -173,6 +178,7 @@ export default function StudyAreaPage() {
           })}
         </div>
       </div>
+      <PaywallModal open={showPaywall} onOpenChange={setShowPaywall} />
     </ProductShell>
   );
 }

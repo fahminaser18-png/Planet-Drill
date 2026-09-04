@@ -94,6 +94,11 @@ export const productNavItems: ProductNavItem[] = [
     icon: IdCard,
   },
   {
+    href: "/subscription",
+    label: "Langganan",
+    icon: Sparkles,
+  },
+  {
     href: "/app/settings/ai-config",
     label: "Pengaturan AI",
     icon: Settings2,
@@ -123,7 +128,7 @@ export function createProductNavItems(
         icon: ShieldCheck,
       },
       productNavItems[5], // Profil
-      productNavItems[6], // Pengaturan AI
+      productNavItems[7], // Pengaturan AI
     ]
     : [...productNavItems];
 

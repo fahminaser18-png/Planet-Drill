@@ -12,6 +12,7 @@ import {
   ScheduledTryoutOpsRouteGuard,
 } from "./route-guards";
 
+const HomePage = lazy(() => import("../pages/home-page"));
 const LoginPage = lazy(() => import("../pages/auth/login-page"));
 const ResetPasswordPage = lazy(() => import("../pages/auth/reset-password-page"));
 const AnalyticsPage = lazy(() => import("../pages/app/analytics-page"));
@@ -63,7 +64,7 @@ function AppRouter() {
   return (
     <Suspense fallback={<RouteLoadingState />}>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/auth/login" />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
         <Route path="/subscription" element={<SubscriptionPage />} />

@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, ArrowRight, CheckCircle, Loader2, Timer, Lock } from "lucide-react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import { PaywallModal } from "../../components/layout/paywall-gate";
 import { getButtonStyleProps } from "../../components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Badge } from "../../components/ui/badge";
@@ -27,6 +29,7 @@ function ScheduledTryoutResultPage() {
       }),
   });
   const resultData = resultQuery.data;
+  const [showPaywall, setShowPaywall] = useState(false);
 
   return (
     <ProductShell
@@ -87,18 +90,21 @@ function ScheduledTryoutResultPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 {studentShell.role === "pendaftar_baru" ? (
-                  <Link
+                  <button
                     {...getButtonStyleProps({
                       variant: "outline",
-                      className: "text-muted-foreground cursor-not-allowed",
+                      className: "text-muted-foreground cursor-pointer hover:bg-muted",
                     })}
-                    to="/app/subscription"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowPaywall(true);
+                    }}
                   >
                     <span className="flex items-center gap-2">
                       Pembahasan Terkunci
                       <Lock className="h-4 w-4" />
                     </span>
-                  </Link>
+                  </button>
                 ) : (
                   <Link
                     {...getButtonStyleProps({
@@ -187,6 +193,7 @@ function ScheduledTryoutResultPage() {
           </div>
         )}
       </section>
+      <PaywallModal open={showPaywall} onOpenChange={setShowPaywall} />
     </ProductShell>
   );
 }

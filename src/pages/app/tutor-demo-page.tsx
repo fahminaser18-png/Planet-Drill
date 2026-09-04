@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 import { getSupabaseBrowserClient } from "../../lib/supabase/browser-client";
 import { LiveCallWidget } from "../../features/tutor/components/LiveCallWidget";
 
@@ -13,7 +14,7 @@ export default function TutorDemoPage() {
   const studentShell = useStudentShell("/app/tutor-demo");
 
   if (studentShell.role === "pendaftar_baru") {
-    return <Navigate to="/app/subscription" replace />;
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
   }
 
   useEffect(() => {

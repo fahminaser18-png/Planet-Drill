@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import { ArrowRight, User } from "lucide-react";
 import { getButtonStyleProps } from "../ui/button";
-
 
 type MarketingShellProps = {
   children: ReactNode;
@@ -9,72 +9,113 @@ type MarketingShellProps = {
 };
 
 const navLinks = [
-  { href: "#fitur", label: "Fitur" },
-  { href: "#simulasi", label: "Simulasi" },
-  { href: "#harga", label: "Harga" },
+  { href: "#program", label: "Program Belajar" },
+  
+  { href: "#biaya", label: "Pilihan Paket" },
 ] as const;
 
 function MarketingShell({ children, footer }: MarketingShellProps) {
   return (
-    <main className="min-h-[100dvh] overflow-hidden bg-[linear-gradient(180deg,_rgba(242,232,201,0.98),_rgba(230,224,203,0.94))] text-[var(--color-ink)]">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_top_right,_rgba(31,111,115,0.14),_transparent_50%),radial-gradient(circle_at_top_left,_rgba(244,197,66,0.2),_transparent_42%)]"
-      />
+    <div className="min-h-screen bg-background text-foreground relative selection:bg-primary/20 selection:text-primary">
+      {/* Skip to Content for Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-xl focus:shadow-lg focus:outline-none"
+      >
+        Lewati ke konten utama
+      </a>
 
-      <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1400px] flex-col px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-        <header className="rounded-[2rem] border border-[var(--color-outline-soft)] bg-[rgba(255,252,244,0.76)] px-4 py-4 shadow-[0_18px_42px_rgba(15,46,47,0.06)] backdrop-blur-sm sm:px-5">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.06)] overflow-hidden shrink-0 bg-white">
-                <img src="/logo.png?v=3" alt="Logo" className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-teal-soft)]">
-                  Planet Drill UTBK
-                </p>
-                <p className="mt-1 text-sm leading-6 text-[var(--color-ink-muted)]">
-                  Latihan serius untuk persiapan UTBK SNBT.
-                </p>
-              </div>
+      <div className="relative flex min-h-screen w-full flex-col">
+        {/* Stitch-style Header: True Full Width, Fixed Top, No Margins */}
+        <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] border-b border-border/30">
+          <div className="h-20 w-full px-6 md:px-12 lg:px-24 flex items-center justify-between">
+            {/* Left Side: Brand & Nav */}
+            <div className="flex items-center gap-10">
+              {/* Brand / Logo */}
+              <Link
+                to="/"
+                className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 shadow-xs overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                  <img
+                    src="/logo.png?v=3"
+                    alt="Planet Drill Logo"
+                    className="h-full w-full object-cover"
+                    fetchPriority="high"
+                  />
+                </div>
+                <span className="font-bold text-xl tracking-tight text-primary">
+                  Planet Drill
+                </span>
+              </Link>
+
+              {/* Navigation Links */}
+              <nav aria-label="Navigasi Utama Beranda" className="hidden md:flex items-center gap-8">
+                {navLinks.map((item) => (
+                  <a
+                    key={item.href}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    href={item.href}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
-              <nav aria-label="Navigasi beranda">
-                <ul className="flex flex-wrap items-center gap-2 text-sm font-medium text-[var(--color-ink-muted)]">
-                  {navLinks.map((item) => (
-                    <li key={item.href}>
-                      <a
-                        className="inline-flex min-h-10 items-center rounded-full px-4 transition hover:bg-[rgba(31,111,115,0.08)] hover:text-[var(--color-outline)] active:translate-y-px active:scale-[0.99]"
-                        href={item.href}
-                      >
-                        {item.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-
-              <div className="flex items-center gap-2">
-
-                <Link
-                  {...getButtonStyleProps({
-                    variant: "primary",
-                  })}
-                  to="/auth/login"
-                >
-                  Masuk
-                </Link>
-              </div>
+            {/* Auth Action Buttons */}
+            <div className="flex items-center gap-4">
+              <Link
+                to="/auth/login"
+                className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Masuk
+              </Link>
+              <Link
+                to="/auth/login?view=register"
+                className="bg-primary text-primary-foreground px-6 py-2.5 rounded-full text-sm font-medium shadow-[0_4px_20px_rgba(79,70,229,0.15)] hover:opacity-90 transition-all flex items-center gap-2"
+              >
+                Mulai Sekarang
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </header>
 
-        <div className="flex-1">{children}</div>
+        {/* Main Content Area (padding-top is needed because header is fixed) */}
+        <main id="main-content" className="flex-1 focus:outline-none w-full pt-20">
+          {children}
+        </main>
 
-        {footer ? <div className="pt-6">{footer}</div> : null}
+        {/* Full Width Footer */}
+        {footer ? (
+          footer
+        ) : (
+          <footer className="w-full bg-card py-16 border-t border-border/30 mt-auto">
+            <div className="w-full px-6 md:px-12 lg:px-24">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+                <div className="space-y-2">
+                  <div className="font-bold text-xl text-foreground flex items-center justify-center md:justify-start gap-2">
+                     <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary/10 text-primary font-bold text-xs">PD</div>
+                     Planet Drill
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    &copy; {new Date().getFullYear()} Planet Drill UTBK. All rights reserved.
+                  </p>
+                </div>
+                
+                <div className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4 text-sm font-medium">
+                  <a href="#program" className="text-muted-foreground hover:text-primary transition-colors">Program Belajar</a>
+                  <a href="#biaya" className="text-muted-foreground hover:text-primary transition-colors">Pilihan Paket</a>
+                  <a href="#testimoni" className="text-muted-foreground hover:text-primary transition-colors">Testimoni</a>
+                  <Link to="/auth/login" className="text-muted-foreground hover:text-primary transition-colors">Login Siswa</Link>
+                </div>
+              </div>
+            </div>
+          </footer>
+        )}
       </div>
-    </main>
+    </div>
   );
 }
 

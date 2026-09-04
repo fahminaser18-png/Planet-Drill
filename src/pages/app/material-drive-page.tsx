@@ -4,6 +4,7 @@ import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { useSession } from "../../lib/auth/use-session";
 import { DriveExplorer } from "../../components/DriveExplorer/DriveExplorer";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 
 type MaterialDrivePageProps = {
   driveType: 'rekaman' | 'ppt';
@@ -19,7 +20,7 @@ export default function MaterialDrivePage({ driveType }: MaterialDrivePageProps)
   const isMentorOrAdmin = !isStudentMode && (studentShell.role === 'mentor' || studentShell.role === 'admin');
 
   if (studentShell.role === "pendaftar_baru") {
-    return <Navigate to="/app/subscription" replace />;
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
   }
 
   const title = driveType === 'rekaman' ? 'Rekaman' : 'Materi';

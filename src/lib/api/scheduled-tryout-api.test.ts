@@ -880,7 +880,7 @@ describe("scheduled-tryout-api", () => {
         id: "event-1",
         title: "TO Klinik Juni",
         description: "Try out aktif untuk peserta pro.",
-        editorialStatus: "published",
+        editorialStatus: "published", isFreeAccess: false,
         accessStartAt: "2026-06-01T08:00",
         accessEndAt: "2026-06-03T21:00",
         currentCycle: 2,
@@ -926,7 +926,7 @@ describe("scheduled-tryout-api", () => {
       input: {
         title: "TO Klinik Juni",
         description: "Try out aktif untuk peserta pro.",
-        editorialStatus: "published",
+        editorialStatus: "published", isFreeAccess: false,
         accessStartAt: "2026-06-10T08:00",
         accessEndAt: "2026-06-12T21:00",
         questions: [
@@ -973,7 +973,7 @@ describe("scheduled-tryout-api", () => {
       input: {
         title: "TO Klinik Juni",
         description: "Try out aktif untuk peserta pro.",
-        editorialStatus: "draft",
+        editorialStatus: "draft", isFreeAccess: false,
         accessStartAt: "2026-06-10T08:00",
         accessEndAt: "2026-06-12T21:00",
         questions: [],
@@ -984,7 +984,7 @@ describe("scheduled-tryout-api", () => {
       target_event_id: "event-9",
       payload: expect.objectContaining({
         title: "TO Klinik Juni",
-        editorialStatus: "draft",
+        editorialStatus: "draft", isFreeAccess: false,
       }),
     }));
   });

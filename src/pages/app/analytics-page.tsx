@@ -6,6 +6,7 @@ import GlobalBehaviorPanel from "../../components/diagnosis/global-behavior-pane
 import DiagnosisRangeControls from "../../components/diagnosis/diagnosis-range-controls";
 import SubtopicRankingList from "../../components/diagnosis/subtopic-ranking-list";
 import ProductShell from "../../components/layout/product-shell";
+import { PaywallGate } from "../../components/layout/paywall-gate";
 import { getButtonStyleProps } from "../../components/ui/button";
 import Button from "../../components/ui/button";
 import { getPersonalWeaknessDiagnosis, generateStudentAiRangeInsight } from "../../lib/api/analytics-api";
@@ -34,8 +35,10 @@ function AnalyticsPage() {
   const queryClient = useQueryClient();
   const timezone = resolveUserTimezone();
 
-
-
+  if (studentShell.role === "pendaftar_baru") {
+    return <PaywallGate brand={productShellMeta.brand} tierLabel={studentShell.tierLabel} navItems={studentShell.navItems} />;
+  }
+  
   const diagnosisQuery = useQuery({
     queryKey: [
       "personal-weakness-diagnosis",

@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, CheckCircle, Timer, Loader2, AlertTriangle, Package, Lock } from "lucide-react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import { PaywallModal } from "../../components/layout/paywall-gate";
 import { getButtonStyleProps } from "../../components/ui/button";
 import SectionHeading from "../../components/ui/section-heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
@@ -33,6 +35,7 @@ function TryoutResultPage() {
   });
   
   const resultData = resultQuery.data;
+  const [showPaywall, setShowPaywall] = useState(false);
   const totalQuestions = resultData ? resultData.correctAnswers + resultData.wrongAnswers + resultData.unansweredCount : 0;
   
   const weakestWrongCount = resultData && resultData.blocks.length > 0 ? Math.max(...resultData.blocks.map(b => b.wrong)) : null;
@@ -88,15 +91,15 @@ function TryoutResultPage() {
                   <p className="text-sm font-medium text-white">{weakestBlockInsight}</p>
                 </div>
                 {studentShell.role === "pendaftar_baru" ? (
-                  <Link
-                    {...getButtonStyleProps({ className: "bg-white/50 text-primary/50 cursor-not-allowed hover:bg-white/50" })}
-                    to="/app/subscription"
+                  <button
+                    {...getButtonStyleProps({ className: "bg-white/50 text-primary/50 cursor-pointer hover:bg-white/60" })}
                     onClick={(e) => {
-                      // Redirects to subscription
+                      e.preventDefault();
+                      setShowPaywall(true);
                     }}
                   >
                     Pembahasan Terkunci <Lock className="w-4 h-4 ml-2" />
-                  </Link>
+                  </button>
                 ) : (
                   <Link {...getButtonStyleProps({ className: "bg-white text-primary hover:bg-white/90" })} to={`/app/review/${resultData.attemptId}`}>
                     Review jawaban <ArrowRight className="w-4 h-4 ml-2" />
@@ -155,6 +158,7 @@ function TryoutResultPage() {
           </div>
         )}
       </section>
+      <PaywallModal open={showPaywall} onOpenChange={setShowPaywall} />
     </ProductShell>
   );
 }

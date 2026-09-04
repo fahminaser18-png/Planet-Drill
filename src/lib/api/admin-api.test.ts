@@ -25,7 +25,7 @@ describe("admin-api", () => {
       data: [
         {
           id: "submission-1",
-          package_code: "pro_30_hari",
+          package_code: "1_bulan",
           created_at: "2026-05-01T08:14:00.000Z",
           status: "pending_review",
           profile: {

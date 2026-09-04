@@ -45,7 +45,7 @@ export async function saveTutorAttempt(payload: {
 export async function deleteTutorStation(sessionId: string) {
   const supabase = getSupabaseBrowserClient();
   
-  const { error } = await supabase.from('tutor_stations')
+  const { error } = await supabase.from('tutor_sessions')
     .delete()
     .eq('id', sessionId);
 
@@ -56,7 +56,7 @@ export async function deleteTutorStation(sessionId: string) {
 export async function listTutorStations() {
   const supabase = getSupabaseBrowserClient();
   
-  const { data, error } = await supabase.from('tutor_stations')
+  const { data, error } = await supabase.from('tutor_sessions')
     .select('id, title, type, duration_minutes, objective')
     .order('created_at', { ascending: false });
 
@@ -70,7 +70,7 @@ export async function getTutorAttemptDetail(attemptId: string) {
   const { data, error } = await supabase.from('tutor_attempts')
     .select(`
       *,
-      station:tutor_stations (*)
+      station:tutor_sessions (*)
     `)
     .eq('id', attemptId)
     .single();
@@ -90,7 +90,7 @@ export async function listTutorAttemptHistory() {
       created_at,
       total_score,
       max_score,
-      station:tutor_stations ( title )
+      station:tutor_sessions ( title )
     `)
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });

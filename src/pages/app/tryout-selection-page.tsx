@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen, CalendarClock, ArrowRight, Play, Clock, Lock } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import { PaywallModal } from "../../components/layout/paywall-gate";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
@@ -23,6 +25,8 @@ function TryoutSelectionPage() {
     },
     enabled: !!userId,
   });
+
+  const [showPaywall, setShowPaywall] = useState(false);
 
 
 
@@ -102,19 +106,19 @@ function TryoutSelectionPage() {
             </CardHeader>
             <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto">
               {studentShell.role === "pendaftar_baru" ? (
-                <Link
+                <button
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-3 text-base justify-center relative cursor-not-allowed",
+                    className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-3 text-base justify-center relative cursor-pointer hover:bg-muted",
                   })}
-                  to="/app/subscription"
                   onClick={(e) => {
-                    // Opsional: Boleh ditangani dengan alert khusus, atau dibiarkan redirect ke halaman langganan
+                    e.preventDefault();
+                    setShowPaywall(true);
                   }}
                 >
                   <span className="absolute inset-0" aria-hidden="true" />
                   Terkunci <Lock className="ml-2 h-4 w-4" />
-                </Link>
+                </button>
               ) : (
                 <Link
                   {...getButtonStyleProps({
@@ -158,6 +162,7 @@ function TryoutSelectionPage() {
           </Card>
         </div>
       </div>
+      <PaywallModal open={showPaywall} onOpenChange={setShowPaywall} />
     </ProductShell>
   );
 }

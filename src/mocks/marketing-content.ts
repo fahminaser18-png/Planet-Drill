@@ -6,145 +6,182 @@ import {
   Exam,
   ShieldCheck,
   Sparkle,
+  Student,
+  Trophy,
 } from "@phosphor-icons/react";
 
-export type MarketingFeatureId = "tryout" | "analytics" | "ai";
-
-export type MarketingFeature = {
-  id: MarketingFeatureId;
+export type ProgramItem = {
+  id: string;
   icon: Icon;
   title: string;
-  summary: string;
-  detail: string;
+  tag: string;
+  description: string;
+  features: string[];
 };
 
-export type SimulationStep = {
+export type PricingItem = {
+  id: string;
+  name: string;
+  period: string;
+  price: string;
+  originalPrice?: string;
+  badge?: string;
+  isPopular?: boolean;
+  features: string[];
+  cta: string;
+};
+
+export type AdvantageItem = {
   icon: Icon;
   title: string;
   description: string;
-  accent: string;
 };
 
-export type PricingPreview = {
+export type TestimonialItem = {
   name: string;
-  tagline: string;
-  price: string;
-  cadence: string;
-  highlights: string[];
-  emphasis?: "default" | "accent";
+  campus: string;
+  major: string;
+  quote: string;
+  score: string;
+  avatarText: string;
 };
 
-export const heroMetrics = [
-  {
-    label: "Format ujian",
-    value: "Simulasi bertimer",
-  },
-  {
-    label: "Fokus belajar",
-    value: "Blok lemah lebih dulu",
-  },
-  {
-    label: "Pendampingan",
-    value: "Insight AI opsional",
-  },
+export const heroStats = [
+  { value: "15.000+", label: "Calon Mahasiswa" },
+  { value: "50.000+", label: "Bank Soal SNBT" },
+  { value: "94%", label: "Tingkat Kelulusan" },
+  { value: "4.9/5.0", label: "Rating Kepuasan" },
 ] as const;
 
-export const marketingFeatures: MarketingFeature[] = [
+export const programsList: ProgramItem[] = [
   {
-    id: "tryout",
-    icon: Exam,
-    title: "Simulasi penuh dan try out per blok",
-    summary: "Latihan dimulai dari format yang paling dekat dengan UTBK.",
-    detail:
-      "Kerjakan sesi besar untuk membaca stamina, lalu turun ke try out per blok saat butuh mengunci topik tertentu.",
+    id: "tryout-cbt",
+    icon: ClockCountdown,
+    title: "Try Out CBT Online",
+    tag: "Simulasi Ujian",
+    description: "Simulasi ujian penuh dengan sistem timer presisi dan format subtes SNBT 2026.",
+    features: ["Sistem Penilaian IRT", "Timer per Subtes", "Ranking Nasional"],
   },
   {
     id: "analytics",
     icon: ChartLineUp,
-    title: "Analitik area lemah yang langsung bisa dipakai belajar",
-    summary: "Setelah sesi selesai, kamu langsung tahu blok mana yang menahan skor.",
-    detail:
-      "Skor, tren, dan prioritas review disusun agar waktu belajar habis di materi yang paling menentukan kelulusan.",
+    title: "Analisis & Rapor Belajar",
+    tag: "Evaluasi Skor",
+    description: "Ketahui kelemahanmu secara detail per topik agar waktu belajar lebih efisien.",
+    features: ["Diagnostik Kelemahan", "Riwayat Nilai", "Rekomendasi Review"],
   },
   {
-    id: "ai",
+    id: "drill-soal",
+    icon: Exam,
+    title: "Drill Soal & Flashcards",
+    tag: "Latihan Mandiri",
+    description: "Latihan kilat 10-15 menit per hari untuk mengunci rumus dan konsep penting.",
+    features: ["Ribuan Bank Soal", "Flashcards Materi", "Kunci & Pembahasan"],
+  },
+  {
+    id: "ai-tutor",
     icon: Brain,
-    title: "Insight AI opsional untuk membaca pola salah",
-    summary: "Bukan pengganti latihan, tetapi lapisan bantu saat kamu ingin membaca pola kesalahan lebih cepat.",
-    detail:
-      "Gunakan saat perlu ringkasan miskonsepsi, saran urutan review, atau pembahasan kenapa pola jawabanmu terus turun di blok tertentu.",
+    title: "Asisten Pembahasan AI",
+    tag: "Tutor Pintar",
+    description: "Bedah tuntas cara pengerjaan cepat dan jebakan soal secara instan 24/7.",
+    features: ["Solusi Bertahap", "Analisis Miskonsepsi", "Trik Cepat Soal"],
   },
 ];
 
-export const simulationSteps: SimulationStep[] = [
-  {
-    icon: ClockCountdown,
-    title: "Mulai dari ritme yang terasa seperti ujian asli",
-    description:
-      "Timer, komposisi soal, dan alur pengerjaan dibuat untuk melatih keputusan saat tekanan mulai naik.",
-    accent: "01",
-  },
+export const advantagesList: AdvantageItem[] = [
   {
     icon: ShieldCheck,
-    title: "Baca ulang hasil dengan analitik yang tidak berputar-putar",
-    description:
-      "Setelah simulasi, platform merangkum bagian yang paling sering menurunkan skor dan menyambungkannya ke blok belajar berikutnya.",
-    accent: "02",
+    title: "Standar SNBT Terbaru",
+    description: "Materi & tipe soal selalu diperbarui mengikuti regulasi seleksi PTN terkini.",
   },
   {
     icon: Sparkle,
-    title: "Tambahkan AI hanya ketika butuh sudut pandang kedua",
-    description:
-      "AI hadir sebagai opsional, supaya keputusan belajar tetap bertumpu pada hasil try out yang benar-benar kamu kerjakan.",
-    accent: "03",
-  },
-] as const;
-
-export const pricingPreview: PricingPreview[] = [
-  {
-    name: "Pemanasan 7 Hari",
-    tagline: "Mulai dari akses mingguan untuk pemanasan",
-    price: "Rp79.000",
-    cadence: "/7 hari",
-    highlights: [
-      "Akses try out per blok",
-      "Analitik dasar hasil latihan",
-      "Cocok untuk mengukur titik awal",
-    ],
+    title: "Akses Fleksibel & Cepat",
+    description: "Bisa diakses dari HP, tablet, maupun laptop kapan saja dan di mana saja.",
   },
   {
-    name: "Pro 30 Hari",
-    tagline: "Untuk fase serius sebelum pendaftaran ujian",
-    price: "Rp229.000",
-    cadence: "/30 hari",
-    highlights: [
-      "Simulasi penuh dan try out per blok",
-      "Analitik progres dan prioritas review",
-      "Insight AI opsional untuk pola salah",
-    ],
-    emphasis: "accent",
+    icon: Trophy,
+    title: "Metode Terbukti Efektif",
+    description: "Fokus pada latihan berulang (drill) untuk membangun ritme dan ketahanan ujian.",
   },
-] as const;
+  {
+    icon: Student,
+    title: "Komunitas Pejuang PTN",
+    description: "Bandingkan skormu di leaderboard nasional bersama ribuan peserta se-Indonesia.",
+  },
+];
 
-export const homepageCopy = {
-  brand: "Planet Drill UTBK",
-  heroTitle: "Lolos UTBK dengan latihan yang terasa seperti hari H",
-  heroDescription:
-    "Planet Drill UTBK membantu peserta membangun ritme try out sebelum menghadapi UTBK SNBT.",
-  heroLead:
-    "Fokusnya bukan sekadar banyak soal, tetapi simulasi, pembacaan area lemah, dan keputusan belajar yang lebih tenang dari sesi ke sesi.",
-  heroPrimaryCta: "Mulai perjalanan try out",
-  heroSecondaryCta: "Lihat alur belajar",
-  featureHeading:
-    "Try out, analitik, dan insight AI yang tetap berpijak pada hasil simulasi",
-  featureDescription:
-    "Setiap bagian dirancang untuk membantu kamu bergerak dari latihan, ke pembacaan pola salah, lalu ke agenda review yang lebih tajam.",
-  simulationHeading: "Belajar dimulai dari simulasi, bukan dari tebakan belajar",
-  simulationDescription:
-    "Platform ini disusun dengan alur yang sama seperti cara peserta serius menyiapkan ujian: kerjakan, ukur, baca pola, lalu ulang dengan target yang lebih sempit.",
-  pricingHeading: "Pilih ritme belajar sebelum masuk paket penuh",
-  pricingDescription:
-    "Mulai dari pemanasan singkat atau langsung masuk paket 30 hari saat persiapanmu sudah padat.",
-  footerNote:
-    "Serius untuk persiapan UTBK. Ringkas saat dipakai setiap hari.",
-} as const;
+export const pricingPlans: PricingItem[] = [
+  {
+    id: "starter",
+    name: "Paket Kilat 7 Hari",
+    period: "/ 7 Hari",
+    price: "Rp49.000",
+    originalPrice: "Rp79.000",
+    features: [
+      "5x Akses Try Out CBT Lengkap",
+      "Latihan Drill per Subtes Mandiri",
+      "Analisis Skor & Kunci Jawaban",
+      "Akses Ribuan Flashcards Materi",
+    ],
+    cta: "Pilih Paket 7 Hari",
+  },
+  {
+    id: "pro",
+    name: "Paket Intensif 30 Hari",
+    period: "/ 30 Hari",
+    price: "Rp129.000",
+    originalPrice: "Rp229.000",
+    badge: "Paling Diminati",
+    isPopular: true,
+    features: [
+      "Akses Try Out CBT Tanpa Batas",
+      "Sistem Penilaian IRT & Ranking Nasional",
+      "Rapor Diagnostik Area Lemah",
+      "Pembahasan Soal Interaktif AI 24/7",
+      "Akses Bank Soal & Materi PPT Lengkap",
+      "Grup Diskusi & Update Informasi SNBT",
+    ],
+    cta: "Daftar Paket Intensif",
+  },
+];
+
+export const studentTestimonials: TestimonialItem[] = [
+  {
+    name: "Rizky Pratama",
+    campus: "Universitas Indonesia",
+    major: "Pendidikan Dokter (FK UI)",
+    score: "734.50",
+    quote:
+      "Simulasi timernya bener-bener mirip ujian asli. Analisis nilainya ngebantu banget naikin skor Penalaran Matematika!",
+    avatarText: "RP",
+  },
+  {
+    name: "Nabila Annisa",
+    campus: "Institut Teknologi Bandung",
+    major: "STEI-Rekayasa (ITB)",
+    score: "718.20",
+    quote:
+      "Sistem drill soalnya ringkas dan gak ribet. Bisa latihan di mana aja dari HP pas ada waktu luang.",
+    avatarText: "NA",
+  },
+  {
+    name: "Fajar Wicaksono",
+    campus: "Universitas Gadjah Mada",
+    major: "Ilmu Komunikasi (UGM)",
+    score: "695.80",
+    quote:
+      "Penjelasan pembahasannya jelas dan langsung ke inti. Sangat worth it untuk persiapan intensif sebelum hari H.",
+    avatarText: "FW",
+  },
+];
+
+export const targetCampuses = [
+  "Universitas Indonesia (UI)",
+  "Institut Teknologi Bandung (ITB)",
+  "Universitas Gadjah Mada (UGM)",
+  "Universitas Airlangga (UNAIR)",
+  "Institut Teknologi Sepuluh Nopember (ITS)",
+  "Universitas Padjadjaran (UNPAD)",
+  "Universitas Diponegoro (UNDIP)",
+] as const;
