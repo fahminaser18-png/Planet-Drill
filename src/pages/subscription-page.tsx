@@ -101,10 +101,6 @@ export default function SubscriptionPage() {
               <ul className="flex flex-col gap-4 mb-12 flex-1">
                 <li className="flex items-start gap-3 text-muted-foreground text-sm">
                   <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
-                  <span>Akses fitur Pro selama 3 hari</span>
-                </li>
-                <li className="flex items-start gap-3 text-muted-foreground text-sm">
-                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                   <span>Akses Try Out gratis</span>
                 </li>
               </ul>

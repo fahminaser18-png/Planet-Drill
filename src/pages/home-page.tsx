@@ -198,10 +198,6 @@ export default function HomePage() {
                 <ul className="flex flex-col gap-5 mb-12 flex-1">
                   <li className="flex items-start gap-3 text-muted-foreground">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0" />
-                    <span>Akses fitur Pro selama 3 hari</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-muted-foreground">
-                    <CheckCircle2 className="h-6 w-6 text-primary shrink-0" />
                     <span>Akses Try Out gratis</span>
                   </li>
                 </ul>
