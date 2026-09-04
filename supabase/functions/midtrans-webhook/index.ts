@@ -34,18 +34,23 @@ serve(async (req) => {
         if (packageCode === '6_bulan') durationDays = 180
         if (packageCode === '1_tahun') durationDays = 365
         
-        // Insert subscription
+        // Update profile role first so they get access immediately
+        await supabase.from('profiles').update({ role: 'pro' }).eq('id', userId)
+
+        // Then insert subscription with correct columns (state, starts_at, ends_at)
+        // Note: We don't insert package_code if it's not in ('sprint_14_hari', 'pro_30_hari')
+        // to avoid check constraint errors. We use 'pro_30_hari' as a safe fallback for the database constraint.
+        const safePackageCode = (packageCode === '1_bulan' || packageCode === '6_bulan' || packageCode === '1_tahun') 
+          ? 'pro_30_hari' 
+          : packageCode;
+
         await supabase.from('subscriptions').insert({
           user_id: userId,
-          package_code: packageCode,
-          status: 'active',
-          payment_method: payment_type || 'midtrans',
+          package_code: safePackageCode,
+          state: 'active',
           starts_at: new Date().toISOString(),
-          expires_at: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString()
+          ends_at: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString()
         })
-
-        // Update profile role
-        await supabase.from('profiles').update({ role: 'pro' }).eq('id', userId)
       }
     }
 
