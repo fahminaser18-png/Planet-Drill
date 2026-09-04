@@ -60,37 +60,31 @@ function ProfileSurface({
         description="Kelola identitas akun, keamanan login, foto profil, dan logout di satu tempat."
         navItems={createAdminNavItems("/profile")}
       >
-        {children}
+        <div className="mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+          {children}
+        </div>
       </AdminShell>
     );
   }
 
-  if (role === "pro" || role === "mentor") {
-    return (
-      <ProductShell
-        brand={productShellMeta.brand}
-        tierLabel={resolveStudentTierLabel(role)}
-        navItems={createProductNavItems("/profile", role)}
-      >
-        {children}
-      </ProductShell>
-    );
-  }
-
   return (
-    <main className="min-h-[100dvh] bg-background px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
-      <div className="mx-auto flex min-h-[100dvh] max-w-[1200px] flex-col gap-6">
-        <header className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+    <ProductShell
+      brand={productShellMeta.brand}
+      tierLabel={resolveStudentTierLabel(role)}
+      navItems={createProductNavItems("/profile", role)}
+    >
+      <div className="mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+        <header className="mb-8">
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
             Profil akun
           </h1>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Kelola nama tampilan, password, foto profil, dan akses keluar akunmu.
           </p>
         </header>
         {children}
       </div>
-    </main>
+    </ProductShell>
   );
 }
 
