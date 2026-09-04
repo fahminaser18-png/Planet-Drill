@@ -16,7 +16,6 @@ const HomePage = lazy(() => import("../pages/home-page"));
 const LoginPage = lazy(() => import("../pages/auth/login-page"));
 const ResetPasswordPage = lazy(() => import("../pages/auth/reset-password-page"));
 const AnalyticsPage = lazy(() => import("../pages/app/analytics-page"));
-const DashboardPage = lazy(() => import("../pages/app/dashboard-page"));
 const WelcomeTutorialPage = lazy(() => import("../pages/app/welcome-tutorial-page"));
 const LeaderboardPage = lazy(() => import("../pages/app/leaderboard-page"));
 const ReviewPage = lazy(() => import("../pages/app/review-page"));
@@ -74,7 +73,7 @@ function AppRouter() {
 
         <Route element={<AppRouteGuard />}>
           <Route path="/app">
-            <Route index element={<DashboardPage />} />
+            <Route index element={<Navigate replace to="/app/tryout-selection" />} />
             <Route path="welcome" element={<WelcomeTutorialPage />} />
             <Route path="area-belajar" element={<StudyAreaPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
