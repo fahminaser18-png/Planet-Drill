@@ -38,13 +38,31 @@ serve(async (req) => {
         const { error: profileError } = await supabase.from('profiles').update({ role: 'pro' }).eq('id', userId)
         if (profileError) console.error("Profile update error:", profileError)
 
+        // Find the latest active subscription for this user
+        const { data: latestSub, error: fetchSubError } = await supabase
+          .from('subscriptions')
+          .select('ends_at')
+          .eq('user_id', userId)
+          .eq('state', 'active')
+          .gt('ends_at', new Date().toISOString())
+          .order('ends_at', { ascending: false })
+          .limit(1)
+          .single()
+
+        if (fetchSubError && fetchSubError.code !== 'PGRST116') {
+          console.error("Error fetching latest sub:", fetchSubError)
+        }
+
+        const startsAt = latestSub?.ends_at ? new Date(latestSub.ends_at) : new Date()
+        const endsAt = new Date(startsAt.getTime() + durationDays * 24 * 60 * 60 * 1000)
+
         // Insert subscription record
         const { error: subError } = await supabase.from('subscriptions').insert({
           user_id: userId,
           package_code: packageCode,
           state: 'active',
-          starts_at: new Date().toISOString(),
-          ends_at: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000).toISOString()
+          starts_at: startsAt.toISOString(),
+          ends_at: endsAt.toISOString()
         })
         if (subError) console.error("Subscription insert error:", subError)
       }
