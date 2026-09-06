@@ -7,6 +7,12 @@ const prices: Record<string, number> = {
   "1_tahun": 500000,
 }
 
+const packageNames: Record<string, string> = {
+  "1_bulan": "Planet Drill Pro - 1 Bulan",
+  "6_bulan": "Planet Drill Pro - 6 Bulan",
+  "1_tahun": "Planet Drill Pro - 1 Tahun",
+}
+
 /**
  * Decode JWT payload without verification.
  * Safe here because the Supabase API gateway already validated the token
@@ -66,6 +72,14 @@ serve(async (req) => {
           order_id: orderId,
           gross_amount: price
         },
+        item_details: [
+          {
+            id: packageCode,
+            price: price,
+            quantity: 1,
+            name: packageNames[packageCode],
+          }
+        ],
         customer_details: {
           email: userEmail,
         },
