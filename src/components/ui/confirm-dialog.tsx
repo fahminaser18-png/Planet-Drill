@@ -20,6 +20,7 @@ type ConfirmDialogProps = {
   open: boolean;
   pendingLabel?: string;
   title: string;
+  confirmVariant?: "default" | "destructive" | "primary" | "outline" | "secondary" | "ghost" | "link";
 };
 
 function ConfirmDialog({
@@ -32,6 +33,7 @@ function ConfirmDialog({
   open,
   pendingLabel = "Memproses...",
   title,
+  confirmVariant = "destructive",
 }: ConfirmDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={(isOpen) => !isOpen && !isPending && onClose()}>
@@ -49,7 +51,7 @@ function ConfirmDialog({
             {cancelLabel}
           </Button>
           <Button
-            variant="destructive"
+            variant={confirmVariant}
             onClick={onConfirm}
             disabled={isPending}
             loading={isPending}

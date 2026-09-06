@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useSession } from "../lib/auth/use-session";
 import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import ConfirmDialog from "../components/ui/confirm-dialog";
 
 import ProductShell from "../components/layout/product-shell";
 import { useStudentShell } from "./app/use-student-shell";
@@ -16,6 +17,13 @@ export default function SubscriptionPage() {
   const { user } = useSession();
   const navigate = useNavigate();
   const [loadingPkg, setLoadingPkg] = useState<string | null>(null);
+  const [confirmPkg, setConfirmPkg] = useState<string | null>(null);
+
+  const packageNames: Record<string, string> = {
+    "1_bulan": "Pro 1 Bulan",
+    "6_bulan": "Pro 6 Bulan",
+    "1_tahun": "Pro 1 Tahun",
+  };
 
   const handlePayment = async (packageCode: string) => {
     if (!user) {
@@ -52,6 +60,7 @@ export default function SubscriptionPage() {
       toast.error(error.message || "Gagal membuat transaksi");
     } finally {
       setLoadingPkg(null);
+      setConfirmPkg(null);
     }
   };
   const studentShell = useStudentShell("/subscription");
@@ -230,7 +239,7 @@ export default function SubscriptionPage() {
                     Setara Rp 2.400/hari
                   </span>
                 </div>
-                <Button onClick={() => handlePayment("1_bulan")} disabled={loadingPkg === "1_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                <Button onClick={() => setConfirmPkg("1_bulan")} disabled={loadingPkg === "1_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
                   {loadingPkg === "1_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Bulan"}
                 </Button>
                 <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
@@ -279,7 +288,7 @@ export default function SubscriptionPage() {
                     Setara Rp 1.400/hari
                   </span>
                 </div>
-                <Button onClick={() => handlePayment("6_bulan")} disabled={loadingPkg === "6_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                <Button onClick={() => setConfirmPkg("6_bulan")} disabled={loadingPkg === "6_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
                   {loadingPkg === "6_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 6 Bulan"}
                 </Button>
                 <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
@@ -328,7 +337,7 @@ export default function SubscriptionPage() {
                     Setara Rp 1.400/hari
                   </span>
                 </div>
-                <Button onClick={() => handlePayment("1_tahun")} disabled={loadingPkg === "1_tahun"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
+                <Button onClick={() => setConfirmPkg("1_tahun")} disabled={loadingPkg === "1_tahun"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
                   {loadingPkg === "1_tahun" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Tahun"}
                 </Button>
                 <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
@@ -340,6 +349,20 @@ export default function SubscriptionPage() {
 
           </section>
 
+          <ConfirmDialog
+            open={confirmPkg !== null}
+            title="Konfirmasi Pembelian"
+            description={`Apakah Anda yakin ingin membeli paket ${confirmPkg ? packageNames[confirmPkg] : ""}?`}
+            confirmLabel="Ya, Beli"
+            cancelLabel="Batal"
+            onClose={() => setConfirmPkg(null)}
+            onConfirm={() => {
+              if (confirmPkg) handlePayment(confirmPkg);
+            }}
+            isPending={loadingPkg !== null}
+            pendingLabel="Memproses..."
+            confirmVariant="default"
+          />
         </div>
       </main>
     </ProductShell>
