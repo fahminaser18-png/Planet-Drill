@@ -13,13 +13,13 @@ import { Button } from "@/components/ui/button";
 type ConfirmDialogProps = {
   cancelLabel?: string;
   confirmLabel: string;
-  description: string;
+  description: React.ReactNode;
   isPending?: boolean;
   onClose: () => void;
   onConfirm: () => void;
   open: boolean;
   pendingLabel?: string;
-  title: string;
+  title: React.ReactNode;
   confirmVariant?: "default" | "destructive" | "primary" | "outline" | "secondary" | "ghost" | "link";
 };
 

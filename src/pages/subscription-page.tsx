@@ -352,7 +352,21 @@ export default function SubscriptionPage() {
           <ConfirmDialog
             open={confirmPkg !== null}
             title="Konfirmasi Pembelian"
-            description={`Apakah Anda yakin ingin membeli paket ${confirmPkg ? packageNames[confirmPkg] : ""}?`}
+            description={
+              <div className="space-y-4 mt-2">
+                <p>
+                  Apakah Anda yakin ingin membeli paket <strong className="text-foreground">{confirmPkg ? packageNames[confirmPkg] : ""}</strong>?
+                </p>
+                <div className="bg-muted/50 p-4 rounded-xl text-sm space-y-2 border border-border/50 text-left">
+                  <p className="font-semibold text-foreground">Informasi Pembayaran:</p>
+                  <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground text-xs leading-relaxed">
+                    <li>Harga belum termasuk biaya layanan pihak ketiga.</li>
+                    <li>Estimasi biaya: <span className="font-medium text-foreground">QRIS (0.7%)</span>, <span className="font-medium text-foreground">Virtual Account (±Rp4.000)</span>, <span className="font-medium text-foreground">e-Wallet (2%)</span>.</li>
+                    <li>Jika pop-up pembayaran tertutup, Anda bisa <strong>mengklik tombol beli kembali</strong> untuk mengulang pesanan.</li>
+                  </ul>
+                </div>
+              </div>
+            }
             confirmLabel="Ya, Beli"
             cancelLabel="Batal"
             onClose={() => setConfirmPkg(null)}
