@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { ArrowRight, Monitor, Bot, LineChart, CheckCircle2, Award } from "lucide-react";
+import { ArrowRight, Target, Library, LineChart, CheckCircle2, Award } from "lucide-react";
 import MarketingShell from "../components/layout/marketing-shell";
 import { Button } from "../components/ui/button";
 
@@ -108,7 +108,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row gap-12 lg:gap-16">
             <div className="flex-1 flex flex-col gap-6 relative group">
               <div className="w-16 h-16 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-primary shadow-sm mb-2 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <Monitor className="h-8 w-8" />
+                <Target className="h-8 w-8" />
               </div>
               <h3 className="text-2xl font-bold text-foreground">Drilling Soal Tanpa Batas</h3>
               <p className="text-base text-muted-foreground flex-1 leading-relaxed">
@@ -119,9 +119,9 @@ export default function HomePage() {
 
             <div className="flex-1 flex flex-col gap-6 relative group md:mt-16">
               <div className="w-16 h-16 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-primary shadow-sm mb-2 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <Bot className="h-8 w-8" />
+                <Library className="h-8 w-8" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Ekosistem Belajar Cerdas</h3>
+              <h3 className="text-2xl font-bold text-foreground">Fasilitas Belajar Terintegrasi</h3>
               <p className="text-base text-muted-foreground flex-1 leading-relaxed">
                 Fasilitas lengkap untuk mempercepat pemahaman. Gunakan Flash Card interaktif, rangkuman materi, dan asisten AI yang siap memecahkan kebingunganmu 24/7.
               </p>
@@ -228,7 +228,7 @@ export default function HomePage() {
                   className={`relative px-6 py-2 rounded-full text-sm font-bold transition-all ${proPlan === "1_year" ? "bg-background text-foreground shadow-md" : "text-secondary-foreground/70 hover:text-secondary-foreground hover:bg-background/50"}`}
                 >
                   1 Tahun
-                  <span className="absolute -top-2.5 -right-2 bg-emerald-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-sm animate-pulse whitespace-nowrap">
+                  <span className="absolute -top-2.5 -right-2 bg-emerald-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-sm whitespace-nowrap">
                     PROMO
                   </span>
                 </button>
@@ -253,7 +253,7 @@ export default function HomePage() {
                       <span className="text-primary-foreground/60 line-through font-medium">
                         {currentPro.originalPrice}
                       </span>
-                      <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ml-2 animate-pulse">
+                      <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ml-2">
                         Promo Terbatas
                       </span>
                     </div>
@@ -298,7 +298,7 @@ export default function HomePage() {
                 </ul>
                 
                 <div className="w-full text-center mb-4 relative z-10">
-                  <span className="inline-block bg-emerald-500 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow-md animate-pulse">
+                  <span className="inline-block bg-emerald-500 text-white font-extrabold px-5 py-2.5 rounded-xl text-sm shadow-md">
                     {currentPro.daily}
                   </span>
                 </div>

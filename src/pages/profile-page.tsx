@@ -382,7 +382,7 @@ function ProfilePage() {
                 </p>
               </div>
               <div className="pt-1">
-                <Badge variant="outline" className="text-amber-600 border-amber-500/30 bg-amber-500/10 text-xs font-bold px-2.5 py-0.5">
+                <Badge variant="outline" className="text-amber-800 border-amber-700/30 bg-amber-500/20 dark:text-amber-400 dark:border-amber-400/30 dark:bg-amber-400/10 text-xs font-bold px-2.5 py-0.5">
                   {roleLabel}
                 </Badge>
               </div>
@@ -401,7 +401,7 @@ function ProfilePage() {
                       type="button"
                       disabled={isUploadingAvatar}
                       onClick={() => void handleAvatarSelect(url)}
-                      className={`relative h-14 w-14 overflow-hidden rounded-xl border-2 transition-all hover:opacity-90 active:scale-95 ${
+                      className={`relative h-14 w-14 overflow-hidden rounded-xl border-2 transition-all hover:opacity-90 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                         avatarPreviewUrl === url || profile?.avatarUrl === url
                           ? "border-primary shadow-sm"
                           : "border-transparent opacity-70"

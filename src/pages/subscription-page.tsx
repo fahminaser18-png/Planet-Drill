@@ -1,4 +1,4 @@
-import { CheckCircle2, Award, Lock, Loader2, Sparkles, CalendarDays } from "lucide-react";
+import { CheckCircle2, Award, Lock, Loader2, CalendarDays } from "lucide-react";
 import Button from "../components/ui/button";
 import { Link } from "react-router";
 import { useState } from "react";
@@ -101,9 +101,7 @@ export default function SubscriptionPage() {
           <div className="mx-auto flex flex-col gap-12 px-4 py-12 sm:px-8 lg:px-12 xl:px-20 max-w-[1200px] w-full items-center justify-center pt-24">
             
             <div className="bg-card border border-border/60 p-10 rounded-[2rem] shadow-sm max-w-2xl w-full text-center space-y-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <Sparkles className="w-48 h-48" />
-              </div>
+
               
               <div className="space-y-4 relative z-10">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-2">
@@ -213,7 +211,7 @@ export default function SubscriptionPage() {
               
               <div className="mb-4 relative z-10">
                 <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Bulan</h3>
-                <p className="text-primary-foreground/80 text-sm">Fokus belajar secara intensif.</p>
+                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama sebulan.</p>
               </div>
 
               <div className="mb-10 flex flex-col gap-1 relative z-10">
@@ -257,13 +255,13 @@ export default function SubscriptionPage() {
               
               <div className="mb-4 relative z-10">
                 <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 6 Bulan</h3>
-                <p className="text-primary-foreground/80 text-sm">Pilihan hemat untuk jangka menengah.</p>
+                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama setengah tahun.</p>
               </div>
 
               <div className="mb-10 flex flex-col gap-1 relative z-10">
                 <div className="flex items-center h-6">
                   <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 420rb</span>
-                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2 animate-pulse">
+                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2">
                     Promo Terbatas
                   </span>
                 </div>
@@ -306,13 +304,13 @@ export default function SubscriptionPage() {
               
               <div className="mb-4 relative z-10">
                 <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Tahun</h3>
-                <p className="text-primary-foreground/80 text-sm">Akses penuh belajar santai.</p>
+                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama setahun penuh.</p>
               </div>
 
               <div className="mb-10 flex flex-col gap-1 relative z-10">
                 <div className="flex items-center h-6">
                   <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 840rb</span>
-                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2 animate-pulse">
+                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2">
                     Promo Terbatas
                   </span>
                 </div>
