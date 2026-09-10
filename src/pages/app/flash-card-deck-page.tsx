@@ -5,7 +5,6 @@ import FlashCardRecallControls from "../../components/flash-cards/flash-card-rec
 import FlashCardViewer from "../../components/flash-cards/flash-card-viewer";
 import ProductShell from "../../components/layout/product-shell";
 import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
-import { Card } from "../../components/ui/card";
 import {
   getPublishedFlashCardDeck,
   saveStudentFlashCardDifficulty,
@@ -78,11 +77,11 @@ function FlashCardDeckPage() {
         </Alert>
       ) : (
         <section className="space-y-6">
-          <Card className="space-y-4 px-5 py-5">
-            <h1 className="text-3xl font-semibold text-foreground">Set Kartu Belajar</h1>
-            <p className="text-sm font-medium text-foreground">{deckQuery.data.subtopicTitle}</p>
-            <p className="text-sm leading-7 text-muted-foreground">{deckQuery.data.subtopicSummary}</p>
-          </Card>
+          <header className="mb-8">
+            <h1 className="text-3xl font-semibold text-foreground tracking-tight">Set Kartu Belajar</h1>
+            <p className="mt-1 text-sm font-medium text-foreground">{deckQuery.data.subtopicTitle}</p>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{deckQuery.data.subtopicSummary}</p>
+          </header>
 
           <FlashCardViewer
             cards={deckQuery.data.cards}

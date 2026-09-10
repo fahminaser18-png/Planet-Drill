@@ -38,7 +38,7 @@ export default function MaterialDrivePage({ driveType }: MaterialDrivePageProps)
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+            <span className="mb-3 inline-block rounded bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
               {driveType === 'rekaman' ? 'Video & Kelas' : 'Dokumen & Modul'}
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">

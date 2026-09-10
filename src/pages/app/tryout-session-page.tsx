@@ -19,6 +19,14 @@ import SectionHeading from "../../components/ui/section-heading";
 import { SessionAnswerOptionButton, SessionQuestionNavButton } from "../../components/ui/session-option-buttons";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+} from "../../components/ui/alert-dialog";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useSession } from "../../lib/auth/use-session";
 import { useStudentShell } from "./use-student-shell";
@@ -33,6 +41,8 @@ function TryoutSessionPage() {
   const [isQuestionNavHidden, setIsQuestionNavHidden] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [timeRemainingSeconds, setTimeRemainingSeconds] = useState<number | null>(null);
+  const [isSubmitConfirmOpen, setIsSubmitConfirmOpen] = useState(false);
+  const [isSubmitSummaryOpen, setIsSubmitSummaryOpen] = useState(false);
   const hasTriggeredAutoSubmit = useRef(false);
   const hasRequestedPause = useRef(false);
   const hasStartedSubmit = useRef(false);
@@ -526,94 +536,72 @@ function TryoutSessionPage() {
         />
 
         {questionView === "ready" && createAttemptMutation.isPending ? (
-          <Card className="mt-8 border-dashed shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              <div className="text-center">
-                <CardTitle>Sesi try out sedang dimuat</CardTitle>
-                <CardDescription>Sesi baru sedang disiapkan.</CardDescription>
-              </div>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+            <h3 className="text-lg font-bold text-foreground">Sesi try out sedang dimuat</h3>
+            <p className="text-sm mt-1">Sesi baru sedang disiapkan.</p>
+          </div>
         ) : questionView === "ready" && createAttemptMutation.isError ? (
-          <Card className="mt-8 border-destructive/50 bg-destructive/5 shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="text-center">
-                <CardTitle className="text-destructive">Sesi try out belum berhasil dibuka</CardTitle>
-                <CardDescription>{createAttemptErrorMessage}</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
-                Kembali ke katalog try out
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
+            <h3 className="text-lg font-bold text-destructive">Sesi try out belum berhasil dibuka</h3>
+            <p className="text-sm text-destructive/80 mt-2 mb-6">{createAttemptErrorMessage}</p>
+            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+              Kembali ke katalog try out
+            </Link>
+          </div>
         ) : questionView === "ready" && !attemptId && !templateId ? (
-          <Card className="mt-8 border-dashed shadow-sm bg-muted/30">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="text-center">
-                <CardTitle>Belum ada sesi aktif</CardTitle>
-                <CardDescription>Pilih sesi dari katalog untuk mulai.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
-                Pilih sesi dari katalog
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
+            <h3 className="text-lg font-bold text-foreground">Belum ada sesi aktif</h3>
+            <p className="text-sm mt-1 mb-6">Pilih sesi dari katalog untuk mulai.</p>
+            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+              Pilih sesi dari katalog
+            </Link>
+          </div>
         ) : questionView === "ready" && sessionQuery.isLoading ? (
-          <Card className="mt-8 border-dashed shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              <div className="text-center">
-                <CardTitle>Soal try out sedang dimuat</CardTitle>
-                <CardDescription>Soal sedang disiapkan.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
-                Kembali ke katalog try out
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+            <h3 className="text-lg font-bold text-foreground">Soal try out sedang dimuat</h3>
+            <p className="text-sm mt-1 mb-6">Soal sedang disiapkan.</p>
+            <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
+              Kembali ke katalog try out
+            </Link>
+          </div>
         ) : questionView === "ready" && sessionQuery.isError ? (
-          <Card className="mt-8 border-destructive/50 bg-destructive/5 shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="text-center">
-                <CardTitle className="text-destructive">Soal try out belum bisa dimuat</CardTitle>
-                <CardDescription>Buka katalog lalu coba lagi.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
-                Buka katalog lagi
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
+            <h3 className="text-lg font-bold text-destructive">Soal try out belum bisa dimuat</h3>
+            <p className="text-sm text-destructive/80 mt-2 mb-6">Buka katalog lalu coba lagi.</p>
+            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+              Buka katalog lagi
+            </Link>
+          </div>
         ) : questionView === "ready" && sessionData?.view === "ready" && currentQuestion ? (
-          <div className={["mt-6 grid gap-6", isQuestionNavHidden ? "xl:grid-cols-[minmax(0,1fr)]" : "xl:grid-cols-[18rem_minmax(0,1fr)]"].join(" ")}>
+          <div className={["mt-8 grid gap-8 items-start", isQuestionNavHidden ? "xl:grid-cols-[minmax(0,1fr)]" : "xl:grid-cols-[16rem_minmax(0,1fr)]"].join(" ")}>
             {!isQuestionNavHidden ? (
-              <Card className="shadow-sm h-fit">
-                <CardHeader className="pb-3 border-b bg-muted/20">
-                  <CardDescription className="font-semibold uppercase tracking-wider text-primary text-xs">
+              <div className="sticky top-20">
+                <div className="pb-3 border-b border-border/40 mb-4">
+                  <h3 className="font-bold uppercase tracking-wider text-muted-foreground text-xs">
                     Navigasi Soal
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-4 px-3 pb-3">
-                  <div className="grid grid-cols-4 gap-2.5 max-h-[70vh] overflow-y-auto p-1.5">
-                    {questions.map((question, index) => (
-                      <SessionQuestionNavButton
-                        key={question.id}
-                        disabled={isQuestionNavigationDisabled}
-                        number={index + 1}
-                        onClick={() => goToQuestion(index)}
-                        isCurrent={index === currentIndex}
-                        state={
-                          question.isDoubtful
-                            ? "doubtful"
-                            : question.selectedOptionKey
-                              ? "answered"
-                              : "idle"
-                        }
-                      />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </h3>
+                </div>
+                <div className="grid grid-cols-4 gap-2.5 max-h-[70vh] overflow-y-auto pb-4">
+                  {questions.map((question, index) => (
+                    <SessionQuestionNavButton
+                      key={question.id}
+                      disabled={isQuestionNavigationDisabled}
+                      number={index + 1}
+                      onClick={() => goToQuestion(index)}
+                      isCurrent={index === currentIndex}
+                      state={
+                        question.isDoubtful
+                          ? "doubtful"
+                          : question.selectedOptionKey
+                            ? "answered"
+                            : "idle"
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
             ) : null}
 
             <Card className="shadow-sm">
@@ -630,33 +618,59 @@ function TryoutSessionPage() {
                       resumeMutation.mutate();
                     }}
                     variant="default"
-                  >
-                    Coba lanjutkan sesi
-                  </Button>
-                </div>
-              ) : null}
-
-              <CardHeader className="pb-4">
+            <div className="flex flex-col gap-6 w-full">
+              <div className="pb-4 border-b border-border/40">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary">
                       {currentQuestion.blockLabel}
                     </Badge>
-                    <CardTitle className="mt-4 text-2xl font-bold leading-tight">
-                      Soal {currentIndex + 1} <span className="text-muted-foreground font-normal text-lg">dari {questions.length}</span>
-                    </CardTitle>
+                    <h2 className="mt-4 text-2xl font-black tracking-tight text-foreground">
+                      Soal {currentIndex + 1} <span className="text-muted-foreground font-medium text-lg">dari {questions.length}</span>
+                    </h2>
                   </div>
-                  <Badge variant={sessionData.attempt?.status === "submitted" ? "default" : "secondary"}>
-                    {sessionData.attempt?.status === "submitted" ? "Sudah submit" : "Belum submit"}
-                  </Badge>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsQuestionNavHidden(!isQuestionNavHidden)}
+                      className="h-8 border-border/60 font-medium"
+                    >
+                      {isQuestionNavHidden ? (
+                        <>
+                          <PanelRightOpen className="mr-2 h-3.5 w-3.5" />
+                          Tampilkan Navigasi
+                        </>
+                      ) : (
+                        <>
+                          <PanelRightClose className="mr-2 h-3.5 w-3.5" />
+                          Sembunyikan Navigasi
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant={currentQuestion.isDoubtful ? "secondary" : "outline"}
+                      size="sm"
+                      onClick={() => toggleDoubtfulFlag(currentQuestion.id)}
+                      disabled={isQuestionNavigationDisabled}
+                      className={`h-8 font-medium ${
+                        currentQuestion.isDoubtful
+                          ? "bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 hover:text-amber-700 border-amber-500/20"
+                          : "border-border/60 text-muted-foreground"
+                      }`}
+                    >
+                      <Flag
+                  </div>
                 </div>
-              </CardHeader>
+              </div>
 
-              <CardContent>
-                <p className="text-base leading-relaxed">{currentQuestion.stem}</p>
+              <div>
+                <p className="text-base leading-relaxed font-medium text-foreground">
+                  {currentQuestion.question}
+                </p>
 
                 {currentQuestion.questionImageUrl ? (
-                  <div className="mt-6 overflow-hidden rounded-xl border bg-muted/30 p-2">
+                  <div className="mt-6 overflow-hidden rounded-xl bg-muted/30 p-2">
                     <img
                       alt={`Gambar soal ${currentIndex + 1}`}
                       className="max-h-[26rem] w-full rounded-lg object-contain"
@@ -667,41 +681,68 @@ function TryoutSessionPage() {
 
                 <div className="mt-8 grid gap-3">
                   {currentQuestion.options.map((option) => {
-                    const isSelected = currentQuestion.selectedOptionKey === option.key;
+                    const isSelected = option.key === currentQuestion.selectedOptionKey;
+
                     return (
-                      <SessionAnswerOptionButton
+                      <button
                         key={option.key}
-                        disabled={isAttemptInteractionDisabled || isQuestionMutationPending}
-                        onClick={() => selectAnswer(option.key)}
-                        optionKey={option.key}
-                        optionText={option.text}
-                        selected={isSelected}
-                      />
+                        onClick={() => selectOption(currentQuestion.id, option.key)}
+                        disabled={isSubmittingOption}
+                        className={`group relative flex items-center justify-between rounded-xl border p-4 text-left font-medium transition-all text-sm w-full ${
+                          isSelected
+                            ? "border-primary bg-primary/5 text-primary"
+                            : "border-border/60 bg-transparent text-foreground hover:bg-muted/30"
+                        } ${isSubmittingOption ? "opacity-70 cursor-not-allowed" : ""}`}
+                      >
+                        <div className="flex items-start gap-3 pr-4">
+                          <span
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold border transition-colors ${
+                              isSelected
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "border-border text-muted-foreground bg-muted/30 group-hover:border-primary/40 group-hover:text-primary/70"
+                            }`}
+                          >
+                            {option.key}
+                          </span>
+                          <p className={`pt-0.5 text-sm leading-relaxed ${isSelected ? "font-bold text-primary" : "font-medium"}`}>{option.text}</p>
+                        </div>
+
+                        {isSelected && (
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-primary shrink-0 opacity-100">
+                            {isSubmittingOption ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <CheckCircle className="h-4 w-4" />
+                            )}
+                          </div>
+                        )}
+                      </button>
                     );
                   })}
                 </div>
 
                 <div className="mt-8 flex justify-start">
                   <Button
-                    className={
-                      currentQuestion.isDoubtful
-                        ? "border-amber-500/50 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 hover:border-amber-500/60 hover:text-amber-700"
-                        : "hover:bg-amber-500/10 hover:text-amber-600 hover:border-amber-500/30 text-muted-foreground"
-                    }
                     disabled={!hasSelectedAnswer || isAttemptInteractionDisabled || isQuestionMutationPending}
                     onClick={toggleDoubtful}
                     variant="outline"
                   >
+                    <Flag
+                        className={`mr-2 h-4 w-4 ${
+                          currentQuestion.isDoubtful ? "fill-amber-600 text-amber-600" : ""
+                        }`}
+                      />
                     {currentQuestion.isDoubtful ? "Batal ragu-ragu" : "Tandai ragu-ragu"}
                   </Button>
                 </div>
-              </CardContent>
+              </div>
 
-              <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t bg-muted/10 py-4 mt-4 rounded-b-xl">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between py-4 mt-2 border-t border-border/40">
                 <Button
                   disabled={currentIndex === 0 || isQuestionNavigationDisabled}
                   onClick={() => goToQuestion(Math.max(0, currentIndex - 1))}
                   variant="outline"
+                  className="w-full sm:w-auto"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Sebelumnya
@@ -712,71 +753,128 @@ function TryoutSessionPage() {
                     disabled={isAttemptInteractionDisabled || isQuestionMutationPending}
                     loading={submitMutation.isPending}
                     loadingLabel="Mengirim hasil..."
-                    onClick={() => { void triggerSubmit(); }}
-                    variant="default"
+                    onClick={() => setIsSubmitConfirmOpen(true)}
+                    className="w-full sm:w-auto font-bold px-8 shadow-sm"
                   >
                     Kirim hasil
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                    <CheckCircle className="w-4 h-4 ml-2" />
                   </Button>
                 ) : (
                   <Button
                     disabled={isQuestionNavigationDisabled}
                     onClick={() => goToQuestion(Math.min(questions.length - 1, currentIndex + 1))}
-                    variant="default"
+                    className="w-full sm:w-auto px-8"
                   >
                     Selanjutnya
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 )}
-              </CardFooter>
+              </div>
 
               {submitError ? (
-                <div className="px-6 pb-6">
+                <div className="pb-6">
                   <div className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive" role="alert">
                     {submitError}
                   </div>
                 </div>
               ) : null}
-            </Card>
+            </div>
           </div>
         ) : questionView === "loading" ? (
-          <Card className="mt-8 border-dashed shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              <div className="text-center">
-                <CardTitle>Soal try out sedang dimuat</CardTitle>
-                <CardDescription>Soal sedang disiapkan.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
-                Kembali ke katalog try out
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+            <h3 className="text-lg font-bold text-foreground">Soal try out sedang dimuat</h3>
+            <p className="text-sm mt-1 mb-6">Soal sedang disiapkan.</p>
+            <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
+              Kembali ke katalog try out
+            </Link>
+          </div>
         ) : questionView === "empty" ? (
-          <Card className="mt-8 border-dashed shadow-sm bg-muted/30">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="text-center">
-                <CardTitle>Belum ada soal untuk sesi ini</CardTitle>
-                <CardDescription>Pilih sesi lain atau kembali nanti.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
-                Pilih sesi lain
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
+            <h3 className="text-lg font-bold text-foreground">Belum ada soal untuk sesi ini</h3>
+            <p className="text-sm mt-1 mb-6">Pilih sesi lain atau kembali nanti.</p>
+            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+              Pilih sesi lain
+            </Link>
+          </div>
         ) : (
-          <Card className="mt-8 border-destructive/50 bg-destructive/5 shadow-sm">
-            <CardHeader className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="text-center">
-                <CardTitle className="text-destructive">Soal try out belum bisa dimuat</CardTitle>
-                <CardDescription>Buka katalog lalu coba lagi.</CardDescription>
-              </div>
-              <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
-                Buka katalog lagi
-              </Link>
-            </CardHeader>
-          </Card>
+          <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
+            <h3 className="text-lg font-bold text-destructive">Soal try out belum bisa dimuat</h3>
+            <p className="text-sm text-destructive/80 mt-2 mb-6">Buka katalog lalu coba lagi.</p>
+            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+              Buka katalog lagi
+            </Link>
+          </div>
         )}
+
+        <AlertDialog open={isSubmitConfirmOpen} onOpenChange={setIsSubmitConfirmOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Konfirmasi Kirim Hasil</AlertDialogTitle>
+              <AlertDialogDescription>
+                Apakah Anda yakin ingin menyelesaikan try out ini?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <Button variant="outline" onClick={() => setIsSubmitConfirmOpen(false)}>
+                Batal
+              </Button>
+              <Button
+                variant="default"
+                onClick={() => {
+                  setIsSubmitConfirmOpen(false);
+                  setIsSubmitSummaryOpen(true);
+                }}
+              >
+                Yakin
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog
+          open={isSubmitSummaryOpen}
+          onOpenChange={(open) => {
+            if (!open && !submitMutation.isPending) {
+              setIsSubmitSummaryOpen(false);
+            }
+          }}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Ringkasan Pengerjaan</AlertDialogTitle>
+              <AlertDialogDescription>
+                Berikut adalah ringkasan dari pengerjaan try out Anda:
+              </AlertDialogDescription>
+              <div className="text-sm text-muted-foreground">
+                <ul className="mt-2 space-y-2 list-disc list-inside">
+                  <li>Jumlah soal: <strong>{questions.length}</strong></li>
+                  <li>Sudah diisi: <strong>{questions.filter(q => q.selectedOptionKey !== null).length}</strong></li>
+                  <li>Belum diisi: <strong>{questions.filter(q => q.selectedOptionKey === null).length}</strong></li>
+                  <li>Ragu-ragu: <strong>{questions.filter(q => q.isDoubtful).length}</strong></li>
+                </ul>
+                <p className="mt-4">Setelah hasil dikirim, Anda tidak dapat mengubah jawaban lagi.</p>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsSubmitSummaryOpen(false)}
+                disabled={submitMutation.isPending}
+              >
+                Kembali
+              </Button>
+              <Button
+                variant="default"
+                loading={submitMutation.isPending}
+                loadingLabel="Mengirim hasil..."
+                onClick={() => { void triggerSubmit(); }}
+              >
+                Lanjutkan
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </section>
     </ProductShell>
   );

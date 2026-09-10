@@ -1,25 +1,5 @@
-import React, { useState } from "react";
 import { Link } from "react-router";
-import {
-  Sparkles,
-  BookOpen,
-  BarChart3,
-  BrainCircuit,
-  FolderGit2,
-  Trophy,
-  ArrowRight,
-  ChevronDown,
-  Clock,
-  Target,
-  GraduationCap,
-  Flame,
-  ShieldCheck,
-  CheckCircle2,
-  Compass,
-  Zap,
-  HelpCircle,
-  LayoutDashboard,
-} from "lucide-react";
+import { GraduationCap, LayoutDashboard, ArrowRight } from "lucide-react";
 
 interface FaqItem {
   question: string;
@@ -30,12 +10,12 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Apa bedanya Simulasi Try Out rutin dan Scheduled Try Out?",
     answer:
-      "Simulasi Try Out rutin dapat diakses kapan saja secara fleksibel berdasarkan topik, blok, atau paket latihan. Sementara Scheduled Try Out adalah simulasi try out akbar berjadwal serentak nasional dengan timer ketat dan pemeringkatan leaderboard secara real-time.",
+      "Simulasi Try Out rutin dapat diakses kapan saja secara fleksibel berdasarkan topik, blok, atau paket latihan. Sementara Scheduled Try Out adalah simulasi try out berjadwal serentak nasional dengan timer ketat dan pemeringkatan leaderboard.",
   },
   {
-    question: "Bagaimana cara kerja Flash Cards AI & Kartu Saku?",
+    question: "Bagaimana cara kerja Flash Cards & Kartu Saku?",
     answer:
-      "Flash Cards AI membantu Anda mempercepat hafalan rumus, konsep penting, tata bahasa, dan fakta sains. Anda bisa memakai deck bawaan kurikulum UTBK atau memanfaatkan AI Generator untuk membuat kartu saku otomatis dari rangkuman materi Anda.",
+      "Flash Cards membantu Anda mempercepat hafalan rumus, konsep penting, tata bahasa, dan fakta sains. Anda bisa memakai deck bawaan kurikulum UTBK atau membuat kartu saku otomatis dari rangkuman materi Anda.",
   },
   {
     question: "Apakah hasil Try Out saya dapat dilihat kembali untuk dievaluasi?",
@@ -45,548 +25,257 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Bagaimana jika saya ingin fokus pada materi yang nilai performanya masih rendah?",
     answer:
-      "Gunakan menu Analitik & Laporan Performa. Sistem Planet Drill UTBK secara otomatis mendeteksi kategori soal di mana akurasi Anda masih di bawah target dan menyarankan paket try out serta flashcard khusus untuk memperbaikinya.",
+      "Gunakan menu Analitik & Laporan Performa. Sistem mendeteksi kategori soal di mana akurasi Anda masih di bawah target dan menyarankan paket try out serta flashcard khusus untuk memperbaikinya.",
   },
 ];
 
 export default function WelcomeTutorialPage() {
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-teal-500 selection:text-white">
-      {/* 1. Standalone Top Navbar Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/80 px-4 lg:px-8 py-3.5 transition-all">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-teal-500 selection:text-white pb-24">
+      <header className="sticky top-0 z-50 bg-slate-950/80 px-4 lg:px-8 py-3.5 border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          {/* Brand Logo & Badge */}
           <div className="flex items-center gap-3">
-            <Link
-              to="/app"
-              className="flex items-center gap-2.5 group cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-400 p-0.5 shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-teal-400" />
-                </div>
+            <Link to="/app" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
+                <GraduationCap className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-teal-200 bg-clip-text text-transparent">
+              <span className="font-semibold text-base text-slate-100">
                 Planet Drill UTBK
               </span>
             </Link>
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Sparkles className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300">
               Panduan Pengguna
             </span>
           </div>
 
-          {/* Navigation Anchors */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-            <a
-              href="#roadmap"
-              className="cursor-pointer hover:text-teal-400 transition-colors"
-            >
-              Roadmap Belajar
-            </a>
-            <a
-              href="#fitur"
-              className="cursor-pointer hover:text-teal-400 transition-colors"
-            >
-              Fitur Utama
-            </a>
-            <a
-              href="#tips"
-              className="cursor-pointer hover:text-teal-400 transition-colors"
-            >
-              Tips UTBK
-            </a>
-            <a
-              href="#faq"
-              className="cursor-pointer hover:text-teal-400 transition-colors"
-            >
-              FAQ
-            </a>
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
+            <a href="#roadmap" className="hover:text-slate-100">Roadmap</a>
+            <a href="#fitur" className="hover:text-slate-100">Fitur</a>
+            <a href="#tips" className="hover:text-slate-100">Tips</a>
+            <a href="#faq" className="hover:text-slate-100">FAQ</a>
           </nav>
 
-          {/* CTA Header Button */}
           <div className="flex items-center gap-3">
             <Link
               to="/app"
-              className="cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 hover:from-teal-400 hover:to-emerald-400 shadow-md shadow-teal-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium bg-teal-600 text-white hover:bg-teal-500 transition-colors"
             >
               <LayoutDashboard className="w-4 h-4" />
-              <span>Masuk ke Dashboard Utama</span>
+              <span>Dashboard</span>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* 2. Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 px-4 lg:px-8 border-b border-slate-800/50 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-teal-500/10 blur-[120px] rounded-full pointer-events-none" />
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
-          {/* Animated Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-300 border border-teal-500/30 animate-pulse">
-            <Sparkles className="w-3.5 h-3.5 text-teal-400" />
-            <span>Selamat Datang di Planet Drill UTBK</span>
+      <section className="pt-20 pb-16 px-4 lg:px-8 max-w-4xl mx-auto text-center space-y-6">
+        <h1 className="text-4xl sm:text-5xl font-semibold text-slate-100 tracking-tight">
+          Panduan Persiapan UTBK SNBT
+        </h1>
+        <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          Platform persiapan UTBK. Kuasai materi TPS, Literasi, Sains, dan Soshum melalui simulasi CBT, analitik, serta Flash Cards.
+        </p>
+
+        <div className="pt-6 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            to="/app"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium bg-teal-600 text-white hover:bg-teal-500 transition-colors"
+          >
+            <span>Mulai Belajar</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <a
+            href="#fitur"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium text-slate-300 hover:text-slate-100 transition-colors"
+          >
+            Jelajahi Fitur
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 pt-16 text-left">
+          <div className="space-y-1">
+            <p className="font-medium text-slate-100">500+ Soal</p>
+            <p className="text-sm text-slate-400">Try out CBT format UTBK</p>
           </div>
+          <div className="space-y-1">
+            <p className="font-medium text-slate-100">Bedah Detail</p>
+            <p className="text-sm text-slate-400">Pembahasan komprehensif</p>
+          </div>
+          <div className="space-y-1">
+            <p className="font-medium text-slate-100">Flash Cards</p>
+            <p className="text-sm text-slate-400">Hafalan rumus & konsep</p>
+          </div>
+          <div className="space-y-1">
+            <p className="font-medium text-slate-100">Material Drive</p>
+            <p className="text-sm text-slate-400">Slide PPT & Recording</p>
+          </div>
+        </div>
+      </section>
 
-          {/* Main Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
-            Panduan Lengkap Persiapan UTBK SNBT
-          </h1>
+      <section id="roadmap" className="py-16 px-4 lg:px-8 max-w-5xl mx-auto">
+        <div className="space-y-2 mb-10">
+          <h2 className="text-2xl font-semibold text-slate-100">Roadmap Belajar</h2>
+          <p className="text-slate-400">Alur sistematis membangun kesiapan mental dan akademis.</p>
+        </div>
 
-          {/* Subheadline */}
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Platform persiapan UTBK terintegrasi. Kuasai materi TPS, Literasi, Sains, dan Soshum melalui simulasi CBT interaktif, analitik pintar, serta Flash Cards AI.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Langkah 1</div>
+            <h3 className="text-base font-medium text-slate-100">Uji Kemampuan Awal</h3>
+            <p className="text-sm text-slate-400">
+              Mulai dengan Simulasi Try Out untuk mengukur pemahaman awal pada materi UTBK SNBT.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Langkah 2</div>
+            <h3 className="text-base font-medium text-slate-100">Bedah Pembahasan</h3>
+            <p className="text-sm text-slate-400">
+              Pelajari rasionalitas tiap opsi jawaban, analisis grafik performa, dan identifikasi materi.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Langkah 3</div>
+            <h3 className="text-base font-medium text-slate-100">Perdalam Materi</h3>
+            <p className="text-sm text-slate-400">
+              Manfaatkan Flash Cards untuk memperkuat ingatan formula, serta pelajari slide kuliah.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Langkah 4</div>
+            <h3 className="text-base font-medium text-slate-100">Evaluasi TO Akbar</h3>
+            <p className="text-sm text-slate-400">
+              Uji ketahanan mental pada Scheduled Try Out serentak nasional dan ukur posisi Anda.
+            </p>
+          </div>
+        </div>
+      </section>
 
-          {/* Quick CTA Actions */}
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/app"
-              className="cursor-pointer inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-base font-bold bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 hover:from-teal-400 hover:to-emerald-400 shadow-lg shadow-teal-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <span>Mulai Belajar Sekarang</span>
-              <ArrowRight className="w-5 h-5" />
+      <section id="fitur" className="py-16 px-4 lg:px-8 max-w-5xl mx-auto">
+        <div className="space-y-2 mb-10">
+          <h2 className="text-2xl font-semibold text-slate-100">Fitur Utama</h2>
+          <p className="text-slate-400">Alat untuk mempercepat persiapan ujian Anda.</p>
+        </div>
+
+        <div className="space-y-12">
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-slate-100">Simulasi Try Out & Latihan</h3>
+            <p className="text-sm text-slate-400 max-w-2xl">
+              Latihan soal CBT interaktif dengan timer standar UTBK. Pilih latihan berdasarkan topik tertentu atau paket Try Out komprehensif.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+              <span>1. Pilih Topik/Blok</span>
+              <span>2. Kerjakan dengan Timer</span>
+              <span>3. Simpan & Evaluasi</span>
+            </div>
+            <Link to="/app/tryout-selection" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+              Mulai Latihan Mandiri &rarr;
             </Link>
-            <a
-              href="#fitur"
-              className="cursor-pointer inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-base font-semibold bg-slate-900 text-slate-200 hover:bg-slate-800 border border-slate-700/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <Compass className="w-5 h-5 text-teal-400" />
-              <span>Jelajahi Fitur</span>
-            </a>
           </div>
 
-          {/* 4 Metric Teaser Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10">
-            <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-teal-500/40 transition-colors">
-              <div className="w-9 h-9 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-3">
-                <Target className="w-5 h-5" />
-              </div>
-              <p className="text-xl font-bold text-white">500+ Soal</p>
-              <p className="text-xs text-slate-400 mt-0.5">Try out CBT sesuai format UTBK SNBT</p>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-slate-100">Analitik & Laporan Performa</h3>
+            <p className="text-sm text-slate-400 max-w-2xl">
+              Pantau perkembangan akurasi dalam bentuk grafik visual. Sistem menandai kategori materi yang masih menjadi titik lemah.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+              <span>1. Buka Menu Analitik</span>
+              <span>2. Cek Grafik Akurasi</span>
+              <span>3. Identifikasi Topik Lemah</span>
             </div>
-
-            <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-emerald-500/40 transition-colors">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <p className="text-xl font-bold text-white">Bedah Detail</p>
-              <p className="text-xs text-slate-400 mt-0.5">Pembahasan & Rasional Komprehensif</p>
-            </div>
-
-            <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-teal-500/40 transition-colors">
-              <div className="w-9 h-9 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-3">
-                <BrainCircuit className="w-5 h-5" />
-              </div>
-              <p className="text-xl font-bold text-white">Flash Cards AI</p>
-              <p className="text-xs text-slate-400 mt-0.5">Hafalan Rumus & Konsep</p>
-            </div>
-
-            <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl text-left backdrop-blur-sm hover:border-emerald-500/40 transition-colors">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
-                <FolderGit2 className="w-5 h-5" />
-              </div>
-              <p className="text-xl font-bold text-white">Material Drive</p>
-              <p className="text-xs text-slate-400 mt-0.5">Slide PPT & Live Zoom Recording</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Section 1: 4-Step Learning Roadmap (#roadmap) */}
-      <section id="roadmap" className="py-16 lg:py-24 px-4 lg:px-8 max-w-7xl mx-auto border-b border-slate-800/50">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
-            Strategi Terstruktur
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            4-Step Learning Roadmap
-          </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Alur belajar sistematis untuk membangun kesiapan mental dan akademis sebelum menghadapi UTBK SNBT.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Step 1 */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 relative flex flex-col justify-between hover:border-teal-500/50 transition-all duration-300 hover:-translate-y-1">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-extrabold text-lg">
-                1
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                1. Uji Kemampuan Awal
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Mulai dengan Simulasi Try Out untuk mengukur pemahaman awal pada materi UTBK SNBT.
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-teal-400">
-              <Clock className="w-4 h-4" />
-              <span>Simulasi CBT Adaptif</span>
-            </div>
+            <Link to="/app/analytics" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+              Lihat Grafik Statistik &rarr;
+            </Link>
           </div>
 
-          {/* Step 2 */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 relative flex flex-col justify-between hover:border-teal-500/50 transition-all duration-300 hover:-translate-y-1">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-extrabold text-lg">
-                2
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                2. Bedah Pembahasan
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Pelajari rasionalitas tiap opsi jawaban, analisis grafik performa, dan identifikasi materi mana yang memerlukan pendalaman ulang.
-              </p>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-slate-100">Flash Cards & Kartu Saku</h3>
+            <p className="text-sm text-slate-400 max-w-2xl">
+              Kuasai rumus dan konsep penting. Gunakan Generator untuk mengubah catatan singkat menjadi deck flash card interaktif.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+              <span>1. Pilih Deck</span>
+              <span>2. Gunakan Generator</span>
+              <span>3. Uji Hafalan</span>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-              <BarChart3 className="w-4 h-4" />
-              <span>Analitik Akurasi Per Topik</span>
-            </div>
+            <Link to="/app/flash-cards" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+              Buka Deck Kartu Saku &rarr;
+            </Link>
           </div>
 
-          {/* Step 3 */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 relative flex flex-col justify-between hover:border-teal-500/50 transition-all duration-300 hover:-translate-y-1">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-extrabold text-lg">
-                3
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                3. Perdalam Materi
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Manfaatkan Flash Cards AI untuk memperkuat ingatan formula & farmakoterapi, serta pelajari slide kuliah di Material Drive.
-              </p>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-slate-100">Area Belajar & Material Drive</h3>
+            <p className="text-sm text-slate-400 max-w-2xl">
+              Pusat dokumen materi bimbingan belajar UTBK, ringkasan rumus, slide materi mentor.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+              <span>1. Masuk Area Belajar</span>
+              <span>2. Unduh PPT & Summary</span>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-teal-400">
-              <BrainCircuit className="w-4 h-4" />
-              <span>Kartu Saku & Flash Cards</span>
-            </div>
+            <Link to="/app/area-belajar" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+              Unduh Dokumentasi Materi &rarr;
+            </Link>
           </div>
 
-          {/* Step 4 */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 relative flex flex-col justify-between hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-extrabold text-lg">
-                4
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                4. Evaluasi TO Akbar
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Uji ketahanan mental pada Scheduled Try Out Akbar serentak nasional dan ukur posisi Anda di Leaderboard nasional.
-              </p>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-slate-100">Scheduled Try Out & Leaderboard</h3>
+            <p className="text-sm text-slate-400 max-w-2xl">
+              Simulasi Ujian Akbar Berjadwal serentak nasional. Rasakan tekanan waktu simulasi UTBK SNBT dan lihat peringkat nasional Anda.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-500">
+              <span>1. Daftar Jadwal</span>
+              <span>2. Ikuti Simulasi</span>
+              <span>3. Pantau Leaderboard</span>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-              <Trophy className="w-4 h-4" />
-              <span>Leaderboard Nasional</span>
-            </div>
+            <Link to="/app/scheduled-tryout" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+              Ikuti Try Out Akbar &rarr;
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. Section 2: Interactive Feature Exploration Hub (#fitur) */}
-      <section id="fitur" className="py-16 lg:py-24 px-4 lg:px-8 max-w-7xl mx-auto border-b border-slate-800/50">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            Panduan Interaktif
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            Eksplorasi Fitur Utama Planet Drill UTBK
-          </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Temukan semua alat hebat yang dirancang untuk mempercepat persiapan ujian Anda secara efektif.
-          </p>
+      <section id="tips" className="py-16 px-4 lg:px-8 max-w-5xl mx-auto">
+        <div className="space-y-2 mb-10">
+          <h2 className="text-2xl font-semibold text-slate-100">Strategi Belajar</h2>
+          <p className="text-slate-400">Rutinitas ideal yang direkomendasikan peserta UTBK terbaik.</p>
         </div>
 
-        <div className="space-y-8">
-          {/* Card 1: Simulasi Try Out */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row items-stretch justify-between gap-8 hover:border-teal-500/40 transition-all">
-            <div className="space-y-4 flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-500/10 text-teal-400 text-xs font-semibold">
-                <Target className="w-4 h-4" />
-                Fitur Utama 1
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Simulasi Try Out & Latihan
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Latihan soal CBT interaktif dengan timer aktif standar UTBK. Anda dapat memilih latihan berdasarkan topik tertentu (TPS, Literasi, Kuantitatif) atau paket Try Out 50 soal komprehensif.
-              </p>
-              
-              {/* Step Badges */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 1: Pilih Topik/Blok
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 2: Kerjakan dengan Timer
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 3: Simpan & Evaluasi
-                </span>
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-slate-100">Rutinitas Harian</h3>
+              <p className="text-sm text-slate-400">30-45 Menit per hari</p>
             </div>
-
-            <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akses Cepat</p>
-                <p className="text-sm font-semibold text-white">Mulai Latihan Mandiri</p>
-              </div>
-              <Link
-                to="/app/tryout-selection"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-teal-500 text-slate-950 hover:bg-teal-400 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Coba Fitur Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 2: Analitik & Laporan Performa */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row items-stretch justify-between gap-8 hover:border-emerald-500/40 transition-all">
-            <div className="space-y-4 flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
-                <BarChart3 className="w-4 h-4" />
-                Fitur Utama 2
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Analitik & Laporan Performa
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Pantau perkembangan persentase akurasi Anda dalam bentuk grafik visual. Sistem secara otomatis menandai kategori materi yang masih menjadi titik lemah Anda agar pembelajaran lebih terarah.
-              </p>
-
-              {/* Step Badges */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 1: Buka Menu Analitik
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 2: Cek Grafik Akurasi
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 3: Identifikasi Topik Lemah
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akses Cepat</p>
-                <p className="text-sm font-semibold text-white">Lihat Grafik Statistik</p>
-              </div>
-              <Link
-                to="/app/analytics"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Coba Fitur Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 3: Flash Cards AI */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row items-stretch justify-between gap-8 hover:border-teal-500/40 transition-all">
-            <div className="space-y-4 flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-500/10 text-teal-400 text-xs font-semibold">
-                <BrainCircuit className="w-4 h-4" />
-                Fitur Utama 3
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Flash Cards AI & Kartu Saku
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Kuasai rumus, konsep penting, dan pola soal logika tanpa ribet. Gunakan Generator AI untuk mengubah catatan singkat Anda menjadi deck flash card interaktif secara langsung.
-              </p>
-
-              {/* Step Badges */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 1: Pilih Deck Farmakologi
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 2: Gunakan Generator AI
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 3: Uji Hafalan Obat
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akses Cepat</p>
-                <p className="text-sm font-semibold text-white">Buka Deck Kartu Saku</p>
-              </div>
-              <Link
-                to="/app/flash-cards"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-teal-500 text-slate-950 hover:bg-teal-400 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Coba Fitur Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 4: Area Belajar & Material Drive */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row items-stretch justify-between gap-8 hover:border-emerald-500/40 transition-all">
-            <div className="space-y-4 flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
-                <FolderGit2 className="w-4 h-4" />
-                Fitur Utama 4
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Area Belajar & Material Drive
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Pusat dokumen materi bimbingan belajar UTBK, ringkasan rumus, slide materi mentor, 
-              </p>
-
-              {/* Step Badges */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 1: Masuk Area Belajar
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 2: Unduh PPT & Summary
-                </span>
-                </div>
-            </div>
-
-            <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akses Cepat</p>
-                <p className="text-sm font-semibold text-white">Unduh Dokumentasi Materi</p>
-              </div>
-              <Link
-                to="/app/area-belajar"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Coba Fitur Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 5: Scheduled Try Out & Leaderboard */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row items-stretch justify-between gap-8 hover:border-teal-500/40 transition-all">
-            <div className="space-y-4 flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-500/10 text-teal-400 text-xs font-semibold">
-                <Trophy className="w-4 h-4" />
-                Fitur Utama 5
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                Scheduled Try Out & Leaderboard
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Simulasi Ujian Akbar Berjadwal serentak nasional. Rasakan tekanan waktu simulasi UTBK SNBT dan lihat peringkat nasional Anda di Leaderboard peserta se-Indonesia.
-              </p>
-
-              {/* Step Badges */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 1: Daftar Jadwal TO Akbar
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 2: Ikuti Simulasi Serentak
-                </span>
-                <span className="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                  Langkah 3: Pantau Leaderboard
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-between items-start lg:items-end gap-4 lg:w-72 bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Akses Cepat</p>
-                <p className="text-sm font-semibold text-white">Ikuti Try Out Akbar</p>
-              </div>
-              <Link
-                to="/app/scheduled-tryout"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-teal-500 text-slate-950 hover:bg-teal-400 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Coba Fitur Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Section 3: Strategi UTBK (#tips) */}
-      <section id="tips" className="py-16 lg:py-24 px-4 lg:px-8 max-w-7xl mx-auto border-b border-slate-800/50">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
-            Rekomendasi Mentor
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            Strategi Belajar untuk UTBK SNBT
-          </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Kombinasi rutinitas harian dan mingguan ideal yang direkomendasikan peserta UTBK lulusan terbaik.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Daily Routine */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 lg:p-8 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center">
-                <Flame className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white">Target Rutin Harian (30-45 Menit)</h3>
-                <p className="text-xs text-slate-400">Konsistensi kecil setiap hari</p>
-              </div>
-            </div>
-
             <ul className="space-y-4 text-sm text-slate-300">
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
                 <span>Kerjakan 10-15 Soal Simulasi Topik Lemah setiap pagi sebelum memulai aktivitas.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
-                <span>Ulas 20 Flash Cards AI untuk memperkuat memori konsep penting dan rumus.</span>
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
+                <span>Ulas 20 Flash Cards untuk memperkuat memori konsep penting dan rumus.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
-                <span>Baca 1 lembar ringkasan pedoman terapi (Guideline) di Material Drive.</span>
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
+                <span>Baca 1 lembar ringkasan pedoman terapi di Material Drive.</span>
               </li>
             </ul>
           </div>
 
-          {/* Weekly Routine */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 lg:p-8 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-white">Target Rutin Mingguan</h3>
-                <p className="text-xs text-slate-400">Evaluasi dan simulasi penuh</p>
-              </div>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium text-slate-100">Rutinitas Mingguan</h3>
+              <p className="text-sm text-slate-400">Evaluasi dan simulasi penuh</p>
             </div>
-
             <ul className="space-y-4 text-sm text-slate-300">
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
                 <span>Ikuti 1 Paket Try Out 50 Soal komprehensif di akhir pekan dengan timer ketat.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
                 <span>Bedah secara mendalam semua jawaban salah dan catat kata kunci materi baru.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <li className="flex gap-3">
+                <span className="text-slate-500">&mdash;</span>
                 <span>Ikuti Scheduled Try Out Akbar Nasional jika jadwal telah dibuka.</span>
               </li>
             </ul>
@@ -594,88 +283,21 @@ export default function WelcomeTutorialPage() {
         </div>
       </section>
 
-      {/* 6. Section 4: FAQ Accordion (#faq) */}
-      <section id="faq" className="py-16 lg:py-24 px-4 lg:px-8 max-w-4xl mx-auto border-b border-slate-800/50">
-        <div className="text-center space-y-4 mb-12">
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            Pertanyaan Umum
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            FAQ Pengguna Baru
-          </h2>
-          <p className="text-slate-400 text-sm sm:text-base">
-            Pertanyaan yang paling sering diajukan peserta UTBK saat mulai belajar.
-          </p>
+      <section id="faq" className="py-16 px-4 lg:px-8 max-w-3xl mx-auto">
+        <div className="space-y-2 mb-10">
+          <h2 className="text-2xl font-semibold text-slate-100">FAQ</h2>
+          <p className="text-slate-400">Pertanyaan umum peserta UTBK.</p>
         </div>
 
-        <div className="space-y-4">
-          {FAQ_ITEMS.map((item, index) => {
-            const isOpen = openFaqIndex === index;
-            return (
-              <div
-                key={index}
-                className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden transition-all"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-semibold text-white hover:text-teal-300 transition-colors cursor-pointer"
-                >
-                  <span className="text-sm sm:text-base flex items-center gap-3">
-                    <HelpCircle className="w-4 h-4 text-teal-400 shrink-0" />
-                    {item.question}
-                  </span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-teal-400" : ""
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <div className="px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/50">
-                    {item.answer}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 7. Bottom CTA Banner */}
-      <section className="py-16 lg:py-24 px-4 lg:px-8 max-w-7xl mx-auto">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-teal-900/60 via-slate-900 to-emerald-900/60 border border-teal-500/30 p-8 sm:p-12 text-center space-y-6">
-          <div className="absolute -top-24 -right-24 w-72 h-72 bg-teal-500/20 blur-3xl rounded-full pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-emerald-500/20 blur-3xl rounded-full pointer-events-none" />
-
-          <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Zap className="w-3.5 h-3.5" />
-              Siap Menjadi peserta UTBK Unggul?
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-              Mulai Langkah Pertama Anda Sekarang
-            </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Semua materi, simulasi CBT, dan alat hafalan pintar sudah siap digunakan di Dashboard Planet Drill UTBK.
-            </p>
-            <div className="pt-4">
-              <Link
-                to="/app"
-                className="cursor-pointer inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 hover:from-teal-300 hover:to-emerald-300 shadow-xl shadow-teal-500/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <LayoutDashboard className="w-5 h-5" />
-                <span>Mulai Belajar Sekarang di Dashboard</span>
-              </Link>
+        <div className="space-y-6">
+          {FAQ_ITEMS.map((item, index) => (
+            <div key={index} className="space-y-2">
+              <h3 className="font-medium text-slate-100">{item.question}</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">{item.answer}</p>
             </div>
-          </div>
+          ))}
         </div>
       </section>
-
-      {/* Simple Footer */}
-      <footer className="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 Planet Drill UTBK. Platform persiapan UTBK SNBT.</p>
-      </footer>
     </div>
   );
 }

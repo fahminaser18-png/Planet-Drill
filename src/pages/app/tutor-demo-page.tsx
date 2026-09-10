@@ -86,18 +86,20 @@ export default function TutorDemoPage() {
       navItems={studentShell.navItems}
       tierLabel={studentShell.tierLabel}
     >
-      <div className="flex flex-col h-[calc(100vh-4rem)] p-4 md:p-6 w-full">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-800">Ruang AI Tutor (RAG)</h1>
-          <p className="text-slate-500">Tanyakan apa saja seputar UTBK. AI Tutor terhubung dengan seluruh bank soal, pembahasan, flash card, serta materi tambahan yang ada di platform ini.</p>
+      <div className="flex flex-col gap-8 w-full py-8 max-w-5xl h-[calc(100vh-4rem)]">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Ruang Tutor</h1>
+          <p className="text-base text-muted-foreground max-w-2xl">
+            Tanyakan apa saja seputar UTBK. Tutor terhubung dengan seluruh bank soal, pembahasan, flash card, serta materi tambahan yang ada di platform ini.
+          </p>
         </div>
         
         {isLoading ? (
-          <div className="flex items-center justify-center flex-grow">
-            <p>Memuat materi & data siswa...</p>
+          <div className="flex items-center justify-center flex-grow bg-muted/20 border border-border rounded-lg">
+            <p className="text-muted-foreground">Memuat materi & data siswa...</p>
           </div>
         ) : (
-          <div className="flex-grow">
+          <div className="flex-grow rounded-lg overflow-hidden border border-border">
             {/* @ts-ignore */}
             <LiveCallWidget config={mockConfig} />
           </div>

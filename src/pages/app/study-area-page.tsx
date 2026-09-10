@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import ProductShell from "../../components/layout/product-shell";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { getButtonStyleProps } from "../../components/ui/button";
 import { getGlobalAiCredentialStatus } from "../../lib/api/global-ai-credential-api";
 
@@ -73,7 +72,7 @@ export default function StudyAreaPage() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+            <span className="mb-3 inline-block rounded bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
               Pusat Materi
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
@@ -85,8 +84,7 @@ export default function StudyAreaPage() {
           </div>
         </div>
 
-        {/* Cards Grid Layout */}
-        <div className="grid gap-6 md:grid-cols-3 w-full">
+        <div className="flex flex-col border-t border-border/40 mt-4 w-full">
           {STUDY_FEATURES.map((item) => {
 
             const Icon = item.icon;
@@ -102,78 +100,78 @@ export default function StudyAreaPage() {
             const isLocked = lockReason !== null;
 
             return (
-              <Card
+              <div
                 key={item.id}
-                className={`group relative flex flex-col justify-between overflow-hidden transition-all duration-300 border-border bg-card rounded-2xl ${
-                  isLocked ? "opacity-70 grayscale-[0.3]" : "hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40"
+                className={`group flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/40 py-8 px-4 -mx-4 rounded-xl transition-colors ${
+                  isLocked ? "opacity-70 grayscale-[0.3]" : "hover:bg-muted/30"
                 }`}
               >
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl shrink-0 transition-colors ${
-                      isLocked ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
-                    }`}>
-                      <Icon className="h-7 w-7" />
-                    </div>
-                    <CardTitle className="text-2xl font-extrabold tracking-tight">
-                      {item.title}
-                    </CardTitle>
+                <div className="flex items-start gap-5">
+                  <div className={`mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                    isLocked ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
+                  }`}>
+                    <Icon className="h-6 w-6" />
                   </div>
-                  <CardDescription className="text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </CardDescription>
-                  {lockReason === "api_key" && (
-                    <div className="mt-4 flex items-center gap-2 text-sm font-medium text-destructive bg-destructive/10 px-3 py-2 rounded-lg">
-                      <Lock className="h-4 w-4" />
-                      Butuh Pengaturan API Key (BYOK)
-                    </div>
-                  )}
-                  {lockReason === "premium" && (
-                    <div className="mt-4 flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted/50 px-3 py-2 rounded-lg">
-                      <Lock className="h-4 w-4" />
-                      Fitur Premium
-                    </div>
-                  )}
-                </CardHeader>
-                <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto relative">
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h2>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground max-w-xl">
+                      {item.description}
+                    </p>
+                    
+                    {lockReason === "api_key" && (
+                      <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-destructive bg-destructive/10 px-2.5 py-1 rounded">
+                        <Lock className="h-3.5 w-3.5" />
+                        Butuh Pengaturan API Key (BYOK)
+                      </div>
+                    )}
+                    {lockReason === "premium" && (
+                      <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded">
+                        <Lock className="h-3.5 w-3.5" />
+                        Fitur Premium
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="shrink-0 pt-2 md:pt-0 pl-16 md:pl-0">
                   {lockReason === "premium" ? (
                     <button
                       {...getButtonStyleProps({
-                        variant: "outline",
-                        className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-2.5 cursor-pointer hover:bg-muted",
+                        variant: "secondary",
+                        className: "font-medium hover:bg-muted text-muted-foreground",
                       })}
                       onClick={(e) => {
                         e.preventDefault();
                         setShowPaywall(true);
                       }}
                     >
-                      <span className="absolute inset-0" aria-hidden="true" />
-                      {item.buttonText} <Lock className="ml-2 h-4 w-4" />
+                      {item.buttonText} <Lock className="ml-1.5 h-3.5 w-3.5" />
                     </button>
                   ) : lockReason === "api_key" ? (
                     <div
                       {...getButtonStyleProps({
-                        variant: "outline",
-                        className: "w-full font-semibold rounded-xl py-2.5 opacity-50 cursor-not-allowed",
+                        variant: "secondary",
+                        className: "font-medium opacity-50 cursor-not-allowed",
                       })}
                     >
-                      {item.buttonText} <Lock className="ml-2 h-4 w-4" />
+                      {item.buttonText} <Lock className="ml-1.5 h-3.5 w-3.5" />
                     </div>
                   ) : (
                     <Link
                       {...getButtonStyleProps({
-                        variant: "outline",
+                        variant: "secondary",
                         className:
-                          "w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all font-semibold rounded-xl py-2.5",
+                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground transition-colors",
                       })}
                       to={item.href}
                     >
-                      <span className="absolute inset-0" aria-hidden="true" />
-                      {item.buttonText} <ArrowRight className="ml-2 h-4 w-4" />
+                      {item.buttonText} <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                     </Link>
                   )}
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>

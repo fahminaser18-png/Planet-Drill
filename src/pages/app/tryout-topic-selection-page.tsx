@@ -43,49 +43,47 @@ function TryoutTopicSelectionPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-8 w-full py-4">
+      <div className="flex flex-col gap-10 w-full py-6">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
+          <div className="max-w-2xl">
+            <div className="mb-6">
               <Link
                 to="/app/tryout-selection"
-                className="inline-flex items-center gap-2 rounded-xl border-2 border-primary/30 bg-primary/5 px-4 py-2 text-sm font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200 shadow-2xs group"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group"
               >
                 <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 <span>Kembali ke Mode Try Out</span>
               </Link>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+            <h1 className="text-4xl font-black tracking-tight text-foreground">
               Try Out Per Materi / Topik
             </h1>
-            <p className="text-base text-muted-foreground mt-2 max-w-2xl">
+            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
               Pilih topik spesifik yang ingin kamu dalami untuk mempertajam penguasaan konsep sebelum simulasi penuh.
             </p>
           </div>
         </div>
 
         {error ? (
-          <div className="w-full">
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Gagal Memuat Data</AlertTitle>
-              <AlertDescription>
-                Terjadi kesalahan saat memuat pilihan topik try out. Silakan coba beberapa saat lagi.
-              </AlertDescription>
-            </Alert>
+          <div className="w-full rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex items-start gap-4">
+            <AlertCircle className="h-6 w-6 text-destructive shrink-0" />
+            <div>
+              <h3 className="text-lg font-semibold text-destructive">Gagal Memuat Data</h3>
+              <p className="text-sm text-destructive/80 mt-1">Terjadi kesalahan saat memuat pilihan topik try out. Silakan coba beberapa saat lagi.</p>
+            </div>
           </div>
         ) : (
-          <>
+          <div className="flex flex-col gap-8">
             {/* Filter Tabs */}
             {!isLoading && (
-              <div className="flex flex-wrap items-center gap-2 pb-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button
                   data-testid="filter-all"
-                  variant={activeFilter === "ALL" ? "primary" : "outline"}
+                  variant={activeFilter === "ALL" ? "secondary" : "ghost"}
                   size="sm"
                   onClick={() => setSearchParams({})}
-                  className="rounded-full px-5 text-xs font-semibold"
+                  className={`rounded-md px-4 text-sm font-semibold ${activeFilter === "ALL" ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   Semua Blok ({topicOptions.length})
                 </Button>
@@ -93,10 +91,10 @@ function TryoutTopicSelectionPage() {
                   <Button
                     key={block.id}
                     data-testid={`filter-${block.id}`}
-                    variant={activeFilter === block.id ? "primary" : "outline"}
+                    variant={activeFilter === block.id ? "secondary" : "ghost"}
                     size="sm"
                     onClick={() => setSearchParams({ block: block.id })}
-                    className="rounded-full px-5 text-xs font-semibold"
+                    className={`rounded-md px-4 text-sm font-semibold ${activeFilter === block.id ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     {block.name}
                   </Button>
@@ -104,31 +102,20 @@ function TryoutTopicSelectionPage() {
               </div>
             )}
 
-            {/* Topic Cards Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
+            {/* Topic List */}
+            <div className="flex flex-col gap-0 w-full border-t border-border/40">
               {isLoading ? (
                 Array.from({ length: 6 }).map((_, i) => (
-                  <Card key={i} data-testid="skeleton-card" className="group relative flex flex-col justify-between overflow-hidden border-border bg-card">
-                    <CardHeader className="pt-6 pb-3">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted animate-pulse" />
-                        <div className="flex items-center gap-1.5">
-                          <div className="h-5 w-12 bg-muted rounded animate-pulse" />
-                          <div className="h-5 w-12 bg-muted rounded animate-pulse" />
-                        </div>
-                      </div>
-                      <div className="h-6 w-3/4 bg-muted rounded animate-pulse mt-2" />
-                      <div className="h-4 w-full bg-muted rounded animate-pulse mt-3" />
-                      <div className="h-4 w-2/3 bg-muted rounded animate-pulse mt-1" />
-                    </CardHeader>
-                    <CardContent className="pt-2 pb-5 flex items-center justify-between gap-4 mt-auto">
-                      <div className="h-4 w-24 bg-muted rounded animate-pulse" />
-                      <div className="h-8 w-24 bg-muted rounded animate-pulse" />
-                    </CardContent>
-                  </Card>
+                  <div key={i} className="py-6 border-b border-border/40 flex items-start gap-4 animate-pulse">
+                    <div className="h-10 w-10 bg-muted rounded-lg shrink-0" />
+                    <div className="space-y-2 w-full max-w-sm">
+                      <div className="h-5 bg-muted rounded w-2/3" />
+                      <div className="h-4 bg-muted rounded w-1/2" />
+                    </div>
+                  </div>
                 ))
               ) : filteredTopics.length === 0 ? (
-                <div className="col-span-full text-center py-12 text-muted-foreground">
+                <div className="py-12 text-muted-foreground">
                   Belum ada data materi try out yang tersedia untuk blok ini.
                 </div>
               ) : (
@@ -136,73 +123,69 @@ function TryoutTopicSelectionPage() {
                   const visuals = getTopicVisuals(topic.title);
                   const Icon = visuals.icon;
                   return (
-                    <Card
+                    <div
                       key={topic.id}
-                      className="group relative flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 border-border hover:border-primary/40 bg-card"
+                      className="group flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-b border-border/40 hover:bg-muted/10 transition-colors px-4 -mx-4 rounded-xl"
                     >
-                      <CardHeader className="pt-6 pb-3">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          <div className="flex items-center gap-1.5">
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted text-muted-foreground shrink-0 group-hover:text-primary transition-colors mt-0.5">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="max-w-xl">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                            <h3 className="text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                              {topic.title}
+                            </h3>
                             {topic.blockName && (
-                              <Badge variant="secondary" className="text-[11px] font-mono font-semibold max-w-[120px] truncate">
+                              <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-md w-fit">
                                 {topic.blockName}
-                              </Badge>
+                              </span>
                             )}
                           </div>
-                        </div>
-
-                        <CardTitle className="text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors leading-snug">
-                          {topic.title}
-                        </CardTitle>
-                        <CardDescription className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                          {topic.description}
-                        </CardDescription>
-                      </CardHeader>
-
-                      <CardContent className="pt-2 pb-5 flex flex-col gap-3 mt-auto">
-                        <div className="flex items-center justify-between w-full">
-                          <span className="text-xs font-semibold text-muted-foreground font-mono">
+                          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                            {topic.description}
+                          </p>
+                          <p className="text-xs font-semibold text-muted-foreground font-mono mt-3">
                             {topic.requiredQuestionCount} Soal Latihan
-                          </span>
-
-                          {topic.isStartable ? (
-                            <Link
-                              {...getButtonStyleProps({
-                                variant: "outline",
-                                size: "sm",
-                                className: "group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all text-xs font-semibold",
-                              })}
-                              to={`/app/tryout/session?template=${topic.sessionTemplateId}`}
-                            >
-                              Mulai Try Out <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                            </Link>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-xs font-semibold"
-                              disabled
-                            >
-                              Mulai Try Out <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                            </Button>
-                          )}
+                          </p>
                         </div>
+                      </div>
+
+                      <div className="shrink-0 flex flex-col items-start sm:items-end w-full sm:w-auto">
+                        {topic.isStartable ? (
+                          <Link
+                            {...getButtonStyleProps({
+                              variant: "outline",
+                              size: "sm",
+                              className: "w-full sm:w-auto font-semibold group-hover:border-primary group-hover:text-primary transition-colors",
+                            })}
+                            to={`/app/tryout/session?template=${topic.sessionTemplateId}`}
+                          >
+                            Mulai <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full sm:w-auto font-semibold opacity-50"
+                            disabled
+                          >
+                            Mulai <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                          </Button>
+                        )}
                         
                         {!topic.isStartable && topic.disabledReason && (
-                          <span className="text-xs text-destructive text-right leading-tight">
+                          <span className="text-xs text-destructive mt-2 font-medium">
                             {topic.disabledReason}
                           </span>
                         )}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   );
                 })
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
     </ProductShell>

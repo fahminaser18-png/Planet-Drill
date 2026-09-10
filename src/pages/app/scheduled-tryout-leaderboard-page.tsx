@@ -14,43 +14,24 @@ import { useStudentShell } from "./use-student-shell";
 function getRankBadgeStyle(rank: number) {
   if (rank === 1) {
     return {
-      bg: "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/40",
-      card: "border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-card to-card shadow-md",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Crown className="h-4 w-4 text-amber-500 -mb-0.5" />
-          <span className="text-sm font-extrabold">1</span>
-        </div>
-      ),
+      bg: "bg-primary text-primary-foreground",
+      icon: <span className="text-sm font-bold">1</span>,
     };
   }
   if (rank === 2) {
     return {
-      bg: "bg-slate-400/20 text-slate-700 dark:text-slate-300 border-slate-400/40",
-      card: "border-slate-400/30 bg-gradient-to-r from-slate-400/10 via-card to-card shadow-sm",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Medal className="h-4 w-4 text-slate-400 -mb-0.5" />
-          <span className="text-sm font-extrabold">2</span>
-        </div>
-      ),
+      bg: "bg-muted text-foreground",
+      icon: <span className="text-sm font-bold">2</span>,
     };
   }
   if (rank === 3) {
     return {
-      bg: "bg-amber-700/20 text-amber-800 dark:text-amber-300 border-amber-700/40",
-      card: "border-amber-700/30 bg-gradient-to-r from-amber-700/10 via-card to-card shadow-sm",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Medal className="h-4 w-4 text-amber-700 -mb-0.5" />
-          <span className="text-sm font-extrabold">3</span>
-        </div>
-      ),
+      bg: "bg-muted text-muted-foreground",
+      icon: <span className="text-sm font-bold">3</span>,
     };
   }
   return {
-    bg: "bg-primary/10 text-primary border-primary/20",
-    card: "border-border/80 bg-card hover:border-primary/40",
+    bg: "text-muted-foreground",
     icon: <span className="text-base font-bold">{rank}</span>,
   };
 }
@@ -88,7 +69,7 @@ function ScheduledTryoutLeaderboardPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
           <div>
             <Badge variant="outline" className="mb-2 px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-primary/5 text-primary border-primary/20">
-              <Trophy className="mr-1.5 h-3.5 w-3.5 inline-block text-amber-500" />
+              <Trophy className="mr-1.5 h-3.5 w-3.5 inline-block" />
               Peringkat Terjadwal
             </Badge>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
@@ -139,10 +120,10 @@ function ScheduledTryoutLeaderboardPage() {
         ) : (
           <div className="mt-6 grid gap-6 w-full">
             {/* Event Summary Status Card */}
-            <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/10 via-card to-card shadow-sm p-6 relative">
+            <Card className="p-6">
               <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold flex items-center gap-1.5 bg-primary/10 text-primary border-transparent">
-                  <Trophy className="h-3.5 w-3.5 text-amber-500" />
+                <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold flex items-center gap-1.5">
+                  <Trophy className="h-3.5 w-3.5" />
                   {pageData.stateLabel}
                 </Badge>
               </div>
@@ -152,57 +133,49 @@ function ScheduledTryoutLeaderboardPage() {
             </Card>
 
             {/* Leaderboard Rows Container */}
-            <Card className="p-6 border-border/80 bg-card shadow-xs">
-              <div className="grid gap-3">
-                {pageData.rows.map((row, index) => {
-                  const rankStyle = getRankBadgeStyle(row.rank);
+            <div className="divide-y border rounded-xl bg-card">
+              {pageData.rows.map((row, index) => {
+                const rankStyle = getRankBadgeStyle(row.rank);
 
-                  return (
-                    <div
-                      key={row.attemptId}
-                      data-testid={`scheduled-leaderboard-row-${index}`}
-                      className={`rounded-xl border p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${rankStyle.card}`}
-                    >
-                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div className="flex items-center gap-3.5">
-                          <div className={`flex h-10 w-10 items-center justify-center rounded-xl border ${rankStyle.bg} shrink-0`}>
-                            {rankStyle.icon}
-                          </div>
-                          {row.avatarUrl ? (
-                            <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
-                              <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
-                            </div>
-                          ) : (
-                            <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/10 text-primary font-bold border border-primary/20 text-xs uppercase">
-                              {row.alias.substring(0, 2)}
-                            </div>
-                          )}
-                          <div>
-                            <p className="font-extrabold tracking-tight text-foreground text-base">{row.alias}</p>
-                            <p className="text-xs font-medium text-muted-foreground mt-0.5">
-                              Skor terbaik di percobaan #{row.bestScoreAttemptNumber}
-                            </p>
-                          </div>
+                return (
+                  <div
+                    key={row.attemptId}
+                    data-testid={`scheduled-leaderboard-row-${index}`}
+                    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-full shrink-0 ${rankStyle.bg}`}>
+                        {rankStyle.icon}
+                      </div>
+                      {row.avatarUrl ? (
+                        <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
+                          <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
                         </div>
-
-                        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-                          <Badge 
-                            variant="outline"
-                            className="font-mono text-xs font-bold px-3 py-1 bg-primary/5 text-primary border-primary/20"
-                          >
-                            <Award className="h-3.5 w-3.5 mr-1 inline-block" />
-                            Skor {Math.round(row.bestScore)}
-                          </Badge>
-                          <Badge variant="secondary" className="text-xs font-semibold text-muted-foreground px-3 py-1">
-                            Siklus {row.eventCycle}
-                          </Badge>
+                      ) : (
+                        <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-muted text-muted-foreground font-bold border border-border text-xs uppercase">
+                          {row.alias.substring(0, 2)}
                         </div>
+                      )}
+                      <div>
+                        <p className="font-extrabold tracking-tight text-foreground text-base">{row.alias}</p>
+                        <p className="text-xs font-medium text-muted-foreground mt-0.5">
+                          Skor terbaik di percobaan #{row.bestScoreAttemptNumber}
+                        </p>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </Card>
+
+                    <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+                      <Badge variant="secondary" className="font-mono text-xs font-bold px-3 py-1">
+                        Skor {Math.round(row.bestScore)}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs font-semibold text-muted-foreground px-3 py-1">
+                        Siklus {row.eventCycle}
+                      </Badge>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

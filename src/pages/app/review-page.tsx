@@ -143,75 +143,63 @@ function ReviewPage() {
                 <AlertDescription>Hasil yang sudah selesai akan muncul di sini.</AlertDescription>
               </Alert>
             ) : (
-              <div className="mt-6 grid gap-4 w-full">
+              <div className="mt-6 flex flex-col gap-0 w-full border-t border-border/40">
                 {historyQuery.data?.map((attempt) => (
-                  <Card 
+                  <div 
                     key={attempt.attemptId}
-                    className="group relative overflow-hidden border-border/80 bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/40"
+                    className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-border/40 hover:bg-muted/10 transition-colors px-4 -mx-4 rounded-xl"
                   >
-                    <CardContent className="p-6">
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <Badge 
-                            variant={attempt.source === "scheduled" ? "secondary" : attempt.source === "tutor" ? "default" : "outline"}
-                            className="font-mono text-xs font-semibold px-2.5 py-0.5"
-                          >
-                            {attempt.source === "scheduled" ? "Terjadwal" : attempt.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
-                          </Badge>
-                          <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                            {attempt.title}
-                          </h2>
-                          <p className="mt-1 text-sm text-muted-foreground flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-muted-foreground/70" />
-                            {formatSubmittedAttemptLabel(attempt.submittedAt)}
-                          </p>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 self-start rounded-full bg-primary/10 border border-primary/20 px-4 py-2 text-sm font-extrabold text-primary shadow-xs">
-                          <Award className="h-4 w-4" />
-                          Skor {Math.round(attempt.score)}
-                        </div>
-                      </div>
-
-                      <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center pt-4 border-t border-border/40">
-                        <div className="grid gap-3 sm:grid-cols-2">
-                          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-4 py-3.5 backdrop-blur-xs">
-                            <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                              <CheckCircle className="h-3.5 w-3.5" />
-                              Jawaban benar
-                            </p>
-                            <p className="mt-1.5 text-xl font-extrabold text-foreground">
-                              {attempt.correctAnswers} <span className="text-xs font-normal text-muted-foreground">Soal</span>
-                            </p>
-                          </div>
-                          <div className="rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3.5 backdrop-blur-xs">
-                            <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-destructive/80 flex items-center gap-1.5">
-                              <XCircle className="h-3.5 w-3.5" />
-                              Jawaban salah
-                            </p>
-                            <p className="mt-1.5 text-xl font-extrabold text-foreground">
-                              {attempt.wrongAnswers} <span className="text-xs font-normal text-muted-foreground">Soal</span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <Link
-                          aria-label={`Buka pembahasan ${attempt.title}`}
-                          {...getButtonStyleProps({
-                            variant: "outline",
-                            className: "w-full lg:w-auto justify-center font-semibold group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all",
-                          })}
-                          to={attempt.source === "scheduled"
-                            ? `/app/review/${attempt.attemptId}?source=scheduled`
-                            : attempt.source === "tutor"
-                            ? `/app/review/${attempt.attemptId}?source=tutor`
-                            : `/app/review/${attempt.attemptId}`}
+                    <div className="flex flex-col gap-2 md:max-w-xl">
+                      <div className="flex items-center gap-2">
+                        <Badge 
+                          variant={attempt.source === "scheduled" ? "secondary" : attempt.source === "tutor" ? "default" : "outline"}
+                          className="font-mono text-[10px] uppercase font-bold px-2 py-0.5"
                         >
-                          Buka pembahasan <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
+                          {attempt.source === "scheduled" ? "Terjadwal" : attempt.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
+                        </Badge>
+                        <p className="text-sm text-muted-foreground flex items-center gap-1.5 font-medium">
+                          <Calendar className="h-3.5 w-3.5" />
+                          {formatSubmittedAttemptLabel(attempt.submittedAt)}
+                        </p>
                       </div>
-                    </CardContent>
-                  </Card>
+                      
+                      <h2 className="text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                        {attempt.title}
+                      </h2>
+                      
+                      <div className="flex items-center gap-6 mt-2">
+                        <div className="flex items-center gap-2 text-sm font-medium">
+                          <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                          <span className="text-foreground">{attempt.correctAnswers}</span> <span className="text-muted-foreground">Benar</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-medium">
+                          <XCircle className="h-4 w-4 text-destructive/80" />
+                          <span className="text-foreground">{attempt.wrongAnswers}</span> <span className="text-muted-foreground">Salah</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col items-start md:items-end gap-4 shrink-0 mt-2 md:mt-0">
+                      <div className="flex items-center gap-2 text-lg font-black text-foreground">
+                        <Award className="h-5 w-5 text-primary" />
+                        Skor {Math.round(attempt.score)}
+                      </div>
+                      <Link
+                        aria-label={`Buka pembahasan ${attempt.title}`}
+                        {...getButtonStyleProps({
+                          variant: "outline",
+                          className: "w-full md:w-auto justify-center font-semibold group-hover:border-primary group-hover:text-primary transition-colors",
+                        })}
+                        to={attempt.source === "scheduled"
+                          ? `/app/review/${attempt.attemptId}?source=scheduled`
+                          : attempt.source === "tutor"
+                          ? `/app/review/${attempt.attemptId}?source=tutor`
+                          : `/app/review/${attempt.attemptId}`}
+                      >
+                        Buka pembahasan <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
@@ -341,16 +329,16 @@ function ReviewPage() {
 
                     {/* Right Main View - Current Question & Pembahasan */}
                     {currentItem ? (
-                      <Card className="shadow-xs">
-                        <CardHeader className="pb-4">
+                      <div className="flex flex-col gap-6 w-full">
+                        <div className="pb-4 border-b border-border/40">
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                             <div>
-                              <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
+                              <Badge variant="secondary" className="bg-primary/10 text-primary">
                                 {currentItem.blockLabel}
                               </Badge>
-                              <CardTitle className="mt-4 text-2xl font-bold leading-tight">
-                                Soal {currentIndex + 1} <span className="text-muted-foreground font-normal text-lg">dari {items.length}</span>
-                              </CardTitle>
+                              <h2 className="mt-4 text-2xl font-black tracking-tight text-foreground">
+                                Soal {currentIndex + 1} <span className="text-muted-foreground font-medium text-lg">dari {items.length}</span>
+                              </h2>
                             </div>
 
                             {/* Status Badge */}
@@ -375,9 +363,9 @@ function ReviewPage() {
                               )}
                             </Badge>
                           </div>
-                        </CardHeader>
+                        </div>
 
-                        <CardContent>
+                        <div>
                           {/* Question Text */}
                           <p className="text-base leading-relaxed font-medium text-foreground">
                             {currentItem.question}
@@ -385,7 +373,7 @@ function ReviewPage() {
 
                           {/* Question Image if present */}
                           {currentItem.questionImageUrl ? (
-                            <div className="mt-6 overflow-hidden rounded-xl border border-border/80 bg-muted/30 p-2">
+                            <div className="mt-6 overflow-hidden rounded-xl bg-muted/30 p-2">
                               <img
                                 alt={`Gambar soal ${currentIndex + 1}`}
                                 className="max-h-[26rem] w-full rounded-lg object-contain"
@@ -409,41 +397,41 @@ function ReviewPage() {
                                 return (
                                   <div
                                     key={option.key}
-                                    className={`relative flex items-center justify-between rounded-[1.45rem] border p-4 text-left font-medium transition-all text-sm ${
+                                    className={`relative flex items-center justify-between rounded-xl border p-4 text-left font-medium transition-all text-sm ${
                                       isCorrectAnswer
-                                        ? "border-emerald-500/50 bg-emerald-500/10 shadow-2xs"
+                                        ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-900 dark:text-emerald-100"
                                         : isUserWrong
-                                        ? "border-destructive/50 bg-destructive/10 shadow-2xs"
-                                        : "border-border/80 bg-card"
+                                        ? "border-destructive/30 bg-destructive/5 text-destructive"
+                                        : "border-border/60 bg-transparent text-foreground"
                                     }`}
                                   >
                                     <div className="flex items-start gap-3 pr-4">
                                       <span
-                                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold border ${
+                                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold border ${
                                           isCorrectAnswer
                                             ? "bg-emerald-600 text-white border-emerald-600"
                                             : isUserWrong
                                             ? "bg-destructive text-white border-destructive"
-                                            : "border-border/80 bg-muted/40 text-muted-foreground"
+                                            : "border-border text-muted-foreground bg-muted/30"
                                         }`}
                                       >
                                         {option.key}
                                       </span>
-                                      <p className="pt-1 text-sm leading-relaxed text-foreground font-semibold">{option.text}</p>
+                                      <p className="pt-0.5 text-sm leading-relaxed font-medium">{option.text}</p>
                                     </div>
 
                                     {/* Badges */}
                                     {isCorrectAnswer && (
-                                      <span className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-white bg-emerald-600 px-3.5 py-1.5 rounded-full shadow-2xs">
-                                        <Check className="h-3.5 w-3.5 text-white" />
+                                      <span className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">
+                                        <Check className="h-3.5 w-3.5" />
                                         Jawaban Benar
                                       </span>
                                     )}
 
                                     {isUserWrong && (
-                                      <span className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-white bg-rose-600 px-3.5 py-1.5 rounded-full shadow-2xs">
-                                        <X className="h-3.5 w-3.5 text-white" />
-                                        Jawabanmu (Salah)
+                                      <span className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-destructive bg-destructive/10 border border-destructive/20 px-2.5 py-1 rounded-md">
+                                        <X className="h-3.5 w-3.5" />
+                                        Jawabanmu
                                       </span>
                                     )}
                                   </div>
@@ -452,61 +440,59 @@ function ReviewPage() {
                             </div>
                           ) : (
                             /* Fallback to Jawabanmu & Jawaban Benar cards if options array is empty */
-                            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                              <div className="rounded-xl border border-border/80 bg-background/60 p-4">
-                                <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                                  <User className="h-3.5 w-3.5 text-primary" />
+                            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                              <div className="flex flex-col border-l-2 border-border/40 pl-4">
+                                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
                                   Jawabanmu
                                 </p>
-                                <p className="mt-2 text-sm font-semibold leading-relaxed text-foreground">
+                                <p className="text-base font-semibold leading-relaxed text-foreground">
                                   {getUserAnswerCopy(currentItem.userAnswer)}
                                 </p>
                               </div>
-                              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-                                <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                                  <Check className="h-3.5 w-3.5" />
+                              <div className="flex flex-col border-l-2 border-emerald-500/40 pl-4">
+                                <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-1">
                                   Jawaban benar
                                 </p>
-                                <p className="mt-2 text-sm font-bold leading-relaxed text-emerald-700 dark:text-emerald-300">
+                                <p className="text-base font-bold leading-relaxed text-emerald-700 dark:text-emerald-300">
                                   {currentItem.correctAnswer}
                                 </p>
                               </div>
                             </div>
                           )}
 
-                          {/* Embedded Pembahasan Box (Circle Yellow Area Screenshot 1) */}
-                          <div className="mt-6 rounded-2xl border border-border/70 bg-muted/30 p-5 shadow-2xs">
-                            <div className="flex items-center gap-2 mb-3">
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary uppercase tracking-wider">
-                                <HelpCircle className="h-3.5 w-3.5" />
-                                PEMBAHASAN
-                              </span>
+                          {/* Embedded Pembahasan Box */}
+                          <div className="mt-8 rounded-xl border border-border/40 bg-muted/20 p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
+                                Pembahasan
+                              </h3>
                             </div>
 
                             {currentItem.explanationText ? (
-                              <p className="text-sm leading-relaxed text-foreground/90 font-medium">
+                              <p className="text-sm leading-relaxed text-foreground/90">
                                 {currentItem.explanationText}
                               </p>
                             ) : null}
 
                             {currentItem.explanationImageUrl ? (
-                              <div className={currentItem.explanationText ? "mt-4" : "mt-3"}>
+                              <div className={currentItem.explanationText ? "mt-4" : "mt-2"}>
                                 <img
                                   alt={`Gambar pembahasan ${currentItem.question}`}
-                                  className="max-h-72 w-full rounded-lg border border-border bg-background object-contain"
+                                  className="max-h-72 w-full rounded-lg border border-border/40 bg-background object-contain"
                                   src={currentItem.explanationImageUrl}
                                 />
                               </div>
                             ) : null}
                           </div>
-                        </CardContent>
+                        </div>
 
                         {/* Bottom Navigation Controls */}
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t bg-muted/10 px-6 py-4 mt-4 rounded-b-xl">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between py-4 mt-2">
                           <Button
                             disabled={currentIndex === 0}
                             onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                             variant="outline"
+                            className="w-full sm:w-auto"
                           >
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Sebelumnya
@@ -516,98 +502,80 @@ function ReviewPage() {
                             disabled={currentIndex === items.length - 1}
                             onClick={() => setCurrentIndex((prev) => Math.min(items.length - 1, prev + 1))}
                             variant="default"
+                            className="w-full sm:w-auto"
                           >
                             Selanjutnya
                             <ArrowRight className="w-4 h-4 ml-2" />
                           </Button>
                         </div>
-                      </Card>
+                      </div>
                     ) : null}
                   </div>
                 )}
 
                 {/* Redesigned Summary Stats Section at the VERY BOTTOM */}
                 {reviewSummary ? (
-                  <Card aria-label="Ringkasan hasil sesi" className="mt-12 overflow-hidden border-border/80 bg-gradient-to-br from-card via-card to-primary/5 shadow-md">
-                    <CardHeader className="pb-4 border-b border-border/40">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                            <PieChart className="h-5 w-5" />
-                          </div>
-                          <div>
-                            <CardTitle className="text-xl font-bold tracking-tight text-foreground">
-                              Ringkasan Hasil Sesi
-                            </CardTitle>
-                            <CardDescription className="text-xs text-muted-foreground mt-0.5">
-                              Statistik keseluruhan performa dan skor akhir Anda pada sesi ini
-                            </CardDescription>
-                          </div>
-                        </div>
-                        
-                        <Badge 
-                          variant={reviewSummary.source === "scheduled" ? "secondary" : reviewSummary.source === "tutor" ? "default" : "outline"}
-                          className="font-mono text-xs font-semibold px-3 py-1 self-start sm:self-auto"
-                        >
-                          {reviewSummary.source === "scheduled" ? "Terjadwal" : reviewSummary.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
-                        </Badge>
+                  <div aria-label="Ringkasan hasil sesi" className="mt-16 pt-10 border-t border-border/40 w-full">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-8">
+                      <div>
+                        <h2 className="text-2xl font-black tracking-tight text-foreground">
+                          Ringkasan Hasil Sesi
+                        </h2>
+                        <p className="text-base text-muted-foreground mt-1">
+                          Statistik keseluruhan performa dan skor akhir Anda
+                        </p>
                       </div>
-                    </CardHeader>
+                      
+                      <Badge 
+                        variant={reviewSummary.source === "scheduled" ? "secondary" : reviewSummary.source === "tutor" ? "default" : "outline"}
+                        className="font-mono text-xs font-semibold px-3 py-1 self-start sm:self-auto"
+                      >
+                        {reviewSummary.source === "scheduled" ? "Terjadwal" : reviewSummary.source === "tutor" ? "Simulasi TUTOR" : "Try out"}
+                      </Badge>
+                    </div>
 
-                    <CardContent className="p-6">
-                      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-                        {/* Stat 1: Skor */}
-                        <div className="group rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-5 transition-all duration-300 hover:border-primary/40 hover:shadow-md">
-                          <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-primary flex items-center gap-2">
-                            <Award className="h-4 w-4" />
-                            SKOR AKHIR
-                          </p>
-                          <p className="mt-3 text-3xl md:text-4xl font-black tracking-tight text-foreground">
-                            {Math.round(reviewSummary.score)}
-                          </p>
-                          <p className="mt-1 text-xs text-muted-foreground font-medium">Total Skor Perolehan</p>
-                        </div>
-
-                        {/* Stat 2: Jawaban Benar */}
-                        <div className="group rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent p-5 transition-all duration-300 hover:border-emerald-500/40 hover:shadow-md">
-                          <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4" />
-                            JAWABAN BENAR
-                          </p>
-                          <p className="mt-3 text-3xl md:text-4xl font-black tracking-tight text-emerald-700 dark:text-emerald-400">
-                            {reviewSummary.correctAnswers} <span className="text-sm font-semibold text-muted-foreground">Soal</span>
-                          </p>
-                          <p className="mt-1 text-xs text-emerald-600/80 dark:text-emerald-400/80 font-medium">
-                            Soal Terjawab Tepat
-                          </p>
-                        </div>
-
-                        {/* Stat 3: Jawaban Salah */}
-                        <div className="group rounded-2xl border border-destructive/20 bg-gradient-to-br from-destructive/5 to-transparent p-5 transition-all duration-300 hover:border-destructive/40 hover:shadow-md">
-                          <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-destructive flex items-center gap-2">
-                            <XCircle className="h-4 w-4" />
-                            JAWABAN SALAH
-                          </p>
-                          <p className="mt-3 text-3xl md:text-4xl font-black tracking-tight text-destructive">
-                            {reviewSummary.wrongAnswers} <span className="text-sm font-semibold text-muted-foreground">Soal</span>
-                          </p>
-                          <p className="mt-1 text-xs text-destructive/80 font-medium">Perlu Evaluasi Ulang</p>
-                        </div>
-
-                        {/* Stat 4: Tanggal Submit */}
-                        <div className="group rounded-2xl border border-border/80 bg-background/60 p-5 transition-all duration-300 hover:border-border hover:shadow-md">
-                          <p className="font-mono text-[0.7rem] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-primary" />
-                            TANGGAL SUBMIT
-                          </p>
-                          <p className="mt-3 text-lg md:text-xl font-bold tracking-tight text-foreground leading-snug">
-                            {formatSubmittedAttemptSummaryLabel(reviewSummary.submittedAt)}
-                          </p>
-                          <p className="mt-1 text-xs text-muted-foreground font-medium">Selesai Dikirim</p>
-                        </div>
+                    <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
+                      {/* Stat 1: Skor */}
+                      <div className="flex flex-col border-l-2 border-border/40 pl-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                          Skor Akhir
+                        </p>
+                        <p className="text-4xl font-black tracking-tight text-foreground">
+                          {Math.round(reviewSummary.score)}
+                        </p>
                       </div>
-                    </CardContent>
-                  </Card>
+
+                      {/* Stat 2: Jawaban Benar */}
+                      <div className="flex flex-col border-l-2 border-border/40 pl-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                          Jawaban Benar
+                        </p>
+                        <p className="text-4xl font-black tracking-tight text-foreground">
+                          {reviewSummary.correctAnswers} <span className="text-sm font-semibold text-muted-foreground">Soal</span>
+                        </p>
+                      </div>
+
+                      {/* Stat 3: Jawaban Salah */}
+                      <div className="flex flex-col border-l-2 border-border/40 pl-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                          Jawaban Salah
+                        </p>
+                        <p className="text-4xl font-black tracking-tight text-foreground">
+                          {reviewSummary.wrongAnswers} <span className="text-sm font-semibold text-muted-foreground">Soal</span>
+                        </p>
+                      </div>
+
+                      {/* Stat 4: Tanggal Submit */}
+                      <div className="flex flex-col border-l-2 border-border/40 pl-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                          Tanggal Selesai
+                        </p>
+                        <p className="text-lg font-bold tracking-tight text-foreground leading-snug mt-1">
+                          {formatSubmittedAttemptSummaryLabel(reviewSummary.submittedAt)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
             )}

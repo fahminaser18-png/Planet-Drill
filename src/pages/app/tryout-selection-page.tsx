@@ -36,17 +36,17 @@ function TryoutSelectionPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-8 w-full py-4">
+      <div className="flex flex-col gap-10 w-full py-6">
         {/* Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 block">
               Mode Latihan
             </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
+            <h1 className="text-4xl font-black tracking-tight text-foreground">
               Pilih Mode Try Out
             </h1>
-            <p className="text-base text-muted-foreground mt-2">
+            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
               Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UTBK SNBT.
             </p>
           </div>
@@ -54,112 +54,107 @@ function TryoutSelectionPage() {
 
         {/* Active Attempt Banner */}
         {isLoading ? (
-          <div className="w-full h-[120px] rounded-2xl border bg-card text-card-foreground shadow-xs animate-pulse"></div>
+          <div className="w-full h-[100px] border-b border-border/40 animate-pulse"></div>
         ) : activeAttempt && (activeAttempt.status === "in_progress" || activeAttempt.status === "paused") ? (
-          <Card className="w-full bg-gradient-to-r from-primary/10 via-primary/5 to-card border-primary/30 relative overflow-hidden shadow-sm">
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 gap-4">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
-                  <Clock className="h-6 w-6" />
-                </div>
-                <div>
-                  <CardTitle className="text-xl font-bold">Sesi Try Out Sedang Berlangsung</CardTitle>
-                  <CardDescription className="text-base mt-1 text-foreground/80 font-medium">
-                    {activeAttempt.title}
-                  </CardDescription>
-                </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-6 px-8 rounded-2xl bg-muted/40 border border-border/60 mb-2">
+            <div className="flex items-center gap-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Clock className="h-6 w-6" />
               </div>
-              <div className="text-left sm:text-right">
-                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Progres Sesi</div>
-                <div className="text-lg font-bold text-foreground">
-                  {activeAttempt.answeredCount} <span className="text-muted-foreground text-sm font-normal">/ {activeAttempt.totalQuestions} Soal</span>
-                </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Sesi Sedang Berlangsung</h3>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  {activeAttempt.title}
+                </p>
               </div>
-            </CardHeader>
-            <CardContent>
+            </div>
+            <div className="mt-4 sm:mt-0 flex items-center gap-8">
+              <div className="hidden sm:block text-right">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Progres</p>
+                <p className="text-base font-bold text-foreground mt-0.5">
+                  {activeAttempt.answeredCount} <span className="text-muted-foreground font-medium">/ {activeAttempt.totalQuestions}</span>
+                </p>
+              </div>
               <Link
-                {...getButtonStyleProps({ className: "w-full sm:w-auto font-semibold shadow-sm", variant: "primary" })}
+                {...getButtonStyleProps({ variant: "primary" })}
                 to={`/app/tryout/session?attempt=${activeAttempt.attemptId}`}
               >
-                Lanjutkan Sesi <Play className="ml-2 h-4 w-4 fill-current inline-block" />
+                Lanjutkan <Play className="ml-2 h-4 w-4 fill-current" />
               </Link>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ) : null}
 
-        {/* 2-Column Card Grid */}
-        <div className="grid gap-6 md:grid-cols-2 w-full">
-          {/* Card 1: Unlimited */}
-          <Card className="group relative flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 border-border hover:border-primary/40 bg-card rounded-2xl">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground shrink-0">
-                  <BookOpen className="h-7 w-7" />
-                </div>
-                <CardTitle className="text-2xl font-extrabold tracking-tight flex items-center gap-2">
-                  Unlimited
-                </CardTitle>
+        {/* Selection List */}
+        <div className="flex flex-col gap-0 w-full">
+          {/* Item 1: Unlimited */}
+          <div className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 border-b border-border/40 hover:bg-muted/20 transition-colors px-4 -mx-4 rounded-xl">
+            <div className="flex items-start gap-6">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:text-primary group-hover:bg-primary/10 transition-colors">
+                <BookOpen className="h-6 w-6" />
               </div>
-              <CardDescription className="text-base leading-relaxed text-muted-foreground">
-                Latihan mandiri tanpa batas waktu. Fokus pada pemahaman materi dan blok yang spesifik.
-              </CardDescription>
-            </CardHeader>
-            <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto">
+              <div className="max-w-xl">
+                <h3 className="text-2xl font-bold tracking-tight text-foreground">
+                  Unlimited
+                </h3>
+                <p className="text-base text-muted-foreground mt-2 leading-relaxed">
+                  Latihan mandiri tanpa batas waktu. Fokus pada pemahaman materi dan blok yang spesifik.
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0 pt-2 md:pt-0">
               {studentShell.role === "pendaftar_baru" ? (
                 <button
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full text-muted-foreground border-border bg-muted/50 font-semibold rounded-xl py-3 text-base justify-center relative cursor-pointer hover:bg-muted",
+                    className: "w-full md:w-auto cursor-pointer",
                   })}
                   onClick={(e) => {
                     e.preventDefault();
                     setShowPaywall(true);
                   }}
                 >
-                  <span className="absolute inset-0" aria-hidden="true" />
                   Terkunci <Lock className="ml-2 h-4 w-4" />
                 </button>
               ) : (
                 <Link
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all font-semibold rounded-xl py-3 text-base justify-center",
+                    className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-colors",
                   })}
                   to="/app/tryout/blocks"
                 >
-                  <span className="absolute inset-0" aria-hidden="true" />
-                  Pilih Unlimited <ArrowRight className="ml-2 h-4 w-4" />
+                  Pilih Unlimited <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               )}
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
 
-          {/* Card 2: Terjadwal */}
-          <Card className="group relative flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 border-border hover:border-primary/40 bg-card rounded-2xl">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground shrink-0">
-                  <CalendarClock className="h-7 w-7" />
-                </div>
-                <CardTitle className="text-2xl font-extrabold tracking-tight">Terjadwal</CardTitle>
+          {/* Item 2: Terjadwal */}
+          <div className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 border-b border-border/40 hover:bg-muted/20 transition-colors px-4 -mx-4 rounded-xl">
+            <div className="flex items-start gap-6">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:text-primary group-hover:bg-primary/10 transition-colors">
+                <CalendarClock className="h-6 w-6" />
               </div>
-              <CardDescription className="text-base leading-relaxed text-muted-foreground">
-                Simulasi ujian sebenarnya dengan batasan waktu yang ketat dan saingan serentak.
-              </CardDescription>
-            </CardHeader>
-            <CardFooter className="pt-4 border-t-0 bg-transparent mt-auto">
+              <div className="max-w-xl">
+                <h3 className="text-2xl font-bold tracking-tight text-foreground">Terjadwal</h3>
+                <p className="text-base text-muted-foreground mt-2 leading-relaxed">
+                  Simulasi ujian sebenarnya dengan batasan waktu yang ketat dan saingan serentak.
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0 pt-2 md:pt-0">
               <Link
                 {...getButtonStyleProps({
                   variant: "outline",
-                  className: "w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all font-semibold rounded-xl py-3 text-base justify-center",
+                  className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-colors",
                 })}
                 to="/app/scheduled-tryout"
               >
-                <span className="absolute inset-0" aria-hidden="true" />
-                Pilih Terjadwal <ArrowRight className="ml-2 h-4 w-4" />
+                Pilih Terjadwal <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
       <PaywallModal open={showPaywall} onOpenChange={setShowPaywall} />

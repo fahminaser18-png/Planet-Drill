@@ -21,10 +21,7 @@ import {
 import { usePreviewRouteState } from "../../lib/preview-route-state";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
-import { Badge } from "../../components/ui/badge";
-import { Loader2, AlertCircle, PackageSearch, BarChart3, Bot, Sparkles, Key } from "lucide-react";
+import { Loader2, PackageSearch, Bot } from "lucide-react";
 
 function AnalyticsPage() {
   const { user } = useSession();
@@ -80,7 +77,7 @@ function AnalyticsPage() {
       dateTo: appliedRange.dateTo,
       timezone,
     }),
-    enabled: false, // Only run when triggered
+    enabled: false,
   });
 
   function handlePresetSelect(preset: "7d" | "14d" | "30d") {
@@ -91,11 +88,7 @@ function AnalyticsPage() {
 
   function handleApplyCustomRange() {
     const nextRange = toAppliedDiagnosisRange(draftRange);
-
-    if (!nextRange) {
-      return;
-    }
-
+    if (!nextRange) return;
     setAppliedRange(nextRange);
   }
 
@@ -105,20 +98,14 @@ function AnalyticsPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-8 w-full py-4">
-        {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
-              Analisis Performa
-            </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
-              Area yang Perlu Diperbaiki
-            </h1>
-            <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Lihat topik dan materi yang paling sering menahan peningkatan skormu pada rentang waktu ini.
-            </p>
-          </div>
+      <div className="flex flex-col gap-10 w-full py-8 max-w-4xl">
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">
+            Area yang Perlu Diperbaiki
+          </h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            Lihat topik dan materi yang sering menahan peningkatan skormu pada rentang waktu ini.
+          </p>
         </div>
 
         <DiagnosisRangeControls
@@ -132,17 +119,14 @@ function AnalyticsPage() {
         />
 
         {analyticsView === "loading" || (analyticsView === "ready" && diagnosisQuery.isLoading) ? (
-          <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-             <div>
-               <h3 className="text-lg font-semibold text-foreground">Analisis sedang dimuat</h3>
-               <p className="text-sm">Data analisis sedang disiapkan.</p>
+          <div className="py-12 flex flex-col gap-4">
+             <div className="flex items-center gap-3">
+               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+               <span className="text-sm text-muted-foreground">Memuat data analisis...</span>
              </div>
-             <div className="mt-2">
+             <div>
                 <Link
-                  {...getButtonStyleProps({
-                    variant: "primary",
-                  })}
+                  {...getButtonStyleProps({ variant: "outline" })}
                   to="/app/tryout/result"
                 >
                   Buka hasil terakhir
@@ -150,73 +134,52 @@ function AnalyticsPage() {
              </div>
           </div>
         ) : analyticsView === "error" || (analyticsView === "ready" && diagnosisQuery.isError) ? (
-          <Alert variant="destructive" className="mt-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Analisis belum bisa dimuat</AlertTitle>
-            <AlertDescription className="mt-2">
-              <p className="mb-4">Coba buka review dulu.</p>
-              <Link
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                to="/app/review"
-              >
-                Buka review
-              </Link>
-            </AlertDescription>
-          </Alert>
+          <div className="py-8 space-y-4">
+            <p className="text-sm text-destructive">Analisis gagal dimuat. Coba buka review terlebih dahulu.</p>
+            <Link
+              {...getButtonStyleProps({ variant: "outline" })}
+              to="/app/review"
+            >
+              Buka review
+            </Link>
+          </div>
         ) : analyticsView === "empty" || diagnosisMode === "empty" ? (
-          <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-            <PackageSearch className="h-12 w-12 text-muted-foreground/50" />
+          <div className="py-12 space-y-4">
+            <PackageSearch className="h-8 w-8 text-muted-foreground" />
             <div>
-              <h3 className="text-lg font-semibold text-foreground">Belum ada data untuk rentang ini</h3>
-              <p className="text-sm">Belum ada try out besar di rentang ini.</p>
+              <p className="font-medium text-foreground">Belum ada data</p>
+              <p className="text-sm text-muted-foreground">Belum ada try out besar di rentang ini.</p>
             </div>
-            <div className="mt-2">
-              <Link
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                to="/app/tryout-selection"
-              >
-                Mulai try out besar
-              </Link>
-            </div>
+            <Link
+              {...getButtonStyleProps({ variant: "outline" })}
+              to="/app/tryout-selection"
+            >
+              Mulai try out besar
+            </Link>
           </div>
         ) : diagnosisMode === "basic" && diagnosis ? (
-          <>
-            <Card className="mt-6">
-              <CardHeader>
-                 <CardTitle className="text-2xl font-semibold text-foreground">Ringkasan awal</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-7 text-muted-foreground">
-                  Baru ada {diagnosis.summary.eligibleAttemptCount} try out besar pada rentang ini.
-                </p>
-                <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                  Akurasi saat ini {diagnosis.summary.overallAccuracy}% dari{" "}
-                  {diagnosis.summary.overallQuestionCount} soal.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="space-y-10">
+            <section className="space-y-2">
+              <h2 className="text-lg font-medium text-foreground">Ringkasan awal</h2>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p>Terdapat {diagnosis.summary.eligibleAttemptCount} try out besar pada rentang ini.</p>
+                <p>Akurasi saat ini {diagnosis.summary.overallAccuracy}% dari {diagnosis.summary.overallQuestionCount} soal.</p>
+              </div>
+            </section>
 
             <GlobalBehaviorPanel
               patterns={diagnosis.basicSummary?.globalBehaviorPatterns ?? diagnosis.globalBehaviorPatterns}
             />
 
-            <Card className="mt-6 border-amber-500/20 bg-amber-500/5">
-              <CardHeader>
-                 <CardTitle className="text-2xl font-semibold text-foreground">Analisis lengkap belum tersedia</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-7 text-muted-foreground">
-                  {diagnosis.basicSummary?.message ?? diagnosis.narrative.nextReadiness}
-                </p>
-              </CardContent>
-            </Card>
-          </>
+            <section className="space-y-2">
+              <h2 className="text-lg font-medium text-foreground">Analisis lengkap belum tersedia</h2>
+              <p className="text-sm text-muted-foreground">
+                {diagnosis.basicSummary?.message ?? diagnosis.narrative.nextReadiness}
+              </p>
+            </section>
+          </div>
         ) : diagnosisMode === "full" && diagnosis && weakestSubtopic ? (
-          <>
+          <div className="space-y-12">
             <DiagnosisHeroCard
               behaviorPatterns={diagnosis.globalBehaviorPatterns}
               narrative={diagnosis.narrative}
@@ -230,92 +193,74 @@ function AnalyticsPage() {
 
             <SubtopicRankingList rankings={diagnosis.subtopicRankings} />
 
-            <Card className="mt-8 border-primary/20 bg-primary/5 shadow-md overflow-hidden relative">
-              <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-              <CardHeader className="pb-3">
-                 <CardTitle className="text-xl font-bold flex items-center gap-2 text-foreground">
-                   <Sparkles className="h-5 w-5 text-primary" />
-                   Analisis Mendalam AI
-                 </CardTitle>
-              </CardHeader>
-              <CardContent>
+            <section className="space-y-6 pt-6 border-t border-border/50">
+               <div className="flex items-center gap-2">
+                 <Bot className="h-5 w-5 text-foreground" />
+                 <h2 className="text-lg font-medium text-foreground">
+                   Analisis AI
+                 </h2>
+               </div>
+
                 {!aiCredentialQuery.data?.hasCredential ? (
-                  <div className="flex flex-col items-center justify-center p-6 text-center">
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                      <Key className="h-6 w-6 text-primary" />
-                    </div>
-                    <h4 className="text-base font-semibold mb-2">Kredensial AI Belum Diatur</h4>
-                    <p className="text-sm text-muted-foreground max-w-md mb-4">
-                      Fitur analisis cerdas menggunakan sistem Bring Your Own Key (BYOK). Silakan atur API Key Gemini Anda di Pengaturan AI Global untuk mengaktifkan fitur ini.
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground max-w-lg">
+                      Fitur analisis menggunakan Bring Your Own Key (BYOK). Atur API Key Gemini Anda di Pengaturan AI Global untuk mengaktifkan fitur ini.
                     </p>
                     <Link
-                      {...getButtonStyleProps({ variant: "primary" })}
+                      {...getButtonStyleProps({ variant: "outline" })}
                       to="/app/settings/ai-config"
                     >
                       Buka Pengaturan AI
                     </Link>
                   </div>
                 ) : !aiInsightQuery.data && !aiInsightQuery.isFetching && !aiInsightQuery.isError ? (
-                  <div className="flex flex-col items-center justify-center p-6 text-center">
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                      <Bot className="h-6 w-6 text-primary" />
-                    </div>
-                    <p className="text-sm text-muted-foreground max-w-md mb-4">
-                      Dapatkan rangkuman kelemahan yang lebih spesifik dan saran strategi belajar dari asisten AI cerdas berdasarkan {diagnosis.summary.eligibleAttemptCount} try out Anda.
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground max-w-lg">
+                      Dapatkan rangkuman kelemahan spesifik dan saran strategi belajar berdasarkan {diagnosis.summary.eligibleAttemptCount} try out Anda.
                     </p>
                     <Button 
                       onClick={() => aiInsightQuery.refetch()}
-                      className="font-semibold"
+                      variant="outline"
                     >
                       Buat Analisis AI
                     </Button>
                   </div>
                 ) : aiInsightQuery.isFetching ? (
-                  <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <p className="text-sm font-medium text-muted-foreground">AI sedang menganalisis data try out Anda...</p>
+                  <div className="flex items-center gap-3">
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Menganalisis data try out...</p>
                   </div>
                 ) : aiInsightQuery.isError ? (
-                  <Alert variant="destructive" className="bg-destructive/5 border-destructive/20">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Gagal memuat analisis AI</AlertTitle>
-                    <AlertDescription className="mt-1 flex flex-col items-start gap-3">
-                      <span>{aiInsightQuery.error instanceof Error ? aiInsightQuery.error.message : "Terjadi kesalahan saat memproses data dengan AI."}</span>
-                      <Button variant="outline" size="sm" onClick={() => aiInsightQuery.refetch()}>
-                        Coba Lagi
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
+                  <div className="space-y-3">
+                    <p className="text-sm text-destructive">
+                      {aiInsightQuery.error instanceof Error ? aiInsightQuery.error.message : "Terjadi kesalahan saat memproses data."}
+                    </p>
+                    <Button variant="outline" size="sm" onClick={() => aiInsightQuery.refetch()}>
+                      Coba Lagi
+                    </Button>
+                  </div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                  <div className="space-y-6">
+                    <div className="prose prose-sm dark:prose-invert max-w-none text-foreground leading-relaxed whitespace-pre-wrap">
                       {aiInsightQuery.data?.summary}
                     </div>
-                    <div className="text-[11px] font-mono font-medium text-muted-foreground/60 uppercase tracking-wide flex items-center justify-between border-t border-border/50 pt-4 mt-6">
-                      <span>Model: Gemini 3.6 Flash</span>
-                      <span>Digenerasi: {new Date(aiInsightQuery.data?.generatedAt ?? "").toLocaleString("id-ID")}</span>
+                    <div className="text-xs text-muted-foreground">
+                      <p>Model: Gemini 3.6 Flash &middot; Digenerasi: {new Date(aiInsightQuery.data?.generatedAt ?? "").toLocaleString("id-ID")}</p>
                     </div>
                   </div>
                 )}
-              </CardContent>
-            </Card>
-          </>
+            </section>
+          </div>
         ) : (
-          <Card className="mt-6">
-            <CardHeader>
-               <CardTitle className="text-2xl font-semibold text-foreground">Analisis untuk rentang ini siap dipakai.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm leading-7 text-muted-foreground">
-                Periode aktif {appliedRange.dateFrom} sampai {appliedRange.dateTo} di zona waktu {timezone}.
-              </p>
-              {diagnosis ? (
-                <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                  Mode analisis saat ini: {diagnosis.summary.diagnosisMode}.
-                </p>
-              ) : null}
-            </CardContent>
-          </Card>
+          <section className="space-y-2">
+             <h2 className="text-lg font-medium text-foreground">Analisis rentang ini siap dipakai</h2>
+             <div className="text-sm text-muted-foreground space-y-1">
+               <p>Periode aktif {appliedRange.dateFrom} sampai {appliedRange.dateTo} ({timezone}).</p>
+               {diagnosis && (
+                 <p>Mode analisis: {diagnosis.summary.diagnosisMode}.</p>
+               )}
+             </div>
+          </section>
         )}
       </div>
     </ProductShell>

@@ -147,23 +147,21 @@ function ScheduledTryoutResultPage() {
                   <Timer className="h-4 w-4" />
                   Distribusi hasil
                 </div>
-                <div className="mt-5 space-y-3">
+                <div className="mt-5 divide-y border rounded-xl bg-card">
                   {resultData.blocks.map((item) => (
                     <div
                       key={item.blockLabel}
-                      className="rounded-xl border bg-card px-4 py-4 shadow-sm"
+                      className="px-4 py-4 flex items-center justify-between gap-3"
                     >
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <p className="font-semibold text-foreground">{item.blockLabel}</p>
-                          <p className="mt-1 text-sm text-muted-foreground">
-                            {item.correct} benar, {item.wrong} salah
-                          </p>
-                        </div>
-                        <Badge variant="secondary">
-                          {item.correct + item.wrong} soal
-                        </Badge>
+                      <div>
+                        <p className="font-semibold text-foreground">{item.blockLabel}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {item.correct} benar, {item.wrong} salah
+                        </p>
                       </div>
+                      <Badge variant="secondary">
+                        {item.correct + item.wrong} soal
+                      </Badge>
                     </div>
                   ))}
                 </div>

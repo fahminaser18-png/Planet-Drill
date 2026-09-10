@@ -16,36 +16,27 @@ export default function TutorBuilderPage() {
       navItems={studentShell.navItems}
       disablePadding
     >
-      <div className="flex flex-col gap-6 w-full h-full p-4 md:p-6 lg:p-8">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => navigate("/app/mentor/tutor")}
-                className="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={14} /> Kembali ke Daftar Sumber
-              </button>
-            </div>
-            <div className="flex items-center gap-3 mt-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <BookOpen className="h-5 w-5" />
-              </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-                  Knowledge Base AI Tutor
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Unggah materi dan dokumen referensi untuk memperkaya pengetahuan AI Tutor (RAG).
-                </p>
-              </div>
-            </div>
+      <div className="flex flex-col gap-10 w-full py-8 max-w-4xl">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center mb-2">
+            <button
+              type="button"
+              onClick={() => navigate("/app/mentor/tutor")}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={16} /> Kembali ke Daftar Sumber
+            </button>
           </div>
+          
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground flex items-center gap-3">
+            <BookOpen className="h-7 w-7 text-foreground/70" />
+            Knowledge Base AI Tutor
+          </h1>
+          <p className="text-base text-muted-foreground max-w-2xl">
+            Unggah materi dan dokumen referensi untuk memperkaya pengetahuan AI Tutor.
+          </p>
         </div>
 
-        {/* Dynamic Content */}
         <div className="w-full">
           <MaterialUploaderForm />
         </div>

@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
 import { Button, getButtonStyleProps } from "../../components/ui/button";
-import { Card } from "../../components/ui/card";
 import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
 import ConfirmDialog from "../../components/ui/confirm-dialog";
 import { Loader2, AlertCircle, Trash2 } from "lucide-react";
@@ -70,40 +69,39 @@ function FlashCardGeneratorPage() {
             <AlertDescription>Coba lagi sebentar.</AlertDescription>
           </Alert>
         ) : (
-          <div className="grid gap-4">
+          <div className="flex flex-col border-t border-border/40">
             {materialsQuery.data?.map((item) => (
-              <Card
+              <div
                 key={item.materialId}
-                className="group relative block overflow-hidden px-5 py-5 transition hover:-translate-y-0.5 hover:shadow-xl"
+                className="group relative flex items-start justify-between gap-4 border-b border-border/40 py-6 hover:bg-muted/30"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <Link to={`/app/flash-card-generator/${item.materialId}`} className="block flex-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                      {item.academicGroupLabel}
-                    </p>
-                    <h2 className="mt-3 text-xl font-semibold text-foreground">{item.title}</h2>
-                    <p className="mt-2 text-sm text-muted-foreground">{item.statusLabel}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {item.subtopicCount} submateri / {item.cardCount} kartu
-                    </p>
-                    {item.processingError ? (
-                      <p className="mt-2 text-sm text-destructive">{item.processingError}</p>
-                    ) : null}
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setMaterialToDelete({ id: item.materialId, title: item.title });
-                    }}
-                  >
-                    <Trash2 className="h-5 w-5" />
-                    <span className="sr-only">Hapus materi</span>
-                  </Button>
-                </div>
-              </Card>
+                <Link to={`/app/flash-card-generator/${item.materialId}`} className="block flex-1 px-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                    {item.academicGroupLabel}
+                  </p>
+                  <h2 className="mt-2 text-xl font-medium text-foreground">{item.title}</h2>
+                  <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
+                    <span>{item.statusLabel}</span>
+                    <span className="h-1 w-1 rounded-full bg-muted-foreground/30"></span>
+                    <span>{item.subtopicCount} submateri / {item.cardCount} kartu</span>
+                  </div>
+                  {item.processingError ? (
+                    <p className="mt-2 text-sm text-destructive">{item.processingError}</p>
+                  ) : null}
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="mr-2 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMaterialToDelete({ id: item.materialId, title: item.title });
+                  }}
+                >
+                  <Trash2 className="h-5 w-5" />
+                  <span className="sr-only">Hapus materi</span>
+                </Button>
+              </div>
             ))}
           </div>
         )}

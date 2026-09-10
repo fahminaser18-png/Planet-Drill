@@ -12,19 +12,21 @@ function QuestionGeneratorReviewPage() {
       navItems={studentShell.navItems}
       tierLabel={studentShell.tierLabel}
     >
-      <section className="space-y-6">
-        <header className="space-y-3">
-          <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-teal-soft)]">
+      <div className="flex flex-col gap-10 w-full py-8 max-w-4xl">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
             Tinjau hasil
           </p>
-          <h1 className="text-3xl font-semibold leading-tight text-[var(--color-outline)]">Penyusun Soal</h1>
-          <p className="max-w-3xl text-sm leading-7 text-[var(--color-ink-muted)]">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+            Penyusun Soal
+          </h1>
+          <p className="text-base text-muted-foreground max-w-2xl">
             Periksa hasil soal sebelum dikirim ke bank soal atau sesi.
           </p>
-        </header>
+        </div>
 
         <QuestionGeneratorReviewFlow />
-      </section>
+      </div>
     </ProductShell>
   );
 }

@@ -27,45 +27,35 @@ function ScheduledTryoutCatalogCardView({
   const isStartDisabled = item.isLocked;
 
   return (
-    <Card className="flex flex-col justify-between p-5">
-      <div>
+    <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex-1 min-w-0">
         <Badge variant="secondary" className="w-fit flex items-center gap-1">
           <Calendar className="h-4 w-4" />
           {item.subtitle}
         </Badge>
-        <h3 className="mt-4 text-2xl font-semibold text-foreground">{item.title}</h3>
-        <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
+        <h3 className="mt-3 text-xl font-semibold text-foreground">{item.title}</h3>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
+        
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Badge variant="outline">{item.questionCountLabel}</Badge>
+          <Badge variant="outline">{item.durationLabel}</Badge>
+          <Badge variant="outline">{item.attemptsRemainingLabel}</Badge>
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">{item.windowLabel}</p>
       </div>
 
-      <div className="mt-6 space-y-3">
-        <div className="flex flex-wrap items-center gap-3">
-          {!isStartDisabled ? (
-            <Link
-              {...getButtonStyleProps({
-                variant: "primary",
-              })}
-              to={`/app/scheduled-tryout/session?event=${item.id}`}
-            >
-              Mulai sekarang
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          ) : null}
+      <div className="flex flex-col gap-2 shrink-0 sm:items-end mt-4 sm:mt-0">
+        {!isStartDisabled ? (
           <Link
             {...getButtonStyleProps({
-              variant: "outline",
+              variant: "primary",
             })}
-            to={`/app/scheduled-tryout/leaderboard?event=${item.id}`}
+            to={`/app/scheduled-tryout/session?event=${item.id}`}
           >
-            Lihat leaderboard
+            Mulai sekarang
+            <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <Badge variant="secondary">{item.questionCountLabel}</Badge>
-          <Badge variant="secondary">{item.durationLabel}</Badge>
-          <Badge variant="secondary">{item.attemptsRemainingLabel}</Badge>
-        </div>
-        <p className="text-sm leading-6 text-muted-foreground">{item.windowLabel}</p>
-        {isStartDisabled ? (
+        ) : (
           <>
             <Button
               disabled
@@ -74,13 +64,21 @@ function ScheduledTryoutCatalogCardView({
             >
               Mulai sesi
             </Button>
-            <p className="text-sm leading-6 text-muted-foreground">
-              Kesempatan event ini sudah habis.
+            <p className="text-xs text-muted-foreground text-center sm:text-right">
+              Sesi sudah habis.
             </p>
           </>
-        ) : null}
+        )}
+        <Link
+          {...getButtonStyleProps({
+            variant: "outline",
+          })}
+          to={`/app/scheduled-tryout/leaderboard?event=${item.id}`}
+        >
+          Lihat leaderboard
+        </Link>
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -186,7 +184,7 @@ function ScheduledTryoutCatalogPage() {
               ) : null}
 
               {remainingCards.length > 0 ? (
-                <div className="grid gap-4 xl:grid-cols-2">
+                <div className="divide-y border rounded-xl bg-card">
                   {remainingCards.map((item) => (
                     <ScheduledTryoutCatalogCardView key={item.id} item={item} />
                   ))}

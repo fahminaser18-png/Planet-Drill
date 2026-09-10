@@ -7,6 +7,14 @@ import Button, { getButtonStyleProps } from "../../components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Badge } from "../../components/ui/badge";
 import { Card } from "../../components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+} from "../../components/ui/alert-dialog";
 import SectionHeading from "../../components/ui/section-heading";
 import { SessionAnswerOptionButton, SessionQuestionNavButton } from "../../components/ui/session-option-buttons";
 import {
@@ -30,6 +38,8 @@ function ScheduledTryoutSessionPage() {
   const [isQuestionNavHidden, setIsQuestionNavHidden] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [timeRemainingSeconds, setTimeRemainingSeconds] = useState<number | null>(null);
+  const [isSubmitConfirmOpen, setIsSubmitConfirmOpen] = useState(false);
+  const [isSubmitSummaryOpen, setIsSubmitSummaryOpen] = useState(false);
   const [syncNotice, setSyncNotice] = useState<string | null>(null);
   const hasTriggeredAutoSubmit = useRef(false);
   const hasRequestedPause = useRef(false);
@@ -660,9 +670,7 @@ function ScheduledTryoutSessionPage() {
                     disabled={isAttemptInteractionDisabled || isQuestionMutationPending}
                     loading={submitMutation.isPending}
                     loadingLabel="Mengirim hasil..."
-                    onClick={() => {
-                      void triggerSubmit();
-                    }}
+                    onClick={() => setIsSubmitConfirmOpen(true)}
                     trailingIcon={<ArrowRight size={18} />}
                     variant="primary"
                   >
@@ -706,6 +714,75 @@ function ScheduledTryoutSessionPage() {
             </Link>
           </Alert>
         )}
+
+        <AlertDialog open={isSubmitConfirmOpen} onOpenChange={setIsSubmitConfirmOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Konfirmasi Kirim Hasil</AlertDialogTitle>
+              <AlertDialogDescription>
+                Apakah Anda yakin ingin menyelesaikan try out ini?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <Button variant="outline" onClick={() => setIsSubmitConfirmOpen(false)}>
+                Batal
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setIsSubmitConfirmOpen(false);
+                  setIsSubmitSummaryOpen(true);
+                }}
+              >
+                Yakin
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog
+          open={isSubmitSummaryOpen}
+          onOpenChange={(open) => {
+            if (!open && !submitMutation.isPending) {
+              setIsSubmitSummaryOpen(false);
+            }
+          }}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Ringkasan Pengerjaan</AlertDialogTitle>
+              <AlertDialogDescription>
+                Berikut adalah ringkasan dari pengerjaan try out Anda:
+              </AlertDialogDescription>
+              <div className="text-sm text-muted-foreground">
+                <ul className="mt-2 space-y-2 list-disc list-inside">
+                  <li>Jumlah soal: <strong>{questions.length}</strong></li>
+                  <li>Sudah diisi: <strong>{questions.filter(q => q.selectedOptionKey !== null).length}</strong></li>
+                  <li>Belum diisi: <strong>{questions.filter(q => q.selectedOptionKey === null).length}</strong></li>
+                  <li>Ragu-ragu: <strong>{questions.filter(q => q.isDoubtful).length}</strong></li>
+                </ul>
+                <p className="mt-4">Setelah hasil dikirim, Anda tidak dapat mengubah jawaban lagi.</p>
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setIsSubmitSummaryOpen(false)}
+                disabled={submitMutation.isPending}
+              >
+                Kembali
+              </Button>
+              <Button
+                variant="primary"
+                loading={submitMutation.isPending}
+                loadingLabel="Mengirim hasil..."
+                onClick={() => { void triggerSubmit(); }}
+              >
+                Lanjutkan
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </section>
     </ProductShell>
   );

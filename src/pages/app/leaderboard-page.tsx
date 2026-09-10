@@ -34,43 +34,24 @@ function formatDuration(value: number | null) {
 function getRankBadgeStyle(rank: number) {
   if (rank === 1) {
     return {
-      bg: "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/40",
-      card: "border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-card to-card shadow-md",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Crown className="h-4 w-4 text-amber-500 -mb-0.5" />
-          <span className="text-sm font-extrabold">1</span>
-        </div>
-      ),
+      bg: "bg-primary text-primary-foreground",
+      icon: <span className="text-sm font-bold">1</span>,
     };
   }
   if (rank === 2) {
     return {
-      bg: "bg-slate-400/20 text-slate-700 dark:text-slate-300 border-slate-400/40",
-      card: "border-slate-400/30 bg-gradient-to-r from-slate-400/10 via-card to-card shadow-sm",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Medal className="h-4 w-4 text-slate-400 -mb-0.5" />
-          <span className="text-sm font-extrabold">2</span>
-        </div>
-      ),
+      bg: "bg-muted text-foreground",
+      icon: <span className="text-sm font-bold">2</span>,
     };
   }
   if (rank === 3) {
     return {
-      bg: "bg-orange-700/20 text-orange-700 dark:text-orange-400 border-orange-700/30",
-      card: "border-orange-700/30 bg-gradient-to-r from-orange-700/10 via-card to-card shadow-sm",
-      icon: (
-        <div className="flex flex-col items-center justify-center">
-          <Award className="h-4 w-4 text-orange-700 dark:text-orange-500 -mb-0.5" />
-          <span className="text-sm font-extrabold">3</span>
-        </div>
-      ),
+      bg: "bg-muted text-muted-foreground",
+      icon: <span className="text-sm font-bold">3</span>,
     };
   }
   return {
-    bg: "bg-primary/10 text-primary border-primary/20",
-    card: "border-border bg-card",
+    bg: "text-muted-foreground",
     icon: <span className="text-sm font-bold">{rank}</span>,
   };
 }
@@ -168,57 +149,51 @@ export default function LeaderboardPage() {
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="divide-y border rounded-xl bg-card">
             {leaderboard.map((row) => {
               const styles = getRankBadgeStyle(row.rank);
               return (
-                <Card
+                <div
                   key={row.userId}
-                  className={`overflow-hidden transition-all duration-200 hover:scale-[1.01] ${styles.card}`}
+                  className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4"
                 >
-                  <CardContent className="p-0">
-                    <div className="flex items-center p-4 gap-4">
-                      <div
-                        className={`flex items-center justify-center w-10 h-10 shrink-0 rounded-xl border ${styles.bg}`}
-                      >
-                        {styles.icon}
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`flex items-center justify-center w-10 h-10 shrink-0 rounded-full ${styles.bg}`}
+                    >
+                      {styles.icon}
+                    </div>
+
+                    {row.avatarUrl ? (
+                      <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
+                        <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
                       </div>
-
-                      {row.avatarUrl ? (
-                        <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border border-border bg-muted">
-                          <img src={row.avatarUrl} alt={row.alias} className="w-full h-full object-cover" />
-                        </div>
-                      ) : (
-                        <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-primary/10 text-primary font-bold border border-primary/20 text-xs uppercase">
-                          {row.alias.substring(0, 2)}
-                        </div>
-                      )}
-
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-base truncate pr-4 text-foreground">
-                          {row.alias}
-                        </h3>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                          <Clock className="h-3 w-3" />
-                          <span>Waktu terbaik {formatDuration(row.timeUsedSeconds)}</span>
-                        </div>
+                    ) : (
+                      <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center bg-muted text-muted-foreground font-bold border border-border text-xs uppercase">
+                        {row.alias.substring(0, 2)}
                       </div>
+                    )}
 
-                      <div className="flex flex-col items-end gap-1 shrink-0">
-                        <Badge
-                          variant="secondary"
-                          className="font-mono bg-primary/10 text-primary border-primary/20"
-                        >
-                          <Trophy className="h-3 w-3 mr-1" />
-                          Skor {formatScore(row.score)}
-                        </Badge>
-                        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
-                          {row.category === "overall" ? "Overall" : row.category}
-                        </span>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-base truncate pr-4 text-foreground">
+                        {row.alias}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                        <Clock className="h-3 w-3" />
+                        <span>Waktu terbaik {formatDuration(row.timeUsedSeconds)}</span>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+
+                  <div className="flex flex-col sm:items-end gap-1 shrink-0">
+                    <Badge variant="secondary" className="font-mono">
+                      Skor {formatScore(row.score)}
+                    </Badge>
+                    <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+                      {row.category === "overall" ? "Overall" : row.category}
+                    </span>
+                  </div>
+                </div>
               );
             })}
           </div>
