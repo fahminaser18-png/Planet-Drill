@@ -95,48 +95,69 @@ export default function HomePage() {
 
       {/* 2. FEATURES SECTION */}
       <section id="program" className="w-full py-24 lg:py-32 px-6 md:px-12 lg:px-24 bg-card border-y border-border/50">
-        <div className="w-full mx-auto">
-          <div className="mb-20 md:w-2/3">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-6 tracking-tight">
-              Sistem Belajar yang Mengerti Kelemahanmu
+        <div className="w-full mx-auto max-w-7xl">
+          <div className="mb-16 md:mb-24 md:w-3/4 lg:w-2/3">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-6 tracking-tight leading-[1.1]">
+              Sistem Belajar yang <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-500">Mengerti Kelemahanmu</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
               Berhenti membuang waktu mempelajari materi yang sudah kamu kuasai. Kami menganalisis setiap jawabanmu untuk menemukan topik yang masih lemah, lalu memberikan latihan dan panduan AI agar skormu naik lebih cepat.
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-12 lg:gap-16">
-            <div className="flex-1 flex flex-col gap-6 relative group">
-              <div className="w-16 h-16 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-primary shadow-sm mb-2 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <Target className="h-8 w-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {/* Bento Block 1 - Large Horizontal */}
+            <div className="md:col-span-2 lg:col-span-2 group relative overflow-hidden rounded-[2.5rem] bg-background border border-border/60 hover:border-primary/30 p-8 md:p-12 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1">
+              <div className="absolute -right-8 -top-8 text-primary/[0.03] transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12 pointer-events-none">
+                <Target className="w-80 h-80" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Drilling Soal Tanpa Batas</h3>
-              <p className="text-base text-muted-foreground flex-1 leading-relaxed">
-                Latihan soal SNBT sepuasnya. Pilih topik secara spesifik hingga tingkat subtes untuk mempertajam materi yang paling kamu butuhkan.
-              </p>
-              <div className="h-1 w-12 bg-primary/20 group-hover:w-full group-hover:bg-primary transition-all duration-500 mt-2 rounded-full"></div>
+              <div className="relative z-10 flex flex-col h-full min-h-[280px]">
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-8 transition-colors duration-500 group-hover:bg-primary group-hover:text-primary-foreground shadow-sm">
+                  <Target className="h-8 w-8" />
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-3xl font-bold text-foreground mb-4 tracking-tight">Drilling Soal Tanpa Batas</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                    Latihan soal SNBT sepuasnya. Pilih topik secara spesifik hingga tingkat subtes untuk mempertajam materi yang paling kamu butuhkan.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="flex-1 flex flex-col gap-6 relative group md:mt-16">
-              <div className="w-16 h-16 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-primary shadow-sm mb-2 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <Library className="h-8 w-8" />
+            {/* Bento Block 2 - Small Vertical */}
+            <div className="md:col-span-2 lg:col-span-1 group relative overflow-hidden rounded-[2.5rem] bg-background border border-border/60 hover:border-primary/30 p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1">
+              <div className="absolute -right-4 -bottom-4 text-primary/[0.03] transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-12 pointer-events-none">
+                <LineChart className="w-48 h-48" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Fasilitas Belajar Terintegrasi</h3>
-              <p className="text-base text-muted-foreground flex-1 leading-relaxed">
-                Fasilitas lengkap untuk mempercepat pemahaman. Gunakan Flash Card interaktif, rangkuman materi, dan asisten AI yang siap memecahkan kebingunganmu 24/7.
-              </p>
-              <div className="h-1 w-12 bg-primary/20 group-hover:w-full group-hover:bg-primary transition-all duration-500 mt-2 rounded-full"></div>
+              <div className="relative z-10 flex flex-col h-full min-h-[280px]">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-8 transition-colors duration-500 group-hover:bg-primary group-hover:text-primary-foreground shadow-sm">
+                  <LineChart className="h-7 w-7" />
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">Analisis Kelemahan Akurat</h3>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    Ketahui di mana letak kesalahanmu. Sistem mendeteksi topik yang sering gagal dijawab dan memberikan rekomendasi perbaikan.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="flex-1 flex flex-col gap-6 relative group md:mt-32">
-              <div className="w-16 h-16 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-primary shadow-sm mb-2 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <LineChart className="h-8 w-8" />
+            {/* Bento Block 3 - Full Width Hero */}
+            <div className="md:col-span-2 lg:col-span-3 group relative overflow-hidden rounded-[2.5rem] bg-primary border border-primary-foreground/10 p-8 md:p-12 lg:p-16 transition-all duration-500 hover:shadow-[0_12px_40px_rgba(79,70,229,0.25)] hover:-translate-y-1">
+              <div className="absolute right-0 bottom-0 text-white/5 transition-transform duration-1000 group-hover:scale-110 group-hover:-translate-x-4 pointer-events-none translate-y-1/4 translate-x-1/4">
+                <Library className="w-96 h-96" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground">Analisis Kelemahan Akurat</h3>
-              <p className="text-base text-muted-foreground flex-1 leading-relaxed">
-                Ketahui di mana letak kesalahanmu. Sistem mendeteksi topik yang sering gagal dijawab dan memberikan rekomendasi perbaikan agar belajarmu selalu tepat sasaran.
-              </p>
-              <div className="h-1 w-12 bg-primary/20 group-hover:w-full group-hover:bg-primary transition-all duration-500 mt-2 rounded-full"></div>
+              <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 lg:gap-16">
+                <div className="w-20 h-20 shrink-0 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                  <Library className="h-10 w-10" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Fasilitas Belajar Terintegrasi</h3>
+                  <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed max-w-3xl font-medium">
+                    Fasilitas lengkap untuk mempercepat pemahaman. Gunakan Flash Card interaktif, rangkuman materi, dan asisten AI yang siap memecahkan kebingunganmu 24/7.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

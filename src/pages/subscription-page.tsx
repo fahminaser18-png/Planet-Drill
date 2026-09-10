@@ -66,6 +66,43 @@ export default function SubscriptionPage() {
   const studentShell = useStudentShell("/subscription");
   const [forcePricing, setForcePricing] = useState(false);
 
+  const [selectedPlan, setSelectedPlan] = useState<"1_bulan" | "6_bulan" | "1_tahun">("6_bulan");
+  const [isToggling, setIsToggling] = useState(false);
+
+  const planDetails = {
+    "1_bulan": {
+      name: "1 Bulan",
+      price: "Rp 70rb",
+      originalPrice: null,
+      period: "/bulan",
+      equivalent: "Setara Rp 2.400/hari",
+      badge: null,
+    },
+    "6_bulan": {
+      name: "6 Bulan",
+      price: "Rp 250rb",
+      originalPrice: "Rp 420rb",
+      period: "/6 bulan",
+      equivalent: "Setara Rp 1.400/hari",
+      badge: "Promo Terbatas",
+    },
+    "1_tahun": {
+      name: "1 Tahun",
+      price: "Rp 500rb",
+      originalPrice: "Rp 840rb",
+      period: "/1 tahun",
+      equivalent: "Setara Rp 1.400/hari",
+      badge: "Promo Terbatas",
+    }
+  };
+
+  const handlePlanToggle = (plan: "1_bulan" | "6_bulan" | "1_tahun") => {
+    if (plan === selectedPlan) return;
+    setIsToggling(true);
+    setSelectedPlan(plan);
+    setTimeout(() => setIsToggling(false), 200);
+  };
+
   const subQuery = useQuery({
     queryKey: ["current-subscription", user?.id],
     enabled: Boolean(user?.id) && studentShell.role === "pro",
@@ -170,181 +207,127 @@ export default function SubscriptionPage() {
             </p>
           </header>
 
-          <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 items-stretch max-w-full">
+          <section className="max-w-2xl mx-auto w-full flex flex-col gap-8">
             
-            {/* Gratis Card */}
-            <div className="flex-1 bg-card border border-border/60 p-8 rounded-[2rem] shadow-sm relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300">
-              <div className="mb-4">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Gratis</h3>
-                <p className="text-muted-foreground text-sm">Alat persiapan esensial untuk memulai.</p>
-              </div>
-
-              <div className="hidden xl:block h-6 mb-1"></div>
-
-              <div className="mb-10 flex items-baseline gap-2">
-                <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-foreground tracking-tight">Rp 0</span>
+            {/* Pro Card */}
+            <div className="w-full bg-primary p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative flex flex-col text-left transition-all duration-500 overflow-hidden border border-primary-foreground/10">
+              <div className="absolute -top-10 -right-10 p-6 opacity-10 pointer-events-none">
+                <Award className="w-64 h-64 text-primary-foreground" />
               </div>
               
-              <ul className="flex flex-col gap-4 mb-12 flex-1">
-                <li className="flex items-start gap-3 text-muted-foreground text-sm">
-                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
-                  <span>Akses Try Out gratis</span>
-                </li>
-              </ul>
-              
-              <div className="flex flex-col gap-3 mt-auto">
-                <div className="text-center w-full invisible">
-                  <span className="text-sm font-semibold px-4 py-1.5 inline-block">Spacer</span>
+              <div className="mb-6 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="text-3xl font-bold text-primary-foreground mb-2">Pro</h3>
+                  <p className="text-primary-foreground/80 text-sm md:text-base">Akses semua fitur pro tanpa batas.</p>
                 </div>
-                <Button asChild variant="outline" className="w-full h-14 rounded-full text-base font-semibold border-border hover:bg-muted">
-                  <Link to="/app/tryout-selection">Lanjutkan Gratis</Link>
-                </Button>
-                <div className="h-5 mt-2"></div>
-              </div>
-            </div>
-
-            {/* Pro 1 Bulan Card */}
-            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
-              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
-                <Award className="w-48 h-48 text-primary-foreground" />
-              </div>
-              
-              <div className="mb-4 relative z-10">
-                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Bulan</h3>
-                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama sebulan.</p>
-              </div>
-
-              <div className="mb-10 flex flex-col gap-1 relative z-10">
-                <div className="h-6"></div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 70rb</span>
-                  <span className="text-primary-foreground/70 font-medium text-sm">/bulan</span>
+                
+                {/* Toggle / Tabs */}
+                <div className="flex items-center bg-primary-foreground/10 p-1.5 rounded-2xl w-full md:w-auto relative">
+                  {(["1_bulan", "6_bulan", "1_tahun"] as const).map((plan) => (
+                    <button
+                      key={plan}
+                      onClick={() => handlePlanToggle(plan)}
+                      className={`flex-1 md:flex-none px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 relative z-10 ${
+                        selectedPlan === plan 
+                          ? "text-primary shadow-sm" 
+                          : "text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                      }`}
+                    >
+                      {planDetails[plan].name}
+                    </button>
+                  ))}
+                  <div 
+                    className="absolute top-1.5 bottom-1.5 w-[calc(33.33%-4px)] bg-white rounded-xl transition-all duration-300 ease-out z-0"
+                    style={{
+                      left: selectedPlan === "1_bulan" ? "6px" : selectedPlan === "6_bulan" ? "calc(33.33% + 2px)" : "calc(66.66% - 2px)"
+                    }}
+                  />
                 </div>
               </div>
 
-              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
-                {features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
-                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-col gap-3 mt-auto relative z-10">
-                <div className="text-center w-full">
-                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
-                    Setara Rp 2.400/hari
-                  </span>
-                </div>
-                <Button onClick={() => setConfirmPkg("1_bulan")} disabled={loadingPkg === "1_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
-                  {loadingPkg === "1_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Bulan"}
-                </Button>
-                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
-                  <Lock className="w-3.5 h-3.5" />
-                  Pembayaran Aman & Instan
-                </p>
-              </div>
-            </div>
-
-            {/* Pro 6 Bulan Card */}
-            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
-              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
-                <Award className="w-48 h-48 text-primary-foreground" />
-              </div>
-              
-              <div className="mb-4 relative z-10">
-                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 6 Bulan</h3>
-                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama setengah tahun.</p>
-              </div>
-
-              <div className="mb-10 flex flex-col gap-1 relative z-10">
+              <div className="mb-10 flex flex-col gap-2 relative z-10 min-h-[6rem]">
                 <div className="flex items-center h-6">
-                  <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 420rb</span>
-                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2">
-                    Promo Terbatas
-                  </span>
+                  {planDetails[selectedPlan].originalPrice ? (
+                    <>
+                      <span className={`text-primary-foreground/60 line-through font-medium text-base transition-all duration-300 ${isToggling ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"}`}>
+                        {planDetails[selectedPlan].originalPrice}
+                      </span>
+                      {planDetails[selectedPlan].badge && (
+                        <span className={`bg-emerald-400 text-emerald-950 text-xs font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ml-2 transition-all duration-300 ${isToggling ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}>
+                          {planDetails[selectedPlan].badge}
+                        </span>
+                      )}
+                    </>
+                  ) : null}
                 </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 250rb</span>
-                  <span className="text-primary-foreground/70 font-medium text-sm">/6 bulan</span>
+                
+                <div className="relative h-16">
+                  <div className={`absolute inset-0 flex items-baseline gap-1 transition-all duration-300 ${isToggling ? "opacity-0 translate-y-2 blur-sm" : "opacity-100 translate-y-0 blur-0"}`}>
+                    <span className="text-5xl md:text-6xl font-extrabold text-primary-foreground tracking-tight">
+                      {planDetails[selectedPlan].price}
+                    </span>
+                    <span className="text-primary-foreground/70 font-medium text-lg">
+                      {planDetails[selectedPlan].period}
+                    </span>
+                  </div>
+                  {isToggling && (
+                    <div className="absolute inset-0 flex items-center gap-2">
+                      <div className="h-12 bg-primary-foreground/20 rounded-xl w-32 md:w-48 animate-pulse"></div>
+                      <div className="h-6 bg-primary-foreground/20 rounded-md w-16 animate-pulse mt-4"></div>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
+              <ul className="flex flex-col gap-4 mb-10 flex-1 relative z-10">
                 {features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
-                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
+                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm md:text-base">
+                    <CheckCircle2 className="h-6 w-6 text-primary-foreground/80 shrink-0" />
                     <span>{f}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="flex flex-col gap-3 mt-auto relative z-10">
+              <div className="flex flex-col gap-4 mt-auto relative z-10">
                 <div className="text-center w-full">
-                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
-                    Setara Rp 1.400/hari
+                  <span className={`text-sm font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-4 py-2 rounded-full inline-block transition-all duration-300 ${isToggling ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}>
+                    {planDetails[selectedPlan].equivalent}
                   </span>
                 </div>
-                <Button onClick={() => setConfirmPkg("6_bulan")} disabled={loadingPkg === "6_bulan"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
-                  {loadingPkg === "6_bulan" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 6 Bulan"}
+                <Button 
+                  onClick={() => setConfirmPkg(selectedPlan)} 
+                  disabled={loadingPkg === selectedPlan} 
+                  variant="secondary" 
+                  className="w-full h-16 rounded-2xl text-lg font-bold bg-white text-primary hover:bg-white/90 shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden relative"
+                >
+                  <div className={`absolute inset-0 bg-primary/5 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out`} />
+                  <div className="relative flex items-center justify-center gap-2">
+                    {loadingPkg === selectedPlan ? (
+                      <>
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                        <span>Memproses Pembayaran...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Pilih {planDetails[selectedPlan].name}</span>
+                      </>
+                    )}
+                  </div>
                 </Button>
-                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
-                  <Lock className="w-3.5 h-3.5" />
+                <p className="text-sm text-primary-foreground/70 text-center flex items-center justify-center gap-2 mt-2 font-medium">
+                  <Lock className="w-4 h-4" />
                   Pembayaran Aman & Instan
                 </p>
               </div>
             </div>
 
-            {/* Pro 1 Tahun Card */}
-            <div className="flex-1 bg-primary p-8 rounded-[2rem] shadow-2xl relative flex flex-col text-left transition-transform hover:-translate-y-2 duration-300 overflow-hidden border border-primary-foreground/10">
-              <div className="absolute -top-4 -right-4 p-6 opacity-10 pointer-events-none">
-                <Award className="w-48 h-48 text-primary-foreground" />
-              </div>
-              
-              <div className="mb-4 relative z-10">
-                <h3 className="text-2xl font-bold text-primary-foreground mb-2">Pro 1 Tahun</h3>
-                <p className="text-primary-foreground/80 text-sm">Akses semua fitur pro selama setahun penuh.</p>
-              </div>
-
-              <div className="mb-10 flex flex-col gap-1 relative z-10">
-                <div className="flex items-center h-6">
-                  <span className="text-primary-foreground/60 line-through font-medium text-sm">Rp 840rb</span>
-                  <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider ml-2">
-                    Promo Terbatas
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl xl:text-4xl 2xl:text-5xl font-extrabold text-primary-foreground tracking-tight">Rp 500rb</span>
-                  <span className="text-primary-foreground/70 font-medium text-sm">/1 tahun</span>
-                </div>
-              </div>
-
-              <ul className="flex flex-col gap-4 mb-8 flex-1 relative z-10">
-                {features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3 text-primary-foreground text-sm">
-                    <CheckCircle2 className="h-5 w-5 text-primary-foreground/80 shrink-0" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-col gap-3 mt-auto relative z-10">
-                <div className="text-center w-full">
-                  <span className="text-xs font-semibold text-primary-foreground/90 bg-primary-foreground/10 px-3 py-1.5 rounded-full inline-block">
-                    Setara Rp 1.400/hari
-                  </span>
-                </div>
-                <Button onClick={() => setConfirmPkg("1_tahun")} disabled={loadingPkg === "1_tahun"} variant="secondary" className="w-full h-14 rounded-full text-base font-bold bg-white text-primary hover:bg-white/90 shadow-lg">
-                  {loadingPkg === "1_tahun" ? <Loader2 className="w-5 h-5 animate-spin" /> : "Pilih 1 Tahun"}
-                </Button>
-                <p className="text-xs text-primary-foreground/70 text-center flex items-center justify-center gap-1.5 mt-2 font-medium">
-                  <Lock className="w-3.5 h-3.5" />
-                  Pembayaran Aman & Instan
-                </p>
-              </div>
+            {/* Gratis Tier Simple Text/Button */}
+            <div className="text-center flex flex-col items-center gap-4 mt-4">
+              <p className="text-muted-foreground text-sm md:text-base">Belum yakin? Mulai dengan akses try out gratis.</p>
+              <Button asChild variant="outline" className="rounded-full text-base font-semibold px-8 h-12 border-border hover:bg-muted transition-colors">
+                <Link to="/app/tryout-selection">Lanjutkan Gratis</Link>
+              </Button>
             </div>
-
           </section>
 
           <ConfirmDialog
