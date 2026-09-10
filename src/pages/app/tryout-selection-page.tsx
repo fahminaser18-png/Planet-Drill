@@ -99,7 +99,7 @@ function TryoutSelectionPage() {
           {/* Item 1: Unlimited */}
           <div className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 border-b border-border/40 hover:bg-muted/20 transition-colors px-4 -mx-4 rounded-xl">
             <div className="flex items-start gap-6">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:text-primary group-hover:bg-primary group-hover:text-primary-foreground hover:text-primary-foreground/10 transition-colors">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <BookOpen className="h-6 w-6" />
               </div>
               <div className="max-w-xl">
@@ -142,7 +142,7 @@ function TryoutSelectionPage() {
           {/* Item 2: Terjadwal */}
           <div className="group flex flex-col md:flex-row md:items-center justify-between gap-6 py-8 border-b border-border/40 hover:bg-muted/20 transition-colors px-4 -mx-4 rounded-xl">
             <div className="flex items-start gap-6">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:text-primary group-hover:bg-primary group-hover:text-primary-foreground hover:text-primary-foreground/10 transition-colors">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted text-muted-foreground shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <CalendarClock className="h-6 w-6" />
               </div>
               <div className="max-w-xl">

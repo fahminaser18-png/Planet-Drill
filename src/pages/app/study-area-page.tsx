@@ -163,7 +163,7 @@ export default function StudyAreaPage() {
                       {...getButtonStyleProps({
                         variant: "secondary",
                         className:
-                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                       })}
                       to={item.href}
                     >
