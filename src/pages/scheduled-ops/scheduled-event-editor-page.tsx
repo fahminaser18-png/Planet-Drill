@@ -896,7 +896,7 @@ function ScheduledEventEditorPage() {
                       {`Gambar pertanyaan ${questionIndex + 1}`}
                       <div className="mt-2 space-y-3 rounded-[1.15rem] border border-border bg-muted px-4 py-3">
                         <label
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary hover:text-primary-foreground/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
                           htmlFor={`scheduled-question-${questionIndex}-image`}
                         >
                           <Upload className="h-3.5 w-3.5" />
@@ -1029,7 +1029,7 @@ function ScheduledEventEditorPage() {
                       {`Gambar pembahasan ${questionIndex + 1}`}
                       <div className="mt-2 space-y-3 rounded-[1.15rem] border border-border bg-muted px-4 py-3">
                         <label
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary hover:text-primary-foreground/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
                           htmlFor={`scheduled-question-${questionIndex}-explanation-image`}
                         >
                           <Upload className="h-3.5 w-3.5" />

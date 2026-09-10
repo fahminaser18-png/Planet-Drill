@@ -73,7 +73,7 @@ function LoginPage() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
         <div className="w-full max-w-md">
           <div className="mb-10">
-            <Badge variant="secondary" className="w-fit flex items-center gap-1.5 bg-primary/10 text-primary hover:bg-primary/20">
+            <Badge variant="secondary" className="w-fit flex items-center gap-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground/20">
               <UserCircle className="w-4 h-4" /> {isRegister ? "Daftar Akun Baru" : "Masuk akun"}
             </Badge>
             <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-foreground font-display">
@@ -138,7 +138,7 @@ function LoginPage() {
               trailingIcon={<ArrowRight className="w-4 h-4" />}
               type="submit"
               variant="primary"
-              className="h-12 bg-primary hover:bg-primary/90 text-primary-foreground border-transparent font-semibold shadow-sm"
+              className="h-12 bg-primary hover:bg-primary hover:text-primary-foreground/90 text-primary-foreground border-transparent font-semibold shadow-sm"
             >
               {isRegister ? "Daftar dengan email" : "Masuk dengan email"}
             </Button>

@@ -61,7 +61,7 @@ function ResetPasswordPage() {
     <main className="min-h-screen flex items-center justify-center bg-muted/30 p-4 font-sans">
       <Card className="w-full max-w-md shadow-lg border-border">
         <CardHeader className="space-y-4 pt-8 px-8">
-          <Badge variant="secondary" className="w-fit flex items-center gap-1.5 bg-primary/10 text-primary hover:bg-primary/20">
+          <Badge variant="secondary" className="w-fit flex items-center gap-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground/20">
             <Lock className="w-4 h-4" /> Atur ulang kata sandi
           </Badge>
           <div>
@@ -121,7 +121,7 @@ function ResetPasswordPage() {
               trailingIcon={<ArrowRight className="w-4 h-4" />}
               type="submit"
               variant="primary"
-              className="h-12 bg-primary hover:bg-primary/90 text-primary-foreground border-transparent font-semibold shadow-sm mt-2"
+              className="h-12 bg-primary hover:bg-primary hover:text-primary-foreground/90 text-primary-foreground border-transparent font-semibold shadow-sm mt-2"
             >
               Simpan kata sandi
             </Button>

@@ -140,7 +140,7 @@ export default function StudyAreaPage() {
                     <button
                       {...getButtonStyleProps({
                         variant: "secondary",
-                        className: "font-medium hover:bg-muted text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                        className: "font-medium hover:bg-muted hover:text-foreground text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                       })}
                       onClick={(e) => {
                         e.preventDefault();

@@ -636,7 +636,7 @@ function ScheduledTryoutSessionPage() {
                 <Button
                   className={
                     currentQuestion.isDoubtful
-                      ? "border-yellow-500/50 bg-yellow-500/20 text-yellow-600 hover:bg-yellow-500/30"
+                      ? "border-yellow-500/50 bg-yellow-500/20 text-yellow-600 hover:bg-yellow-500/20 hover:text-yellow-700"
                       : "hover:bg-yellow-500/10"
                   }
                   disabled={!hasSelectedAnswer || isAttemptInteractionDisabled || isQuestionMutationPending}

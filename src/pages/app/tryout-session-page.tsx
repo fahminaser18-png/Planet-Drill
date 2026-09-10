@@ -640,7 +640,7 @@ function TryoutSessionPage() {
               <CardHeader className="pb-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground/20">
                       {currentQuestion.blockLabel}
                     </Badge>
                     <CardTitle className="mt-4 text-2xl font-bold leading-tight">
@@ -686,8 +686,8 @@ function TryoutSessionPage() {
                   <Button
                     className={
                       currentQuestion.isDoubtful
-                        ? "border-amber-500/50 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 hover:border-amber-500/60 hover:text-amber-700 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-                        : "hover:bg-amber-500/10 hover:text-amber-600 hover:border-amber-500/30 text-muted-foreground transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        ? "border-amber-500/50 bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 hover:border-amber-500/60 hover:text-amber-800 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        : "hover:bg-amber-500/10 hover:text-amber-700 hover:border-amber-500/30 text-muted-foreground transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                     }
                     disabled={!hasSelectedAnswer || isAttemptInteractionDisabled || isQuestionMutationPending}
                     onClick={toggleDoubtful}

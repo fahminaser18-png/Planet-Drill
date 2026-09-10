@@ -96,7 +96,7 @@ function ScheduledTryoutResultPage() {
                   <button
                     {...getButtonStyleProps({
                       variant: "outline",
-                      className: "text-muted-foreground cursor-pointer hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
+                      className: "text-muted-foreground cursor-pointer hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
                     })}
                     onClick={(e) => {
                       e.preventDefault();
