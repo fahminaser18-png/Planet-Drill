@@ -295,9 +295,10 @@ function QuestionEditorPage() {
   const isLoading = taxonomyQuery.isLoading || (isEditMode && editorQuery.isLoading);
   const isError = taxonomyQuery.isError || editorQuery.isError;
   const shellChildren = isLoading ? (
-    <div className="flex flex-col items-center justify-center py-16 space-y-4 border rounded-2xl bg-card/60 shadow-sm backdrop-blur-sm">
-      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      <p className="text-sm font-medium text-muted-foreground">Editor soal sedang dimuat.</p>
+    <div className="space-y-6 animate-pulse">
+      <div className="h-10 w-1/4 bg-muted/50 rounded-lg"></div>
+      <div className="h-32 w-full bg-muted/50 rounded-xl"></div>
+      <div className="h-32 w-full bg-muted/50 rounded-xl"></div>
     </div>
   ) : isError ? (
     <Alert variant="destructive" className="border-destructive/50 bg-destructive/5">
@@ -310,7 +311,7 @@ function QuestionEditorPage() {
       <AlertDescription>Soal yang ingin Anda ubah tidak ditemukan.</AlertDescription>
     </Alert>
   ) : (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {saveMessage ? (
         <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-xs font-semibold text-emerald-600">
           {saveMessage}
@@ -322,33 +323,30 @@ function QuestionEditorPage() {
         </div>
       ) : null}
 
-      <Card className="space-y-6 p-6 border-border/80 bg-card shadow-xs">
-        {/* Stem Section */}
-        <div className="rounded-xl border border-border/80 bg-muted/30 p-5 space-y-3">
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
-            <FileText className="h-3.5 w-3.5" />
-            Mulai dari inti soal
-          </p>
-          <label className="block text-sm font-bold text-foreground space-y-2" htmlFor="question-stem">
-            Soal
-            <textarea
-              id="question-stem"
-              className="min-h-36 w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all leading-relaxed"
-              onChange={(event) => updateFormState((current) => ({ ...current, stem: event.target.value }))}
-              value={formState.stem}
-            />
-          </label>
-        </div>
+      <div className="space-y-3">
+        <p className="text-xs font-mono font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+          <FileText className="h-3.5 w-3.5" />
+          Mulai dari inti soal
+        </p>
+        <label className="block text-sm font-bold text-foreground space-y-2" htmlFor="question-stem">
+          Soal
+          <textarea
+            id="question-stem"
+            className="min-h-36 w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all leading-relaxed"
+            onChange={(event) => updateFormState((current) => ({ ...current, stem: event.target.value }))}
+            value={formState.stem}
+          />
+        </label>
+      </div>
 
-        {/* Question Image Section */}
         <div className="text-sm font-bold text-foreground space-y-2">
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground uppercase font-mono tracking-wider">
             <ImageIcon className="h-3.5 w-3.5 text-primary" />
             Gambar soal
           </span>
-          <div className="space-y-3 rounded-xl border border-border/80 bg-muted/30 p-4">
+          <div className="space-y-3">
             <label
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               htmlFor="question-image"
             >
               <Upload className="h-3.5 w-3.5" />
@@ -381,11 +379,10 @@ function QuestionEditorPage() {
           </div>
         </div>
 
-        {/* Options Section */}
-        <div className="space-y-4 rounded-xl border border-border/80 bg-muted/30 p-5">
+        <div className="space-y-4 pt-4 border-t border-border/40">
           <div>
             <h2 className="text-base font-extrabold tracking-tight text-foreground flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+              <CheckCircle2 className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
               Pilihan jawaban
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -403,7 +400,7 @@ function QuestionEditorPage() {
                 </span>
                 <input
                   id={`option-${key}`}
-                  className="h-10 w-full rounded-xl border border-border/80 bg-background px-4 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all font-normal"
+                  className="h-10 w-full rounded-xl border border-border/80 bg-background px-4 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all font-normal"
                   onChange={(event) =>
                     updateFormState((current) => ({
                       ...current,
@@ -420,8 +417,7 @@ function QuestionEditorPage() {
           </div>
         </div>
 
-        {/* Classification Section */}
-        <div className="space-y-4 rounded-xl border border-border/80 bg-muted/30 p-5">
+        <div className="space-y-4 pt-4 border-t border-border/40">
           <div>
             <h2 className="text-base font-extrabold tracking-tight text-foreground flex items-center gap-2">
               <FolderTree className="h-4 w-4 text-primary" />
@@ -436,7 +432,7 @@ function QuestionEditorPage() {
               Blok
               <select
                 id="question-block"
-                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all cursor-pointer"
                 onChange={(event) => handleBlockChange(event.target.value)}
                 value={formState.blockId}
               >
@@ -453,7 +449,7 @@ function QuestionEditorPage() {
               Materi
               <select
                 id="question-topic"
-                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all cursor-pointer"
                 onChange={(event) => updateFormState((current) => ({ ...current, topicId: event.target.value }))}
                 value={formState.topicId}
               >
@@ -472,7 +468,7 @@ function QuestionEditorPage() {
               Kunci jawaban
               <select
                 id="question-correct-option"
-                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all cursor-pointer"
                 onChange={(event) =>
                   updateFormState((current) => ({
                     ...current,
@@ -494,7 +490,7 @@ function QuestionEditorPage() {
               Status
               <select
                 id="question-status"
-                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all cursor-pointer"
+                className="h-10 w-full rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all cursor-pointer"
                 onChange={(event) =>
                   updateFormState((current) => ({
                     ...current,
@@ -511,15 +507,14 @@ function QuestionEditorPage() {
           </div>
         </div>
 
-        {/* Explanation Text */}
-        <label className="block text-sm font-bold text-foreground space-y-2" htmlFor="question-explanation">
+        <label className="block text-sm font-bold text-foreground space-y-2 pt-4 border-t border-border/40" htmlFor="question-explanation">
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground uppercase font-mono tracking-wider">
             <BookOpen className="h-3.5 w-3.5 text-primary" />
             Pembahasan
           </span>
           <textarea
             id="question-explanation"
-            className="min-h-28 w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary transition-all leading-relaxed font-normal"
+            className="min-h-28 w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 transition-all leading-relaxed font-normal"
             onChange={(event) =>
               updateFormState((current) => ({
                 ...current,
@@ -530,15 +525,14 @@ function QuestionEditorPage() {
           />
         </label>
 
-        {/* Explanation Image */}
         <div className="space-y-2">
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground uppercase font-mono tracking-wider font-bold">
-            <ImageIcon className="h-3.5 w-3.5 text-amber-500" />
+            <ImageIcon className="h-3.5 w-3.5 text-amber-700 dark:text-amber-400" />
             Gambar pembahasan
           </span>
-          <div className="space-y-3 rounded-xl border border-border/80 bg-muted/30 p-4">
+          <div className="space-y-3">
             <label
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               htmlFor="explanation-image"
             >
               <Upload className="h-3.5 w-3.5" />
@@ -571,7 +565,6 @@ function QuestionEditorPage() {
           </div>
         </div>
 
-        {/* Footer Action Buttons */}
         <div className="flex flex-wrap items-center gap-3 border-t border-border/40 pt-4">
           <Button
             disabled={saveMutation.isPending}
@@ -579,7 +572,7 @@ function QuestionEditorPage() {
             loadingLabel="Menyimpan..."
             onClick={handleSave}
             size="sm"
-            className="h-10 px-5 text-xs font-bold shadow-md shadow-primary/20 cursor-pointer hover:bg-primary/90 transition-all"
+            className="h-10 px-5 text-xs font-bold shadow-md shadow-primary/20 cursor-pointer hover:bg-primary/90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           >
             <Save className="h-4 w-4 mr-1.5" />
             Simpan soal
@@ -596,7 +589,6 @@ function QuestionEditorPage() {
             Kembali ke bank soal
           </Link>
         </div>
-      </Card>
     </div>
   );
 

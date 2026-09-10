@@ -182,9 +182,9 @@ function QuestionsPage() {
   const shellChildren = (
     <>
       {questionBankQuery.isLoading ? (
-        <div className="flex flex-col items-center justify-center py-16 space-y-4 border rounded-2xl bg-card/60 shadow-sm backdrop-blur-sm">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm font-medium text-muted-foreground">Daftar soal sedang dimuat.</p>
+        <div className="space-y-6 animate-pulse">
+          <div className="h-24 bg-muted/50 rounded-2xl w-full"></div>
+          <div className="h-64 bg-muted/50 rounded-xl w-full"></div>
         </div>
       ) : questionBankQuery.isError ? (
         <Alert variant="destructive" className="border-destructive/50 bg-destructive/5">
@@ -199,7 +199,6 @@ function QuestionsPage() {
             </div>
           ) : null}
 
-          {/* Banner Control Bar */}
           <div className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-card p-6 shadow-xs lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <h2 className="text-2xl font-extrabold tracking-tight text-foreground">Daftar soal</h2>
@@ -220,10 +219,8 @@ function QuestionsPage() {
             </Link>
           </div>
 
-          {/* Main Card Container */}
           <Card className="space-y-6 p-6 border-border/80 bg-card shadow-xs">
-            {/* Filter Bar */}
-            <div className="flex flex-col gap-4 rounded-xl border border-border/80 bg-muted/30 p-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-4 rounded-xl border border-border/80 bg-muted/30 p-5 lg:flex-row lg:items-center lg:justify-between transition-all duration-300">
               <div className="max-w-2xl">
                 <h3 className="text-base font-extrabold tracking-tight text-foreground flex items-center gap-2">
                   <Filter className="h-4 w-4 text-primary" />
@@ -237,7 +234,7 @@ function QuestionsPage() {
                 <label className="text-xs font-bold text-foreground grid gap-1.5">
                   Blok
                   <select
-                    className="h-10 rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer min-w-44"
+                    className="h-10 rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer min-w-44"
                     onChange={(event) => handleBlockFilterChange(event.target.value)}
                     value={blockFilter}
                   >
@@ -252,7 +249,7 @@ function QuestionsPage() {
                 <label className="text-xs font-bold text-foreground grid gap-1.5">
                   Materi
                   <select
-                    className="h-10 rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer min-w-44"
+                    className="h-10 rounded-xl border border-border/80 bg-background px-3 text-xs font-semibold text-foreground transition-all focus:border-primary focus:ring-1 focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer min-w-44"
                     onChange={(event) => setTopicFilter(event.target.value)}
                     value={topicFilter}
                   >
@@ -267,8 +264,7 @@ function QuestionsPage() {
               </div>
             </div>
 
-            {/* Selection Status Banner */}
-            <div className="flex flex-col gap-3 rounded-xl border border-border/80 bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 rounded-xl border border-border/80 bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between transition-all duration-300">
               <span className="text-xs font-medium text-foreground flex items-center gap-2">
                 <CheckSquare className="h-4 w-4 text-primary" />
                 {selectedQuestionIds.length
@@ -281,7 +277,7 @@ function QuestionsPage() {
                   onClick={handleBulkDelete}
                   size="sm"
                   variant="destructive"
-                  className="h-9 text-xs font-bold px-4"
+                  className="h-9 text-xs font-bold px-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive/50"
                 >
                   <Trash2 className="h-3.5 w-3.5 mr-1.5" />
                   Hapus terpilih
@@ -289,7 +285,6 @@ function QuestionsPage() {
               </div>
             </div>
 
-            {/* Question Cards Grid */}
             {filteredQuestions.length ? (
               <div className="grid gap-4 xl:grid-cols-2">
                 {filteredQuestions.map((question) => (
@@ -304,7 +299,7 @@ function QuestionsPage() {
                             <input
                               aria-label={`Pilih soal ${question.stem}`}
                               checked={selectedQuestionIds.includes(question.id)}
-                              className="h-4 w-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+                              className="h-4 w-4 rounded border-border text-primary focus:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer transition-all"
                               onChange={(event) => handleQuestionSelectionChange(question.id, event.target.checked)}
                               type="checkbox"
                             />
@@ -313,10 +308,10 @@ function QuestionsPage() {
                           <div className="flex flex-wrap items-center gap-1.5">
                             <Badge 
                               variant={question.status === "published" ? "outline" : "secondary"}
-                              className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 ${
+                              className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 transition-colors ${
                                 question.status === "published"
-                                  ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/30"
-                                  : "bg-amber-500/10 text-amber-600 border-amber-500/30"
+                                  ? "bg-emerald-500/10 text-emerald-700 border-emerald-500/30 dark:text-emerald-400"
+                                  : "bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30"
                               }`}
                             >
                               {question.statusLabel}
@@ -368,14 +363,14 @@ function QuestionsPage() {
                         </Badge>
                       ) : null}
                       {question.hasExplanationText ? (
-                        <Badge variant="outline" className="text-[10px] font-medium text-muted-foreground bg-muted/30">
-                          <FileText className="h-3 w-3 mr-1 text-emerald-500" />
+                        <Badge variant="outline" className="text-[10px] font-medium text-muted-foreground bg-muted/30 transition-colors">
+                          <FileText className="h-3 w-3 mr-1 text-emerald-700 dark:text-emerald-400" />
                           Pembahasan
                         </Badge>
                       ) : null}
                       {question.hasExplanationImage ? (
-                        <Badge variant="outline" className="text-[10px] font-medium text-muted-foreground bg-muted/30">
-                          <ImageIcon className="h-3 w-3 mr-1 text-amber-500" />
+                        <Badge variant="outline" className="text-[10px] font-medium text-muted-foreground bg-muted/30 transition-colors">
+                          <ImageIcon className="h-3 w-3 mr-1 text-amber-700 dark:text-amber-400" />
                           Gambar pembahasan
                         </Badge>
                       ) : null}
@@ -418,7 +413,6 @@ function QuestionsPage() {
         navItems={createProductNavItems("/app/questions", "mentor")}
       >
         <div className="flex flex-col w-full py-4 space-y-6">
-          {/* Top Header Section */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">

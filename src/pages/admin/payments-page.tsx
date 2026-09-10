@@ -211,10 +211,26 @@ function PaymentsPage() {
       ) : null}
 
       {isLoading ? (
-        <div className="mt-6 flex flex-col items-center justify-center p-8 space-y-4">
-  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-  <p className="text-sm text-muted-foreground">Daftar pembayaran sedang disiapkan.</p>
-</div>
+        <div className="mt-6 divide-y divide-border/50 border-y border-border/50">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="flex flex-col gap-4 px-5 py-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="space-y-2 w-full max-w-sm">
+                  <div className="h-5 w-1/3 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+                </div>
+                <div className="h-6 w-24 animate-pulse rounded-full bg-muted" />
+              </div>
+              <div className="mt-2 h-24 w-full animate-pulse rounded-lg bg-muted" />
+              <div className="flex flex-wrap gap-3 mt-2">
+                <div className="h-9 w-24 animate-pulse rounded bg-muted" />
+                <div className="h-9 w-32 animate-pulse rounded bg-muted" />
+                <div className="h-9 w-32 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : loadError ? (
         <Alert variant="destructive" className="mt-6">
   <AlertTitle>Daftar pembayaran belum bisa dimuat</AlertTitle>
@@ -226,12 +242,12 @@ function PaymentsPage() {
   <AlertDescription>Belum ada pembayaran baru.</AlertDescription>
 </Alert>
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-6 divide-y divide-border/50 border-y border-border/50">
           {payments.map((item) => {
             const isPendingReview = item.status === "pending_review";
 
             return (
-              <Card key={item.id} className="px-5 py-5" >
+              <div key={item.id} className="group flex flex-col gap-4 px-5 py-5 transition-colors hover:bg-muted/50">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -259,7 +275,7 @@ function PaymentsPage() {
                       Catatan
                     </span>
                     <textarea
-                      className="mt-2 min-h-24 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition duration-200 ease-in-out focus-visible:border-primary focus-visible:bg-white"
+                      className="mt-2 min-h-24 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition duration-200 ease-in-out focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                       placeholder="Tambahkan catatan bila perlu."
                       value={reviewNotes[item.id] ?? ""}
                       onChange={(event) =>
@@ -278,6 +294,7 @@ function PaymentsPage() {
                       onClick={() => void handleOpenProof(item)}
                       size="sm"
                       variant="outline"
+                      className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1"
                     >
                       Lihat bukti
                     </Button>
@@ -286,6 +303,7 @@ function PaymentsPage() {
                       onClick={() => void handleReview(item, "approve")}
                       size="sm"
                       variant="primary"
+                      className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1"
                     >
                       {actionSubmissionId === item.id ? "Memproses..." : "Setujui pembayaran"}
                     </Button>
@@ -294,12 +312,13 @@ function PaymentsPage() {
                       onClick={() => void handleReview(item, "reject")}
                       size="sm"
                       variant="destructive"
+                      className="focus-visible:ring-2 focus-visible:ring-destructive focus-visible:outline-none focus-visible:ring-offset-1"
                     >
                       {actionSubmissionId === item.id ? "Memproses..." : "Tolak & minta ulang"}
                     </Button>
                   </div>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>

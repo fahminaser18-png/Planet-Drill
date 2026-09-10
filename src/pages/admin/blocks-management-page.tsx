@@ -75,8 +75,6 @@ const ICON_OPTIONS = [
   { value: "Layers", label: "Layers (Struktur)" },
 ];
 
-const inputClass = "min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border";
-
 const renderIcon = (iconName: string | null | undefined) => {
   if (!iconName) return null;
   const IconComponent = (icons as any)[iconName];
@@ -193,14 +191,15 @@ function BlocksManagementPage() {
       description="Kelola daftar block dan topik yang tersedia di aplikasi."
       navItems={createAdminNavItems("/admin/blocks")}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-3">
-          <Badge variant="default">Total {blocks.length} Blocks</Badge>
+      <div className="flex flex-col gap-6 [&_button]:focus-visible:outline-none [&_button]:focus-visible:ring-2 [&_button]:focus-visible:ring-ring [&_button]:focus-visible:ring-offset-2 [&_input]:focus-visible:outline-none [&_input]:focus-visible:ring-2 [&_input]:focus-visible:ring-ring [&_textarea]:focus-visible:outline-none [&_textarea]:focus-visible:ring-2 [&_textarea]:focus-visible:ring-ring">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-3">
+            <Badge variant="default">Total {blocks.length} Blocks</Badge>
+          </div>
+          <Button variant="primary" onClick={openCreateBlock}>
+            <Plus className="mr-2 h-4 w-4" /> Tambah Blok
+          </Button>
         </div>
-        <Button variant="primary" onClick={openCreateBlock}>
-          <Plus className="mr-2 h-4 w-4" /> Tambah Blok
-        </Button>
-      </div>
 
       <Dialog open={isBlockDialogOpen} onOpenChange={setIsBlockDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
@@ -288,9 +287,28 @@ function BlocksManagementPage() {
         <h2 className="text-xl font-semibold mb-6 text-foreground">Daftar Blok</h2>
         
         {blocksQuery.isLoading ? (
-          <div className="flex flex-col items-center justify-center p-8 space-y-4">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Memuat daftar blok...</p>
+          <div className="flex flex-col border-y border-border divide-y divide-border mt-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex flex-col md:flex-row md:items-center justify-between gap-5 py-4 px-2">
+                <div className="space-y-3 w-full max-w-md">
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-48 bg-muted animate-pulse rounded-md" />
+                    <div className="h-5 w-16 bg-muted animate-pulse rounded-full" />
+                  </div>
+                  <div className="h-4 w-24 bg-muted animate-pulse rounded-md" />
+                  <div className="h-4 w-full bg-muted animate-pulse rounded-md" />
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded-md" />
+                    <div className="h-4 w-24 bg-muted animate-pulse rounded-md" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-9 w-32 bg-muted animate-pulse rounded-md" />
+                  <div className="h-9 w-9 bg-muted animate-pulse rounded-md" />
+                  <div className="h-9 w-9 bg-muted animate-pulse rounded-md" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : blocksQuery.isError ? (
           <Alert variant="destructive">
@@ -303,13 +321,13 @@ function BlocksManagementPage() {
             <AlertDescription>Belum ada data blok yang dibuat.</AlertDescription>
           </Alert>
         ) : (
-          <div className="grid gap-4 mt-4">
+          <div className="flex flex-col border-y border-border divide-y divide-border mt-4">
             {blocks.map((block) => (
-              <Card key={block.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 border-border bg-card shadow-sm">
+              <div key={block.id} className="group flex flex-col md:flex-row md:items-center justify-between gap-5 py-4 px-2 hover:bg-muted/50 transition-colors">
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-lg">{block.name}</h3>
-                    {!block.isActive && <Badge variant="secondary">Tidak Aktif</Badge>}
+                    {!block.isActive && <Badge variant="destructive" className="bg-destructive/10 text-destructive hover:bg-destructive/20 border-transparent shadow-none">Tidak Aktif</Badge>}
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">/{block.slug}</p>
                   {block.description && (
@@ -332,7 +350,7 @@ function BlocksManagementPage() {
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         )}
@@ -353,6 +371,7 @@ function BlocksManagementPage() {
           }
         }}
       />
+      </div>
     </AdminShell>
   );
 }
@@ -501,36 +520,53 @@ function TopicsDialog({ block, onClose }: { block: AdminBlock | null, onClose: (
 
           <div className="flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2">
             {topicsQuery.isLoading ? (
-              <div className="flex flex-col items-center justify-center p-4">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <div className="flex flex-col divide-y divide-border border-y border-border mt-2">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="py-3 px-2 flex items-start justify-between gap-2">
+                    <div className="space-y-2 w-full">
+                      <div className="h-4 w-32 bg-muted animate-pulse rounded-md" />
+                      <div className="h-3 w-20 bg-muted animate-pulse rounded-md" />
+                      <div className="flex gap-2 mt-2">
+                        <div className="h-3 w-12 bg-muted animate-pulse rounded-md" />
+                        <div className="h-3 w-16 bg-muted animate-pulse rounded-md" />
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <div className="h-7 w-7 bg-muted animate-pulse rounded-md" />
+                      <div className="h-7 w-7 bg-muted animate-pulse rounded-md" />
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : topics.length === 0 ? (
               <Alert>
                 <AlertDescription>Belum ada topik di blok ini.</AlertDescription>
               </Alert>
             ) : (
-              topics.map(topic => (
-                <div key={topic.id} className="p-4 border rounded-[1.15rem] flex items-start justify-between gap-2 border-border bg-card">
-                  <div>
-                    <h4 className="font-medium text-sm">{topic.name}</h4>
-                    <p className="text-xs text-muted-foreground">/{topic.slug}</p>
-                    <div className="flex gap-2 mt-2 text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
-                      <span>Order: {topic.sortOrder}</span>
-                      <span className={topic.isActive ? "text-green-600" : "text-destructive"}>
-                        {topic.isActive ? "Aktif" : "Tidak Aktif"}
-                      </span>
+              <div className="flex flex-col divide-y divide-border border-y border-border mt-2">
+                {topics.map(topic => (
+                  <div key={topic.id} className="py-3 px-2 flex items-start justify-between gap-2 hover:bg-muted/50 transition-colors">
+                    <div>
+                      <h4 className="font-medium text-sm">{topic.name}</h4>
+                      <p className="text-xs text-muted-foreground">/{topic.slug}</p>
+                      <div className="flex gap-2 mt-2 items-center text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+                        <span>Order: {topic.sortOrder}</span>
+                        <span className={`px-2 py-0.5 rounded-full ${topic.isActive ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-destructive/10 text-destructive"}`}>
+                          {topic.isActive ? "Aktif" : "Tidak Aktif"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="icon-sm" onClick={() => setEditingTopic(topic)}>
+                        <Edit2 className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon-sm" className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => setTopicToDelete(topic)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="icon-sm" onClick={() => setEditingTopic(topic)}>
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon-sm" className="text-destructive" onClick={() => setTopicToDelete(topic)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
         </div>

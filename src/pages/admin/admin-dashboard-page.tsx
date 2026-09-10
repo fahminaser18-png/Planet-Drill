@@ -29,22 +29,17 @@ function AdminDashboardPage() {
       navItems={createAdminNavItems("/admin")}
     >
       {queueView === "ready" && overviewQuery.isLoading ? (
-        <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-           <div>
-             <h3 className="text-lg font-semibold text-foreground">Ringkasan admin sedang dimuat</h3>
-             <p className="text-sm">Data ringkasan admin sedang disiapkan.</p>
-           </div>
-           <div className="mt-2">
-              <Link
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                to="/admin/payments"
-              >
-                Lihat pembayaran
-              </Link>
-           </div>
+        <div className="mt-6 grid gap-4">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="shadow-none border-border/50">
+                <CardContent className="pt-6">
+                  <div className="h-5 w-24 animate-pulse rounded bg-muted" />
+                  <div className="mt-5 h-8 w-16 animate-pulse rounded bg-muted" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       ) : queueView === "ready" && overviewQuery.isError ? (
         <Alert variant="destructive" className="mt-6">
@@ -98,7 +93,7 @@ function AdminDashboardPage() {
                   </div>
                   <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-4">
                     <div className="flex items-center gap-2 text-foreground">
-                      <Clock className="h-5 w-5 text-amber-600" />
+                      <Clock className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                       <p className="font-semibold">{overview.reviewPulse.title}</p>
                     </div>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -128,20 +123,20 @@ function AdminDashboardPage() {
             </Card>
           ) : (
             <div className="mt-6 grid gap-4">
-              <Card>
+              <Card className="shadow-none border-border/50">
                 <CardHeader>
                   <CardTitle className="text-2xl font-semibold leading-tight text-foreground">
                     Pembayaran yang perlu dicek
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
+                <CardContent className="p-0">
+                  <div className="divide-y divide-border/50">
                     {overview.paymentQueuePreview.map((item) => (
                       <div
                         key={item.id}
-                        className="rounded-xl border border-border bg-muted/50 px-4 py-4"
+                        className="group flex items-center justify-between gap-3 px-6 py-4 transition-colors hover:bg-muted/50 focus-within:ring-2 focus-within:ring-primary focus-within:outline-none"
                       >
-                        <div className="flex items-center justify-between gap-3">
+                        <div className="flex w-full items-center justify-between gap-3">
                           <div>
                             <p className="font-semibold text-foreground">{item.name}</p>
                             <p className="mt-1 text-sm text-muted-foreground">
@@ -161,22 +156,17 @@ function AdminDashboardPage() {
           )}
         </>
       ) : queueView === "loading" ? (
-        <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-           <div>
-             <h3 className="text-lg font-semibold text-foreground">Ringkasan admin sedang dimuat</h3>
-             <p className="text-sm">Ringkasan admin sedang disiapkan.</p>
-           </div>
-           <div className="mt-2">
-              <Link
-                {...getButtonStyleProps({
-                  variant: "primary",
-                })}
-                to="/admin/payments"
-              >
-                Lihat pembayaran
-              </Link>
-           </div>
+        <div className="mt-6 grid gap-4">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="shadow-none border-border/50">
+                <CardContent className="pt-6">
+                  <div className="h-5 w-24 animate-pulse rounded bg-muted" />
+                  <div className="mt-5 h-8 w-16 animate-pulse rounded bg-muted" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       ) : queueView === "empty" ? (
         <Card className="mt-6 border-dashed bg-muted/30">

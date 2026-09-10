@@ -213,16 +213,16 @@ function UsersPage() {
       ) : null}
 
       {isCreateFormOpen ? (
-        <Card className="mt-6 px-5 py-5" >
+        <Card className="mt-6 shadow-none border-border/50 px-5 py-5" >
           <h2 className="text-2xl font-semibold text-foreground">Buat akun baru</h2>
-          <p className="mt-2 text-sm leading-6 text-foreground">
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Pengguna akan menerima email untuk membuat kata sandi.
           </p>
           <form className="mt-5 grid gap-4 xl:grid-cols-2" onSubmit={handleCreateUser}>
             <label className="grid gap-2 text-sm font-medium text-foreground">
               Email
               <input
-                className="min-h-11 rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                className="min-h-11 rounded-lg border border-border bg-background px-4 text-sm text-foreground outline-none transition focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -231,7 +231,7 @@ function UsersPage() {
             <label className="grid gap-2 text-sm font-medium text-foreground">
               Nama
               <input
-                className="min-h-11 rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                className="min-h-11 rounded-lg border border-border bg-background px-4 text-sm text-foreground outline-none transition focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 type="text"
                 value={fullName}
                 onChange={(event) => setFullName(event.target.value)}
@@ -240,7 +240,7 @@ function UsersPage() {
             <label className="grid gap-2 text-sm font-medium text-foreground">
               Peran awal
               <select
-                className="min-h-11 rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                className="min-h-11 rounded-lg border border-border bg-background px-4 text-sm text-foreground outline-none transition focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 value={initialRole}
                 onChange={(event) => setInitialRole(event.target.value as ManagedRole)}
               >
@@ -256,6 +256,7 @@ function UsersPage() {
                 loadingLabel="Membuat akun..."
                 type="submit"
                 variant="primary"
+                className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1"
               >
                 Buat akun
               </Button>
@@ -264,11 +265,11 @@ function UsersPage() {
         </Card>
       ) : null}
 
-      <Card className="mt-6 px-5 py-5" >
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-1">
           <div>
             <h2 className="text-2xl font-semibold text-foreground">Daftar pengguna</h2>
-            <p className="mt-2 text-sm leading-6 text-foreground">
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Saring pengguna lalu ubah perannya langsung dari daftar ini.
             </p>
           </div>
@@ -279,6 +280,7 @@ function UsersPage() {
                 onClick={() => setActiveFilter(filter.id)}
                 size="sm"
                 variant={activeFilter === filter.id ? "secondary" : "outline"}
+                className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1"
               >
                 {filter.label}
               </Button>
@@ -287,10 +289,22 @@ function UsersPage() {
         </div>
 
         {usersQuery.isLoading ? (
-          <div className="mt-6 flex flex-col items-center justify-center p-8 space-y-4">
-  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-  <p className="text-sm text-muted-foreground">Daftar pengguna sedang dimuat.</p>
-</div>
+          <div className="mt-6 space-y-3">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between rounded-lg border border-border/50 px-5 py-5">
+                <div className="space-y-3 w-full max-w-sm">
+                  <div className="h-6 w-1/2 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+                  <div className="h-3 w-1/3 animate-pulse rounded bg-muted" />
+                  <div className="h-5 w-20 animate-pulse rounded-full bg-muted" />
+                </div>
+                <div className="grid gap-3 sm:min-w-72">
+                  <div className="h-11 w-full animate-pulse rounded-lg bg-muted" />
+                  <div className="h-10 w-full animate-pulse rounded-lg bg-muted" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : usersQuery.isError ? (
           <Alert variant="destructive" className="mt-6">
   <AlertTitle>Daftar pengguna belum tersedia</AlertTitle>
@@ -302,64 +316,63 @@ function UsersPage() {
   <AlertDescription>Belum ada pengguna yang cocok dengan filter aktif saat ini.</AlertDescription>
 </Alert>
         ) : (
-          <div className="mt-6 space-y-3">
+          <div className="mt-6 divide-y divide-border/50 border-y border-border/50">
             {filteredUsers.map((item) => {
               const identifier = item.email ?? item.id;
 
               return (
-                <Card key={item.id} className="px-5 py-5" >
-                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                    <div>
-                      <p className="text-lg font-semibold text-foreground">
-                        {item.fullName ?? "Tanpa nama"}
-                      </p>
-                      <p className="mt-1 text-sm text-foreground">{item.email ?? "-"}</p>
-                      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-foreground">
-                        Dibuat {formatCreatedAt(item.createdAt)}
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        <Badge variant={item.role === "admin" ? "default" : item.role === "pendaftar_baru" ? "secondary" : "default"}>
-                          {resolveRoleLabel(item.role)}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-3 sm:min-w-72">
-                      <label className="grid gap-2 text-sm font-medium text-foreground">
-                        <span className="sr-only">{`peran-${identifier}`}</span>
-                        <select
-                          aria-label={`peran-${identifier}`}
-                          className="min-h-11 rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
-                          value={rowRoles[item.id] ?? item.role}
-                          onChange={(event) =>
-                            setRowRoles((current) => ({
-                              ...current,
-                              [item.id]: event.target.value as ManagedRole,
-                            }))}
-                        >
-                          <option value="pendaftar_baru">Peserta baru</option>
-                          <option value="pro">Pro</option>
-                          <option value="mentor">Mentor</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      </label>
-                      <Button
-                        aria-label={`simpan peran-${identifier}`}
-                        loading={updateRoleMutation.isPending}
-                        loadingLabel="Menyimpan..."
-                        onClick={() => handleSaveRole(item.id)}
-                        variant="primary"
-                      >
-                        Simpan peran
-                      </Button>
+                <div key={item.id} className="group flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between px-5 py-5 transition-colors hover:bg-muted/50">
+                  <div>
+                    <p className="text-lg font-semibold text-foreground">
+                      {item.fullName ?? "Tanpa nama"}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">{item.email ?? "-"}</p>
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                      Dibuat {formatCreatedAt(item.createdAt)}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Badge variant={item.role === "admin" ? "default" : item.role === "pendaftar_baru" ? "secondary" : "default"}>
+                        {resolveRoleLabel(item.role)}
+                      </Badge>
                     </div>
                   </div>
-                </Card>
+
+                  <div className="grid gap-3 sm:min-w-72">
+                    <label className="grid gap-2 text-sm font-medium text-foreground">
+                      <span className="sr-only">{`peran-${identifier}`}</span>
+                      <select
+                        aria-label={`peran-${identifier}`}
+                        className="min-h-11 rounded-lg border border-border bg-background px-4 text-sm text-foreground outline-none transition focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        value={rowRoles[item.id] ?? item.role}
+                        onChange={(event) =>
+                          setRowRoles((current) => ({
+                            ...current,
+                            [item.id]: event.target.value as ManagedRole,
+                          }))}
+                      >
+                        <option value="pendaftar_baru">Peserta baru</option>
+                        <option value="pro">Pro</option>
+                        <option value="mentor">Mentor</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </label>
+                    <Button
+                      aria-label={`simpan peran-${identifier}`}
+                      loading={updateRoleMutation.isPending}
+                      loadingLabel="Menyimpan..."
+                      onClick={() => handleSaveRole(item.id)}
+                      variant="primary"
+                      className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-1"
+                    >
+                      Simpan peran
+                    </Button>
+                  </div>
+                </div>
               );
             })}
           </div>
         )}
-      </Card>
+      </div>
     </AdminShell>
   );
 }
