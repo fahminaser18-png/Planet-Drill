@@ -126,9 +126,23 @@ function ReviewPage() {
             </div>
 
             {historyQuery.isLoading ? (
-              <div className="mt-6 flex flex-col items-center justify-center space-y-4 py-16 text-center text-muted-foreground border rounded-2xl bg-card/60 shadow-sm backdrop-blur-sm">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm font-medium">Riwayat sesi sedang disiapkan.</p>
+              <div className="mt-6 flex flex-col gap-0 w-full border-t border-border/40 animate-pulse">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-b border-border/40">
+                    <div className="flex flex-col gap-3 md:max-w-xl w-full">
+                      <div className="h-4 bg-muted rounded-md w-32" />
+                      <div className="h-6 bg-muted rounded-md w-3/4 mt-1" />
+                      <div className="flex items-center gap-6 mt-2">
+                        <div className="h-4 bg-muted rounded-md w-24" />
+                        <div className="h-4 bg-muted rounded-md w-24" />
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-start md:items-end gap-4 shrink-0 mt-2 md:mt-0">
+                      <div className="h-6 bg-muted rounded-md w-24" />
+                      <div className="h-10 bg-muted rounded-md w-36" />
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : historyQuery.isError ? (
               <Alert variant="destructive" className="mt-6 border-destructive/50 bg-destructive/5">
@@ -188,7 +202,7 @@ function ReviewPage() {
                         aria-label={`Buka pembahasan ${attempt.title}`}
                         {...getButtonStyleProps({
                           variant: "outline",
-                          className: "w-full md:w-auto justify-center font-semibold group-hover:border-primary group-hover:text-primary transition-colors",
+                          className: "w-full md:w-auto justify-center font-semibold group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                         })}
                         to={attempt.source === "scheduled"
                           ? `/app/review/${attempt.attemptId}?source=scheduled`
@@ -221,9 +235,22 @@ function ReviewPage() {
             </div>
 
             {reviewQuery.isLoading ? (
-              <div className="mt-6 flex flex-col items-center justify-center space-y-4 py-16 text-center text-muted-foreground border rounded-2xl bg-card/60 shadow-sm backdrop-blur-sm">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm font-medium">Pembahasan soal sedang disiapkan.</p>
+              <div className="mt-6 flex flex-col gap-8 max-w-4xl animate-pulse">
+                <div className="flex flex-col gap-4 pb-4 border-b border-border/40">
+                  <div className="h-6 w-32 bg-muted rounded-full" />
+                  <div className="h-8 w-64 bg-muted rounded-md mt-2" />
+                </div>
+                <div className="space-y-4">
+                  <div className="h-6 w-full bg-muted rounded-md" />
+                  <div className="h-6 w-5/6 bg-muted rounded-md" />
+                  <div className="h-6 w-3/4 bg-muted rounded-md" />
+                </div>
+                <div className="mt-8 grid gap-3">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="h-16 w-full bg-muted rounded-xl border border-border/40" />
+                  ))}
+                </div>
+                <div className="mt-8 h-40 w-full bg-muted rounded-xl border border-border/40" />
               </div>
             ) : reviewQuery.isError ? (
               <Alert variant="destructive" className="mt-6 border-destructive/50 bg-destructive/5">
@@ -312,7 +339,7 @@ function ReviewPage() {
                                 onClick={() => setCurrentIndex(index)}
                                 aria-label={`Soal ${index + 1}`}
                                 className={[
-                                  "h-10 w-full rounded-2xl border text-sm font-bold transition-all duration-150 flex items-center justify-center cursor-pointer shadow-2xs",
+                                  "h-10 w-full rounded-2xl border text-sm font-bold transition-all duration-150 flex items-center justify-center cursor-pointer shadow-2xs focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none hover:-translate-y-0.5",
                                   item.isWrong
                                     ? "!border-rose-600 !bg-rose-600 !text-white hover:!bg-rose-700"
                                     : "!border-emerald-600 !bg-emerald-600 !text-white hover:!bg-emerald-700",
@@ -492,7 +519,7 @@ function ReviewPage() {
                             disabled={currentIndex === 0}
                             onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                             variant="outline"
-                            className="w-full sm:w-auto"
+                            className="w-full sm:w-auto hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                           >
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Sebelumnya
@@ -502,7 +529,7 @@ function ReviewPage() {
                             disabled={currentIndex === items.length - 1}
                             onClick={() => setCurrentIndex((prev) => Math.min(items.length - 1, prev + 1))}
                             variant="default"
-                            className="w-full sm:w-auto"
+                            className="w-full sm:w-auto hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                           >
                             Selanjutnya
                             <ArrowRight className="w-4 h-4 ml-2" />

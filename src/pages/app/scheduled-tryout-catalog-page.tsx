@@ -27,7 +27,7 @@ function ScheduledTryoutCatalogCardView({
   const isStartDisabled = item.isLocked;
 
   return (
-    <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between hover:bg-muted/50 transition-colors focus-within:bg-muted/50">
       <div className="flex-1 min-w-0">
         <Badge variant="secondary" className="w-fit flex items-center gap-1">
           <Calendar className="h-4 w-4" />
@@ -49,6 +49,7 @@ function ScheduledTryoutCatalogCardView({
           <Link
             {...getButtonStyleProps({
               variant: "primary",
+              className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
             })}
             to={`/app/scheduled-tryout/session?event=${item.id}`}
           >
@@ -72,6 +73,7 @@ function ScheduledTryoutCatalogCardView({
         <Link
           {...getButtonStyleProps({
             variant: "outline",
+            className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
           })}
           to={`/app/scheduled-tryout/leaderboard?event=${item.id}`}
         >
@@ -120,12 +122,21 @@ function ScheduledTryoutCatalogPage() {
 
         <div className="mt-6">
           {catalogQuery.isPending ? (
-            <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <div>
-                <h3 className="font-semibold text-foreground">Daftar sesi sedang dimuat</h3>
-                <p>Sesi terjadwal sedang disiapkan.</p>
-              </div>
+            <div className="mt-8 divide-y border rounded-xl bg-card">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="p-5 flex flex-col sm:flex-row gap-4 justify-between animate-pulse">
+                  <div className="space-y-3 flex-1">
+                    <div className="h-5 w-24 bg-muted rounded" />
+                    <div className="h-6 w-3/4 bg-muted rounded" />
+                    <div className="h-4 w-1/2 bg-muted rounded" />
+                    <div className="flex gap-2 mt-4">
+                      <div className="h-6 w-16 bg-muted rounded" />
+                      <div className="h-6 w-16 bg-muted rounded" />
+                    </div>
+                  </div>
+                  <div className="h-10 w-32 bg-muted rounded mt-4 sm:mt-0" />
+                </div>
+              ))}
             </div>
           ) : catalogQuery.isError ? (
             <Alert variant="destructive">
@@ -139,12 +150,17 @@ function ScheduledTryoutCatalogPage() {
               <AlertDescription>Belum ada sesi yang bisa diikuti saat ini.</AlertDescription>
             </Alert>
           ) : activeAttemptQuery.isPending ? (
-            <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <div>
-                <h3 className="font-semibold text-foreground">Daftar sesi sedang dimuat</h3>
-                <p>Sesi terjadwal sedang disiapkan.</p>
-              </div>
+            <div className="mt-8 divide-y border rounded-xl bg-card">
+              {[1, 2].map((i) => (
+                <div key={i} className="p-5 flex flex-col sm:flex-row gap-4 justify-between animate-pulse">
+                  <div className="space-y-3 flex-1">
+                    <div className="h-5 w-24 bg-muted rounded" />
+                    <div className="h-6 w-3/4 bg-muted rounded" />
+                    <div className="h-4 w-1/2 bg-muted rounded" />
+                  </div>
+                  <div className="h-10 w-32 bg-muted rounded mt-4 sm:mt-0" />
+                </div>
+              ))}
             </div>
           ) : (
             <>
@@ -171,6 +187,7 @@ function ScheduledTryoutCatalogPage() {
                     <Link
                       {...getButtonStyleProps({
                         variant: "primary",
+                        className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
                       })}
                       to={`/app/scheduled-tryout/session?attempt=${activeAttempt.attemptId}`}
                     >

@@ -98,9 +98,16 @@ function FlashCardGeneratorReviewPage() {
     >
       {actionError ? <p className="mb-4 text-sm leading-7 text-destructive">{actionError}</p> : null}
       {detailQuery.isLoading ? (
-        <div className="flex h-64 flex-col items-center justify-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Materi sedang disiapkan untuk ditinjau...</p>
+        <div className="space-y-8 animate-pulse mt-6">
+          <div className="space-y-4">
+            <div className="h-10 w-3/4 bg-muted rounded" />
+            <div className="h-24 w-full bg-muted rounded" />
+          </div>
+          <div className="space-y-6">
+            <div className="h-8 w-1/3 bg-muted rounded" />
+            <div className="h-40 w-full bg-muted rounded" />
+            <div className="h-40 w-full bg-muted rounded" />
+          </div>
         </div>
       ) : detailQuery.isError || !detailQuery.data ? (
         <Alert variant="destructive">

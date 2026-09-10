@@ -22,7 +22,7 @@ export default function TutorBuilderPage() {
             <button
               type="button"
               onClick={() => navigate("/app/mentor/tutor")}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               <ArrowLeft size={16} /> Kembali ke Daftar Sumber
             </button>

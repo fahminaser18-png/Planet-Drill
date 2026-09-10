@@ -102,8 +102,8 @@ export default function StudyAreaPage() {
             return (
               <div
                 key={item.id}
-                className={`group flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/40 py-8 px-4 -mx-4 rounded-xl transition-colors ${
-                  isLocked ? "opacity-70 grayscale-[0.3]" : "hover:bg-muted/30"
+                className={`group flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/40 py-8 px-4 -mx-4 rounded-xl transition-all duration-300 ease-out ${
+                  isLocked ? "opacity-70 grayscale-[0.3]" : "hover:bg-muted/30 hover:shadow-sm"
                 }`}
               >
                 <div className="flex items-start gap-5">
@@ -140,7 +140,7 @@ export default function StudyAreaPage() {
                     <button
                       {...getButtonStyleProps({
                         variant: "secondary",
-                        className: "font-medium hover:bg-muted text-muted-foreground",
+                        className: "font-medium hover:bg-muted text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                       })}
                       onClick={(e) => {
                         e.preventDefault();
@@ -163,7 +163,7 @@ export default function StudyAreaPage() {
                       {...getButtonStyleProps({
                         variant: "secondary",
                         className:
-                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground transition-colors",
+                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                       })}
                       to={item.href}
                     >

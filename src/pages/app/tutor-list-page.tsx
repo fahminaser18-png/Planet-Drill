@@ -40,6 +40,9 @@ export default function TutorListPage() {
       <div className="flex flex-col gap-10 w-full py-8 max-w-5xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
+            <p className="text-sm font-medium text-muted-foreground">
+              Fitur Mentor AI
+            </p>
             <h1 className="text-3xl font-semibold tracking-tight text-foreground">
               Daftar Sumber Tutor
             </h1>
@@ -47,27 +50,45 @@ export default function TutorListPage() {
               Kelola daftar sumber tambahan yang tersedia untuk tutor simulasi ujian.
             </p>
           </div>
-          <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="default">
+          <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="default" className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none">
             <Plus className="mr-2 h-4 w-4" /> Tambah Sumber
           </Button>
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center p-12 border border-border rounded-lg bg-muted/20">
-            <span className="text-sm font-medium text-muted-foreground">Memuat sumber...</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex flex-col border border-border rounded-lg p-5 bg-card">
+                <div className="flex-grow mb-4">
+                  <div className="h-5 w-3/4 bg-muted animate-pulse rounded mb-2"></div>
+                  <div className="flex gap-2 mb-3">
+                    <div className="h-5 w-16 bg-muted animate-pulse rounded"></div>
+                    <div className="h-5 w-20 bg-muted animate-pulse rounded"></div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
+                    <div className="h-4 w-5/6 bg-muted animate-pulse rounded"></div>
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2 mt-auto">
+                  <div className="h-8 w-12 bg-muted animate-pulse rounded"></div>
+                  <div className="h-8 w-16 bg-muted animate-pulse rounded"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : !stations || stations.length === 0 ? (
-          <div className="text-center p-12 bg-muted/20 rounded-lg border border-border border-dashed">
+          <div className="text-center p-12 bg-muted/20 rounded-lg border border-border border-dashed transition-all duration-200 hover:border-primary/50 hover:bg-muted/30">
             <h3 className="text-base font-medium mb-1">Belum ada sumber tambahan</h3>
             <p className="text-sm text-muted-foreground mb-4">Mulai unggah materi sumber tambahan pertama Anda.</p>
-            <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="outline">
+            <Button onClick={() => navigate("/app/mentor/tutor-builder")} variant="outline" className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none">
               <Plus className="mr-2 h-4 w-4" /> Tambah Sumber
             </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {stations.map((station) => (
-              <div key={station.id} className="flex flex-col border border-border rounded-lg p-5 hover:border-foreground/20 transition-colors">
+              <div key={station.id} className="flex flex-col border border-border rounded-lg p-5 transition-all duration-200 hover:border-primary/50 hover:shadow-sm bg-card">
                 <div className="flex-grow mb-4">
                   <h3 className="font-medium text-foreground line-clamp-2 mb-2">{station.title}</h3>
                   <div className="flex flex-wrap gap-2 mb-3">
@@ -87,7 +108,7 @@ export default function TutorListPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8"
+                    className="h-8 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors"
                     onClick={() => navigate(`/app/mentor/tutor-builder?id=${station.id}`)}
                   >
                     Edit
@@ -95,7 +116,7 @@ export default function TutorListPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                    className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10 focus-visible:ring-2 focus-visible:ring-destructive focus-visible:outline-none transition-colors"
                     onClick={() => handleDelete(station.id)}
                     disabled={deleteMutation.isPending}
                   >

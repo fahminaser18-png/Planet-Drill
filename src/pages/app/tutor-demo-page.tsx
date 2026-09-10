@@ -88,6 +88,9 @@ export default function TutorDemoPage() {
     >
       <div className="flex flex-col gap-8 w-full py-8 max-w-5xl h-[calc(100vh-4rem)]">
         <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
+            Fitur Pelajar AI
+          </p>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">Ruang Tutor</h1>
           <p className="text-base text-muted-foreground max-w-2xl">
             Tanyakan apa saja seputar UTBK. Tutor terhubung dengan seluruh bank soal, pembahasan, flash card, serta materi tambahan yang ada di platform ini.
@@ -95,8 +98,23 @@ export default function TutorDemoPage() {
         </div>
         
         {isLoading ? (
-          <div className="flex items-center justify-center flex-grow bg-muted/20 border border-border rounded-lg">
-            <p className="text-muted-foreground">Memuat materi & data siswa...</p>
+          <div className="flex flex-col flex-grow bg-card border border-border rounded-lg p-6">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="h-12 w-12 rounded-full bg-muted animate-pulse"></div>
+              <div className="space-y-2">
+                <div className="h-4 w-[200px] bg-muted animate-pulse rounded"></div>
+                <div className="h-3 w-[150px] bg-muted animate-pulse rounded"></div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
+              <div className="h-4 w-5/6 bg-muted animate-pulse rounded"></div>
+              <div className="h-4 w-4/6 bg-muted animate-pulse rounded"></div>
+            </div>
+            <div className="mt-auto flex gap-3">
+              <div className="h-10 w-full bg-muted animate-pulse rounded"></div>
+              <div className="h-10 w-12 bg-muted animate-pulse rounded"></div>
+            </div>
           </div>
         ) : (
           <div className="flex-grow rounded-lg overflow-hidden border border-border">

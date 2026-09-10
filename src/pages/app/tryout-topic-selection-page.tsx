@@ -50,7 +50,7 @@ function TryoutTopicSelectionPage() {
             <div className="mb-6">
               <Link
                 to="/app/tryout-selection"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
                 <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 <span>Kembali ke Mode Try Out</span>
@@ -83,7 +83,7 @@ function TryoutTopicSelectionPage() {
                   variant={activeFilter === "ALL" ? "secondary" : "ghost"}
                   size="sm"
                   onClick={() => setSearchParams({})}
-                  className={`rounded-md px-4 text-sm font-semibold ${activeFilter === "ALL" ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`rounded-md px-4 text-sm font-semibold hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${activeFilter === "ALL" ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   Semua Blok ({topicOptions.length})
                 </Button>
@@ -94,7 +94,7 @@ function TryoutTopicSelectionPage() {
                     variant={activeFilter === block.id ? "secondary" : "ghost"}
                     size="sm"
                     onClick={() => setSearchParams({ block: block.id })}
-                    className={`rounded-md px-4 text-sm font-semibold ${activeFilter === block.id ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                    className={`rounded-md px-4 text-sm font-semibold hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${activeFilter === block.id ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                   >
                     {block.name}
                   </Button>
@@ -106,12 +106,16 @@ function TryoutTopicSelectionPage() {
             <div className="flex flex-col gap-0 w-full border-t border-border/40">
               {isLoading ? (
                 Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="py-6 border-b border-border/40 flex items-start gap-4 animate-pulse">
-                    <div className="h-10 w-10 bg-muted rounded-lg shrink-0" />
-                    <div className="space-y-2 w-full max-w-sm">
-                      <div className="h-5 bg-muted rounded w-2/3" />
-                      <div className="h-4 bg-muted rounded w-1/2" />
+                  <div key={i} className="py-6 border-b border-border/40 flex items-center justify-between gap-4 animate-pulse">
+                    <div className="flex items-start gap-4 w-full">
+                      <div className="h-10 w-10 bg-muted rounded-lg shrink-0 mt-0.5" />
+                      <div className="space-y-3 w-full max-w-md">
+                        <div className="h-5 bg-muted rounded-md w-3/4" />
+                        <div className="h-4 bg-muted rounded-md w-full" />
+                        <div className="h-4 bg-muted rounded-md w-1/4" />
+                      </div>
                     </div>
+                    <div className="h-9 w-24 bg-muted rounded-md shrink-0 hidden sm:block" />
                   </div>
                 ))
               ) : filteredTopics.length === 0 ? (
@@ -157,7 +161,7 @@ function TryoutTopicSelectionPage() {
                             {...getButtonStyleProps({
                               variant: "outline",
                               size: "sm",
-                              className: "w-full sm:w-auto font-semibold group-hover:border-primary group-hover:text-primary transition-colors",
+                              className: "w-full sm:w-auto font-semibold group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                             })}
                             to={`/app/tryout/session?template=${topic.sessionTemplateId}`}
                           >

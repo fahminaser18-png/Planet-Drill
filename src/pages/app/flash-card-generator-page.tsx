@@ -50,6 +50,7 @@ function FlashCardGeneratorPage() {
           <Link
             {...getButtonStyleProps({
               variant: "primary",
+              className: "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
             })}
             to="/app/flash-card-generator/new"
           >
@@ -58,9 +59,16 @@ function FlashCardGeneratorPage() {
         </header>
 
         {materialsQuery.isLoading ? (
-          <div className="flex h-64 flex-col items-center justify-center gap-4">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Daftar materi sedang dimuat...</p>
+          <div className="flex flex-col border-t border-border/40 w-full">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-start justify-between gap-4 border-b border-border/40 py-6">
+                <div className="flex-1 px-4 space-y-3">
+                  <div className="h-3 w-24 bg-muted rounded animate-pulse" />
+                  <div className="h-6 w-64 bg-muted rounded animate-pulse" />
+                  <div className="h-4 w-40 bg-muted rounded animate-pulse" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : materialsQuery.isError ? (
           <Alert variant="destructive">
@@ -70,12 +78,20 @@ function FlashCardGeneratorPage() {
           </Alert>
         ) : (
           <div className="flex flex-col border-t border-border/40">
-            {materialsQuery.data?.map((item) => (
+            {materialsQuery.data?.length === 0 ? (
+              <div className="py-16 text-center flex flex-col items-center justify-center border-b border-border/40">
+                <div className="h-12 w-12 rounded-full bg-muted/50 flex items-center justify-center mb-4">
+                  <AlertCircle className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-medium text-foreground">Belum ada materi</h3>
+                <p className="mt-1 text-sm text-muted-foreground max-w-sm">Klik "Buat materi baru" untuk mulai menyusun flash card.</p>
+              </div>
+            ) : materialsQuery.data?.map((item) => (
               <div
                 key={item.materialId}
-                className="group relative flex items-start justify-between gap-4 border-b border-border/40 py-6 hover:bg-muted/30"
+                className="group relative flex items-start justify-between gap-4 border-b border-border/40 py-6 transition-all duration-300 ease-out hover:bg-muted/30"
               >
-                <Link to={`/app/flash-card-generator/${item.materialId}`} className="block flex-1 px-4">
+                <Link to={`/app/flash-card-generator/${item.materialId}`} className="block flex-1 px-4 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                   <p className="text-xs font-semibold uppercase tracking-wider text-primary">
                     {item.academicGroupLabel}
                   </p>
@@ -92,7 +108,7 @@ function FlashCardGeneratorPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="mr-2 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+                  className="mr-2 text-muted-foreground opacity-0 transition-all duration-200 hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2"
                   onClick={(e) => {
                     e.preventDefault();
                     setMaterialToDelete({ id: item.materialId, title: item.title });

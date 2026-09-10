@@ -120,39 +120,45 @@ function AnalyticsPage() {
 
         {analyticsView === "loading" || (analyticsView === "ready" && diagnosisQuery.isLoading) ? (
           <div className="py-12 flex flex-col gap-4">
-             <div className="flex items-center gap-3">
-               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-               <span className="text-sm text-muted-foreground">Memuat data analisis...</span>
+             <div className="space-y-3 max-w-md">
+               <div className="h-6 w-3/4 bg-muted animate-pulse rounded"></div>
+               <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
+               <div className="h-4 w-5/6 bg-muted animate-pulse rounded"></div>
              </div>
-             <div>
+             <div className="mt-2">
                 <Link
                   {...getButtonStyleProps({ variant: "outline" })}
                   to="/app/tryout/result"
+                  className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 >
                   Buka hasil terakhir
                 </Link>
              </div>
           </div>
         ) : analyticsView === "error" || (analyticsView === "ready" && diagnosisQuery.isError) ? (
-          <div className="py-8 space-y-4">
+          <div className="py-8 space-y-4 bg-destructive/10 p-6 rounded-lg border border-destructive/20 transition-all duration-300">
             <p className="text-sm text-destructive">Analisis gagal dimuat. Coba buka review terlebih dahulu.</p>
             <Link
               {...getButtonStyleProps({ variant: "outline" })}
               to="/app/review"
+              className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-destructive focus-visible:outline-none"
             >
               Buka review
             </Link>
           </div>
         ) : analyticsView === "empty" || diagnosisMode === "empty" ? (
-          <div className="py-12 space-y-4">
-            <PackageSearch className="h-8 w-8 text-muted-foreground" />
-            <div>
-              <p className="font-medium text-foreground">Belum ada data</p>
-              <p className="text-sm text-muted-foreground">Belum ada try out besar di rentang ini.</p>
+          <div className="py-16 px-6 text-center border border-dashed border-border rounded-lg bg-muted/10 space-y-4 flex flex-col items-center justify-center transition-all duration-300 hover:bg-muted/20">
+            <div className="h-12 w-12 rounded-full bg-muted/30 flex items-center justify-center">
+              <PackageSearch className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <div className="max-w-sm">
+              <p className="font-medium text-foreground text-base">Belum ada data</p>
+              <p className="text-sm text-muted-foreground mt-1">Belum ada try out besar di rentang ini.</p>
             </div>
             <Link
               {...getButtonStyleProps({ variant: "outline" })}
               to="/app/tryout-selection"
+              className="mt-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               Mulai try out besar
             </Link>
@@ -209,6 +215,7 @@ function AnalyticsPage() {
                     <Link
                       {...getButtonStyleProps({ variant: "outline" })}
                       to="/app/settings/ai-config"
+                      className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                     >
                       Buka Pengaturan AI
                     </Link>
@@ -221,21 +228,29 @@ function AnalyticsPage() {
                     <Button 
                       onClick={() => aiInsightQuery.refetch()}
                       variant="outline"
+                      className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                     >
                       Buat Analisis AI
                     </Button>
                   </div>
                 ) : aiInsightQuery.isFetching ? (
-                  <div className="flex items-center gap-3">
-                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Menganalisis data try out...</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-4 w-4 rounded-full border-2 border-primary/40 border-t-primary animate-spin"></div>
+                      <p className="text-sm text-muted-foreground">Menganalisis data try out...</p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-4 w-full bg-muted animate-pulse rounded"></div>
+                      <div className="h-4 w-5/6 bg-muted animate-pulse rounded"></div>
+                      <div className="h-4 w-4/6 bg-muted animate-pulse rounded"></div>
+                    </div>
                   </div>
                 ) : aiInsightQuery.isError ? (
-                  <div className="space-y-3">
+                  <div className="space-y-3 bg-destructive/10 p-4 rounded-md border border-destructive/20 transition-all duration-300">
                     <p className="text-sm text-destructive">
                       {aiInsightQuery.error instanceof Error ? aiInsightQuery.error.message : "Terjadi kesalahan saat memproses data."}
                     </p>
-                    <Button variant="outline" size="sm" onClick={() => aiInsightQuery.refetch()}>
+                    <Button variant="outline" size="sm" onClick={() => aiInsightQuery.refetch()} className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-destructive focus-visible:outline-none bg-background">
                       Coba Lagi
                     </Button>
                   </div>

@@ -50,11 +50,14 @@ function ScheduledTryoutResultPage() {
             <AlertDescription>Pilih hasil dari riwayat untuk melihat detail.</AlertDescription>
           </Alert>
         ) : resultQuery.isLoading ? (
-          <div className="mt-6 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div>
-              <h3 className="font-semibold text-foreground">Hasil sesi sedang dimuat</h3>
-              <p>Hasil sesi sedang disiapkan.</p>
+          <div className="mt-6 grid gap-4 animate-pulse">
+            <div className="h-64 w-full bg-muted rounded-xl" />
+            <div className="grid gap-4 xl:grid-cols-[0.88fr_1.12fr]">
+              <div className="grid gap-4">
+                <div className="h-28 w-full bg-muted rounded-xl" />
+                <div className="h-28 w-full bg-muted rounded-xl" />
+              </div>
+              <div className="h-60 w-full bg-muted rounded-xl" />
             </div>
           </div>
         ) : resultQuery.isError ? (
@@ -93,7 +96,7 @@ function ScheduledTryoutResultPage() {
                   <button
                     {...getButtonStyleProps({
                       variant: "outline",
-                      className: "text-muted-foreground cursor-pointer hover:bg-muted",
+                      className: "text-muted-foreground cursor-pointer hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
                     })}
                     onClick={(e) => {
                       e.preventDefault();
@@ -109,6 +112,7 @@ function ScheduledTryoutResultPage() {
                   <Link
                     {...getButtonStyleProps({
                       variant: "primary",
+                      className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
                     })}
                     to={`/app/review/${resultData.attemptId}?source=scheduled`}
                   >
@@ -151,7 +155,7 @@ function ScheduledTryoutResultPage() {
                   {resultData.blocks.map((item) => (
                     <div
                       key={item.blockLabel}
-                      className="px-4 py-4 flex items-center justify-between gap-3"
+                      className="px-4 py-4 flex items-center justify-between gap-3 hover:bg-muted/50 transition-colors"
                     >
                       <div>
                         <p className="font-semibold text-foreground">{item.blockLabel}</p>
@@ -180,6 +184,7 @@ function ScheduledTryoutResultPage() {
                   <Link
                     {...getButtonStyleProps({
                       variant: "outline",
+                      className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none",
                     })}
                     to={`/app/scheduled-tryout/leaderboard?event=${resultData.eventId}${resultData.eventCycle ? `&cycle=${resultData.eventCycle}` : ""}`}
                   >

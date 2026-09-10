@@ -93,10 +93,43 @@ function TryoutResultPage() {
         <SectionHeading title="Hasil try out" description="Skor akhir, hasil per blok, dan akses pembahasan." />
 
         {latestAttemptQuery.isLoading || resultQuery.isLoading ? (
-          <div className="mt-12 flex flex-col items-center justify-center py-12 text-muted-foreground">
-            <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-            <h3 className="text-lg font-semibold text-foreground">Menyiapkan hasil...</h3>
-            <p className="text-sm">Mohon tunggu sebentar.</p>
+          <div className="mt-12 flex flex-col gap-12 max-w-4xl animate-pulse">
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 pb-8 border-b border-border/40">
+              <div className="space-y-4">
+                <div className="h-6 w-24 bg-muted rounded-md mb-6" />
+                <div className="flex items-baseline gap-4">
+                  <div className="h-24 w-32 bg-muted rounded-xl" />
+                  <div className="h-6 w-20 bg-muted rounded-md" />
+                </div>
+                <div className="h-5 w-64 bg-muted rounded-md mt-6" />
+                <div className="h-8 w-80 bg-muted rounded-md mt-2" />
+              </div>
+              <div className="h-10 w-full md:w-40 bg-muted rounded-md" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+              <div className="space-y-8 col-span-1">
+                <div className="space-y-2">
+                  <div className="h-4 w-24 bg-muted rounded-md" />
+                  <div className="h-10 w-16 bg-muted rounded-md" />
+                </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-24 bg-muted rounded-md" />
+                  <div className="h-10 w-24 bg-muted rounded-md" />
+                </div>
+              </div>
+              <div className="col-span-1 md:col-span-2 space-y-4">
+                <div className="h-4 w-32 bg-muted rounded-md mb-4" />
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center justify-between py-4 border-b border-border/40">
+                    <div className="space-y-2">
+                      <div className="h-5 w-40 bg-muted rounded-md" />
+                      <div className="h-4 w-24 bg-muted rounded-md" />
+                    </div>
+                    <div className="h-6 w-16 bg-muted rounded-full" />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         ) : latestAttemptQuery.isError || resultQuery.isError ? (
           <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex items-start gap-4">
@@ -134,7 +167,7 @@ function TryoutResultPage() {
               <div className="w-full md:w-auto">
                 {studentShell.role === "pendaftar_baru" ? (
                   <button
-                    {...getButtonStyleProps({ variant: "outline", className: "w-full md:w-auto cursor-pointer" })}
+                    {...getButtonStyleProps({ variant: "outline", className: "w-full md:w-auto cursor-pointer hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })}
                     onClick={(e) => {
                       e.preventDefault();
                       setShowPaywall(true);
@@ -143,7 +176,7 @@ function TryoutResultPage() {
                     Pembahasan Terkunci <Lock className="w-4 h-4 ml-2" />
                   </button>
                 ) : (
-                  <Link {...getButtonStyleProps({ variant: "primary", className: "w-full md:w-auto" })} to={`/app/review/${resultData.attemptId}`}>
+                  <Link {...getButtonStyleProps({ variant: "primary", className: "w-full md:w-auto hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to={`/app/review/${resultData.attemptId}`}>
                     Review jawaban <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 )}

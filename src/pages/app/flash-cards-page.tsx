@@ -77,7 +77,7 @@ function FlashCardsPage() {
                   variant={activeFilter === "ALL" ? "primary" : "outline"}
                   size="sm"
                   onClick={() => setSearchParams((prev) => { prev.delete("group"); return prev; })}
-                  className="rounded-full px-5 text-xs font-semibold"
+                  className="rounded-full px-5 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   Semua Kelompok ({allItems.length})
                 </Button>
@@ -88,7 +88,7 @@ function FlashCardsPage() {
                     variant={activeFilter === label ? "primary" : "outline"}
                     size="sm"
                     onClick={() => setSearchParams((prev) => { prev.set("group", label); return prev; })}
-                    className="rounded-full px-5 text-xs font-semibold"
+                    className="rounded-full px-5 text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                     {label}
                   </Button>
@@ -101,18 +101,23 @@ function FlashCardsPage() {
                 Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} data-testid="skeleton-card" className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-6 border-b border-border/40">
                     <div className="flex items-start gap-4">
-                      <div className="h-10 w-10 rounded bg-muted animate-pulse shrink-0" />
-                      <div className="space-y-2">
+                      <div className="h-10 w-10 rounded-xl bg-muted animate-pulse shrink-0" />
+                      <div className="space-y-3 pt-1">
+                        <div className="h-3 w-16 bg-muted rounded animate-pulse" />
                         <div className="h-5 w-48 bg-muted rounded animate-pulse" />
-                        <div className="h-4 w-32 bg-muted rounded animate-pulse" />
+                        <div className="h-4 w-64 bg-muted rounded animate-pulse" />
                       </div>
                     </div>
-                    <div className="h-8 w-24 bg-muted rounded animate-pulse shrink-0" />
+                    <div className="h-9 w-32 bg-muted rounded-md animate-pulse shrink-0" />
                   </div>
                 ))
               ) : filteredItems.length === 0 ? (
-                <div className="py-12">
-                  <p className="text-muted-foreground">Belum ada materi di kelompok ini.</p>
+                <div className="py-16 flex flex-col items-center justify-center text-center border-b border-border/40">
+                  <div className="h-12 w-12 rounded-full bg-muted/50 flex items-center justify-center mb-4">
+                    <Filter className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-medium text-foreground">Folder kosong</h3>
+                  <p className="mt-1 text-sm text-muted-foreground max-w-sm">Belum ada materi kartu belajar di kelompok ini. Coba pilih kelompok lain.</p>
                 </div>
               ) : (
                 filteredItems.map((item) => {
@@ -122,7 +127,7 @@ function FlashCardsPage() {
                   return (
                     <div
                       key={item.subtopicId}
-                      className="group flex flex-col md:flex-row md:items-center justify-between gap-4 py-6 border-b border-border/40 hover:bg-muted/30 transition-colors px-4 -mx-4 rounded-xl"
+                      className="group flex flex-col md:flex-row md:items-center justify-between gap-4 py-6 border-b border-border/40 hover:bg-muted/30 transition-all duration-300 ease-out px-4 -mx-4 rounded-xl hover:shadow-sm"
                     >
                       <div className="flex items-start gap-4">
                         <div className="mt-1 shrink-0 text-muted-foreground group-hover:text-primary transition-colors">
@@ -151,7 +156,7 @@ function FlashCardsPage() {
                           {...getButtonStyleProps({
                             variant: "secondary",
                             size: "sm",
-                            className: "font-medium hover:bg-primary hover:text-primary-foreground transition-colors",
+                            className: "font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                           })}
                           to={`/app/flash-cards/${item.subtopicId}`}
                         >

@@ -81,7 +81,7 @@ function TryoutBlockSelectionPage() {
             <div className="mb-6">
               <Link
                 to="/app/tryout-selection"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
                 <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 <span>Kembali ke Mode Try Out</span>
@@ -108,12 +108,16 @@ function TryoutBlockSelectionPage() {
           <div className="flex flex-col gap-0 w-full">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="py-8 border-b border-border/40 animate-pulse flex items-start gap-6">
-                  <div className="h-12 w-12 bg-muted rounded-full shrink-0" />
-                  <div className="space-y-3 w-full max-w-xl">
-                    <div className="h-6 bg-muted rounded w-1/3" />
-                    <div className="h-4 bg-muted rounded w-2/3" />
+                <div key={i} className="py-8 border-b border-border/40 animate-pulse flex items-center justify-between gap-6">
+                  <div className="flex items-start gap-6 w-full">
+                    <div className="h-14 w-14 bg-muted rounded-xl shrink-0" />
+                    <div className="space-y-3 w-full max-w-xl mt-1">
+                      <div className="h-6 bg-muted rounded-md w-1/2" />
+                      <div className="h-4 bg-muted rounded-md w-5/6" />
+                      <div className="h-4 bg-muted rounded-md w-3/4" />
+                    </div>
                   </div>
+                  <div className="h-10 w-32 bg-muted rounded-md shrink-0 hidden md:block" />
                 </div>
               ))
             ) : blockOptions.length === 0 ? (
@@ -154,7 +158,7 @@ function TryoutBlockSelectionPage() {
                         <Link
                           {...getButtonStyleProps({
                             variant: "primary",
-                            className: "w-full md:w-auto justify-center",
+                            className: "w-full md:w-auto justify-center hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                           })}
                           to={`/app/tryout/session?template=${block.sessionTemplateId}`}
                         >
@@ -181,7 +185,7 @@ function TryoutBlockSelectionPage() {
                         <Link
                           {...getButtonStyleProps({
                             variant: "outline",
-                            className: "w-full md:w-auto justify-center text-sm font-semibold",
+                            className: "w-full md:w-auto justify-center text-sm font-semibold hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                           })}
                           to={`/app/tryout/topics?block=${block.blockId}`}
                         >

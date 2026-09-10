@@ -95,7 +95,7 @@ export default function AiConfigPage() {
             </div>
             <div>
               {statusQuery.isLoading ? (
-                <span className="text-sm text-muted-foreground">Memeriksa koneksi...</span>
+                <div className="h-5 w-24 bg-muted animate-pulse rounded"></div>
               ) : statusQuery.data?.hasCredential ? (
                 <span className="inline-flex items-center gap-1.5 text-sm text-emerald-600 dark:text-emerald-400">
                   <CheckCircle2 className="h-4 w-4" />
@@ -108,13 +108,13 @@ export default function AiConfigPage() {
           </div>
 
           {statusQuery.isError ? (
-            <div className="text-sm text-destructive">
+            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
               Status koneksi belum bisa dimuat. Muat ulang lalu coba lagi.
             </div>
           ) : null}
 
           {!statusQuery.isLoading && statusQuery.data?.hasCredential === false ? (
-            <div className="text-sm text-amber-600 dark:text-amber-400 flex items-start gap-2">
+            <div className="text-sm text-amber-600 dark:text-amber-400 flex items-start gap-2 bg-amber-500/10 p-3 rounded-md border border-amber-500/20 shadow-sm transition-all duration-300">
               <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
               <span>Simpan dan tes API key sebelum menggunakan fitur AI.</span>
             </div>
@@ -128,7 +128,7 @@ export default function AiConfigPage() {
               <input
                 id="gemini-api-key-input"
                 autoComplete="off"
-                className="w-full h-10 rounded border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full h-10 rounded border border-input bg-background px-3 text-sm text-foreground transition-all duration-200 hover:border-primary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 onChange={(event) => setApiKey(event.target.value)}
                 placeholder={hasCredential ? "•••••••••••••••••••••••••••• (Tersimpan)" : "Masukkan API key Gemini"}
                 type="password"
@@ -163,6 +163,7 @@ export default function AiConfigPage() {
                 disabled={!apiKey.trim() || credentialMutationPending}
                 loading={saveCredentialMutation.isPending}
                 loadingLabel="Menyimpan..."
+                className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 onClick={() =>
                   saveCredentialMutation.mutate({
                     apiKey: apiKey.trim(),
@@ -175,6 +176,7 @@ export default function AiConfigPage() {
                 disabled={!hasCredential || credentialMutationPending}
                 loading={testCredentialMutation.isPending}
                 loadingLabel="Mengetes..."
+                className="transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 onClick={() => testCredentialMutation.mutate()}
                 variant="outline"
               >
@@ -186,7 +188,7 @@ export default function AiConfigPage() {
                 loadingLabel="Menghapus..."
                 onClick={() => deleteCredentialMutation.mutate()}
                 variant="outline"
-                className="text-destructive hover:text-destructive border-transparent hover:bg-destructive/10"
+                className="text-destructive hover:text-destructive border-transparent hover:bg-destructive/10 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-destructive focus-visible:outline-none"
               >
                 Hapus
               </Button>

@@ -65,9 +65,18 @@ function FlashCardDeckPage() {
       tierLabel={studentShell.tierLabel}
     >
       {deckQuery.isLoading ? (
-        <div className="flex h-64 flex-col items-center justify-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Set kartu belajar sedang dimuat...</p>
+        <div className="space-y-6 animate-pulse">
+          <header className="mb-8 space-y-3">
+            <div className="h-9 w-64 bg-muted rounded" />
+            <div className="h-5 w-48 bg-muted rounded" />
+            <div className="h-10 w-full max-w-2xl bg-muted rounded" />
+          </header>
+          <div className="mx-auto w-full max-w-2xl aspect-[3/2] bg-muted rounded-xl" />
+          <div className="flex justify-center gap-4 mt-8">
+            <div className="h-12 w-24 bg-muted rounded-md" />
+            <div className="h-12 w-24 bg-muted rounded-md" />
+            <div className="h-12 w-24 bg-muted rounded-md" />
+          </div>
         </div>
       ) : deckQuery.isError || !deckQuery.data ? (
         <Alert variant="destructive">

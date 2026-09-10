@@ -478,6 +478,7 @@ function ScheduledTryoutSessionPage() {
                 }}
                 size="sm"
                 variant="outline"
+                className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none"
               >
                 {isQuestionNavHidden ? "Tampilkan daftar soal" : "Sembunyikan daftar soal"}
               </Button>
@@ -490,12 +491,9 @@ function ScheduledTryoutSessionPage() {
         />
 
         {createAttemptMutation.isPending ? (
-          <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div>
-              <h3 className="font-semibold text-foreground">Sesi sedang dimuat</h3>
-              <p>Sesi baru sedang disiapkan.</p>
-            </div>
+          <div className="mt-8 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)] animate-pulse">
+            <div className="h-[28rem] w-full bg-muted/50 rounded-xl hidden xl:block border" />
+            <div className="h-[32rem] w-full bg-muted/50 rounded-xl border" />
           </div>
         ) : createAttemptMutation.isError ? (
           <Alert variant="destructive" className="mt-6 flex flex-col items-start gap-4">
@@ -504,7 +502,7 @@ function ScheduledTryoutSessionPage() {
               <AlertTitle>Sesi belum bisa dibuka</AlertTitle>
             </div>
             <AlertDescription>{createAttemptErrorMessage}</AlertDescription>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/scheduled-tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none" })} to="/app/scheduled-tryout">
               Kembali ke daftar sesi
             </Link>
           </Alert>
@@ -514,20 +512,14 @@ function ScheduledTryoutSessionPage() {
               <AlertTitle>Belum ada sesi aktif</AlertTitle>
               <AlertDescription>Pilih sesi dari daftar untuk mulai.</AlertDescription>
             </div>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/scheduled-tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none" })} to="/app/scheduled-tryout">
               Pilih sesi
             </Link>
           </Alert>
         ) : sessionQuery.isLoading ? (
-          <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12 text-center text-muted-foreground border rounded-xl bg-card shadow-sm">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div>
-              <h3 className="font-semibold text-foreground">Soal sedang dimuat</h3>
-              <p>Soal sesi sedang disiapkan.</p>
-            </div>
-            <Link {...getButtonStyleProps({ variant: "outline" })} to="/app/scheduled-tryout">
-              Kembali ke daftar sesi
-            </Link>
+          <div className="mt-8 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)] animate-pulse">
+            <div className="h-[28rem] w-full bg-muted/50 rounded-xl hidden xl:block border" />
+            <div className="h-[32rem] w-full bg-muted/50 rounded-xl border" />
           </div>
         ) : sessionQuery.isError ? (
           <Alert variant="destructive" className="mt-6 flex flex-col items-start gap-4">
@@ -536,7 +528,7 @@ function ScheduledTryoutSessionPage() {
               <AlertTitle>Soal belum bisa dimuat</AlertTitle>
             </div>
             <AlertDescription>Buka daftar sesi lalu coba lagi.</AlertDescription>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/scheduled-tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none" })} to="/app/scheduled-tryout">
               Buka daftar sesi
             </Link>
           </Alert>

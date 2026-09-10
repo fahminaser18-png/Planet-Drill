@@ -115,7 +115,7 @@ export default function MentorAreaPage() {
               <div
                 key={item.id}
                 className={`flex flex-col border border-border rounded-lg p-5 ${
-                  isLocked ? "opacity-60" : "hover:border-foreground/20 transition-colors"
+                  isLocked ? "opacity-60" : "hover:border-primary/50 hover:shadow-sm transition-all duration-200"
                 }`}
               >
                 <div className="flex items-center gap-3 mb-2">
@@ -133,7 +133,7 @@ export default function MentorAreaPage() {
                       <Lock className="h-4 w-4" /> Butuh Pengaturan API Key
                     </p>
                     <Link
-                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-colors"
+                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
                       to="/app/ai-config"
                     >
                       Atur Kredensial &rarr;
@@ -142,7 +142,7 @@ export default function MentorAreaPage() {
                 ) : (
                   <div className="mt-auto">
                     <Link
-                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-colors"
+                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
                       to={item.href}
                     >
                       {item.buttonText} &rarr;

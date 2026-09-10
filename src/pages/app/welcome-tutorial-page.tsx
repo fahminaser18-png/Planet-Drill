@@ -35,7 +35,7 @@ export default function WelcomeTutorialPage() {
       <header className="sticky top-0 z-50 bg-slate-950/80 px-4 lg:px-8 py-3.5 border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Link to="/app" className="flex items-center gap-2.5">
+            <Link to="/app" className="flex items-center gap-2.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none transition-all duration-200 hover:-translate-y-0.5">
               <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-white" />
               </div>
@@ -49,16 +49,16 @@ export default function WelcomeTutorialPage() {
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
-            <a href="#roadmap" className="hover:text-slate-100">Roadmap</a>
-            <a href="#fitur" className="hover:text-slate-100">Fitur</a>
-            <a href="#tips" className="hover:text-slate-100">Tips</a>
-            <a href="#faq" className="hover:text-slate-100">FAQ</a>
+            <a href="#roadmap" className="transition-colors duration-200 hover:text-slate-100 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">Roadmap</a>
+            <a href="#fitur" className="transition-colors duration-200 hover:text-slate-100 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">Fitur</a>
+            <a href="#tips" className="transition-colors duration-200 hover:text-slate-100 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">Tips</a>
+            <a href="#faq" className="transition-colors duration-200 hover:text-slate-100 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">FAQ</a>
           </nav>
 
           <div className="flex items-center gap-3">
             <Link
               to="/app"
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium bg-teal-600 text-white hover:bg-teal-500 transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium bg-teal-600 text-white transition-all duration-200 hover:bg-teal-500 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
             >
               <LayoutDashboard className="w-4 h-4" />
               <span>Dashboard</span>
@@ -78,14 +78,14 @@ export default function WelcomeTutorialPage() {
         <div className="pt-6 flex flex-wrap items-center justify-center gap-4">
           <Link
             to="/app"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium bg-teal-600 text-white hover:bg-teal-500 transition-colors"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium bg-teal-600 text-white transition-all duration-200 hover:bg-teal-500 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
           >
             <span>Mulai Belajar</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
           <a
             href="#fitur"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium text-slate-300 hover:text-slate-100 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded text-sm font-medium text-slate-300 transition-all duration-200 hover:text-slate-100 hover:bg-slate-800/50 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none"
           >
             Jelajahi Fitur
           </a>
@@ -166,7 +166,7 @@ export default function WelcomeTutorialPage() {
               <span>2. Kerjakan dengan Timer</span>
               <span>3. Simpan & Evaluasi</span>
             </div>
-            <Link to="/app/tryout-selection" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+            <Link to="/app/tryout-selection" className="inline-block text-sm text-teal-400 mt-2 transition-all duration-200 hover:text-teal-300 hover:-translate-y-0.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">
               Mulai Latihan Mandiri &rarr;
             </Link>
           </div>
@@ -181,7 +181,7 @@ export default function WelcomeTutorialPage() {
               <span>2. Cek Grafik Akurasi</span>
               <span>3. Identifikasi Topik Lemah</span>
             </div>
-            <Link to="/app/analytics" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+            <Link to="/app/analytics" className="inline-block text-sm text-teal-400 mt-2 transition-all duration-200 hover:text-teal-300 hover:-translate-y-0.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">
               Lihat Grafik Statistik &rarr;
             </Link>
           </div>
@@ -196,7 +196,7 @@ export default function WelcomeTutorialPage() {
               <span>2. Gunakan Generator</span>
               <span>3. Uji Hafalan</span>
             </div>
-            <Link to="/app/flash-cards" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+            <Link to="/app/flash-cards" className="inline-block text-sm text-teal-400 mt-2 transition-all duration-200 hover:text-teal-300 hover:-translate-y-0.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">
               Buka Deck Kartu Saku &rarr;
             </Link>
           </div>
@@ -210,7 +210,7 @@ export default function WelcomeTutorialPage() {
               <span>1. Masuk Area Belajar</span>
               <span>2. Unduh PPT & Summary</span>
             </div>
-            <Link to="/app/area-belajar" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+            <Link to="/app/area-belajar" className="inline-block text-sm text-teal-400 mt-2 transition-all duration-200 hover:text-teal-300 hover:-translate-y-0.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">
               Unduh Dokumentasi Materi &rarr;
             </Link>
           </div>
@@ -225,7 +225,7 @@ export default function WelcomeTutorialPage() {
               <span>2. Ikuti Simulasi</span>
               <span>3. Pantau Leaderboard</span>
             </div>
-            <Link to="/app/scheduled-tryout" className="inline-block text-sm text-teal-400 hover:text-teal-300 mt-2">
+            <Link to="/app/scheduled-tryout" className="inline-block text-sm text-teal-400 mt-2 transition-all duration-200 hover:text-teal-300 hover:-translate-y-0.5 rounded focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:outline-none">
               Ikuti Try Out Akbar &rarr;
             </Link>
           </div>

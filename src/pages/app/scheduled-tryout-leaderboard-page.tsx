@@ -89,11 +89,25 @@ function ScheduledTryoutLeaderboardPage() {
             <AlertDescription>Pilih event terlebih dahulu dari katalog atau halaman hasil.</AlertDescription>
           </Alert>
         ) : leaderboardQuery.isLoading ? (
-          <div className="mt-6 flex flex-col items-center justify-center space-y-4 py-16 text-center text-muted-foreground border rounded-2xl bg-card/60 shadow-sm backdrop-blur-sm">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div>
-              <h3 className="font-semibold text-foreground">Leaderboard sedang dimuat</h3>
-              <p className="text-sm">Peringkat sedang disiapkan.</p>
+          <div className="mt-6 grid gap-6 w-full">
+            <div className="h-[6.5rem] w-full bg-muted/50 rounded-xl animate-pulse" />
+            <div className="divide-y border rounded-xl bg-card/60">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 animate-pulse">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 bg-muted rounded-full" />
+                    <div className="h-10 w-10 bg-muted rounded-full" />
+                    <div className="space-y-2">
+                      <div className="h-5 w-32 bg-muted rounded" />
+                      <div className="h-3 w-40 bg-muted rounded" />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="h-6 w-20 bg-muted rounded-full" />
+                    <div className="h-6 w-20 bg-muted rounded-full" />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ) : leaderboardQuery.isError ? (
@@ -103,20 +117,23 @@ function ScheduledTryoutLeaderboardPage() {
             <AlertDescription>Coba lagi sebentar.</AlertDescription>
           </Alert>
         ) : isLiveEmpty ? (
-          <Alert className="mt-6 border-dashed bg-card/60">
-            <AlertTitle>Belum ada hasil untuk event ini</AlertTitle>
-            <AlertDescription>Event masih berjalan, tetapi hasil belum masuk.</AlertDescription>
-          </Alert>
+          <div className="mt-6 flex flex-col items-center justify-center p-12 text-center border rounded-2xl bg-card/60 shadow-sm">
+            <Trophy className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <h3 className="text-lg font-semibold text-foreground">Belum ada hasil untuk event ini</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">Event masih berjalan, tetapi belum ada hasil yang masuk. Jadilah yang pertama!</p>
+          </div>
         ) : isFinalEmpty ? (
-          <Alert className="mt-6 border-dashed bg-card/60">
-            <AlertTitle>Belum ada hasil final untuk siklus ini</AlertTitle>
-            <AlertDescription>Siklus ini selesai, tetapi hasil final belum tersedia.</AlertDescription>
-          </Alert>
+          <div className="mt-6 flex flex-col items-center justify-center p-12 text-center border rounded-2xl bg-card/60 shadow-sm">
+            <Award className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <h3 className="text-lg font-semibold text-foreground">Belum ada hasil final untuk siklus ini</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">Siklus ini selesai, tetapi hasil final belum tersedia.</p>
+          </div>
         ) : !pageData || pageData.rows.length === 0 ? (
-          <Alert className="mt-6 border-dashed bg-card/60">
-            <AlertTitle>Leaderboard masih kosong</AlertTitle>
-            <AlertDescription>Belum ada data peringkat untuk event ini.</AlertDescription>
-          </Alert>
+          <div className="mt-6 flex flex-col items-center justify-center p-12 text-center border rounded-2xl bg-card/60 shadow-sm">
+            <Crown className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <h3 className="text-lg font-semibold text-foreground">Leaderboard masih kosong</h3>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">Belum ada data peringkat untuk event ini.</p>
+          </div>
         ) : (
           <div className="mt-6 grid gap-6 w-full">
             {/* Event Summary Status Card */}
@@ -141,7 +158,7 @@ function ScheduledTryoutLeaderboardPage() {
                   <div
                     key={row.attemptId}
                     data-testid={`scheduled-leaderboard-row-${index}`}
-                    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4"
+                    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className={`flex h-10 w-10 items-center justify-center rounded-full shrink-0 ${rankStyle.bg}`}>

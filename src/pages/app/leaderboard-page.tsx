@@ -114,8 +114,8 @@ export default function LeaderboardPage() {
               onClick={() => setSelectedCategory(category.id)}
               className={
                 selectedCategory === category.id
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90 rounded-full"
-                  : "rounded-full"
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none"
+                  : "rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 outline-none"
               }
             >
               {category.label}
@@ -124,8 +124,23 @@ export default function LeaderboardPage() {
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center p-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <div className="divide-y border rounded-xl bg-card/60">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 animate-pulse">
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 bg-muted rounded-full" />
+                  <div className="h-10 w-10 bg-muted rounded-full" />
+                  <div className="space-y-2">
+                    <div className="h-5 w-32 bg-muted rounded" />
+                    <div className="h-3 w-40 bg-muted rounded" />
+                  </div>
+                </div>
+                <div className="flex flex-col sm:items-end gap-2">
+                  <div className="h-6 w-20 bg-muted rounded-full" />
+                  <div className="h-3 w-16 bg-muted rounded" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : isError ? (
           <Alert variant="destructive">
@@ -138,12 +153,12 @@ export default function LeaderboardPage() {
             </AlertDescription>
           </Alert>
         ) : !leaderboard || leaderboard.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 text-center border rounded-2xl bg-card/50">
+          <div className="flex flex-col items-center justify-center p-12 text-center border rounded-2xl bg-card/60 shadow-sm">
             <Trophy className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <h3 className="text-lg font-semibold text-foreground">
               Belum ada data
             </h3>
-            <p className="text-sm text-muted-foreground max-w-sm">
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               Belum ada peserta yang menyelesaikan simulasi tryout untuk kategori
               ini. Jadilah yang pertama!
             </p>
@@ -155,7 +170,7 @@ export default function LeaderboardPage() {
               return (
                 <div
                   key={row.userId}
-                  className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4"
+                  className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 hover:bg-muted/50 transition-colors focus-within:bg-muted/50"
                 >
                   <div className="flex items-center gap-4">
                     <div

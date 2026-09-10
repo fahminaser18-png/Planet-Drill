@@ -524,6 +524,7 @@ function TryoutSessionPage() {
                 }}
                 size="sm"
                 variant="outline"
+                className="hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
                 {isQuestionNavHidden ? "Tampilkan navigasi soal" : "Sembunyikan navigasi soal"}
               </Button>
@@ -536,16 +537,27 @@ function TryoutSessionPage() {
         />
 
         {questionView === "ready" && createAttemptMutation.isPending ? (
-          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
-            <h3 className="text-lg font-bold text-foreground">Sesi try out sedang dimuat</h3>
-            <p className="text-sm mt-1">Sesi baru sedang disiapkan.</p>
+          <div className="mt-12 flex flex-col gap-8 max-w-4xl animate-pulse">
+            <div className="flex flex-col gap-4 pb-4 border-b border-border/40">
+              <div className="h-6 w-24 bg-muted rounded-full" />
+              <div className="h-8 w-48 bg-muted rounded-md mt-2" />
+            </div>
+            <div className="space-y-4">
+              <div className="h-6 w-full bg-muted rounded-md" />
+              <div className="h-6 w-3/4 bg-muted rounded-md" />
+              <div className="h-6 w-5/6 bg-muted rounded-md" />
+            </div>
+            <div className="mt-8 grid gap-3">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-16 w-full bg-muted rounded-xl border border-border/40" />
+              ))}
+            </div>
           </div>
         ) : questionView === "ready" && createAttemptMutation.isError ? (
           <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
             <h3 className="text-lg font-bold text-destructive">Sesi try out belum berhasil dibuka</h3>
             <p className="text-sm text-destructive/80 mt-2 mb-6">{createAttemptErrorMessage}</p>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to="/app/tryout">
               Kembali ke katalog try out
             </Link>
           </div>
@@ -553,24 +565,32 @@ function TryoutSessionPage() {
           <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
             <h3 className="text-lg font-bold text-foreground">Belum ada sesi aktif</h3>
             <p className="text-sm mt-1 mb-6">Pilih sesi dari katalog untuk mulai.</p>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to="/app/tryout">
               Pilih sesi dari katalog
             </Link>
           </div>
         ) : questionView === "ready" && sessionQuery.isLoading ? (
-          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
-            <h3 className="text-lg font-bold text-foreground">Soal try out sedang dimuat</h3>
-            <p className="text-sm mt-1 mb-6">Soal sedang disiapkan.</p>
-            <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
-              Kembali ke katalog try out
-            </Link>
+          <div className="mt-12 flex flex-col gap-8 max-w-4xl animate-pulse">
+            <div className="flex flex-col gap-4 pb-4 border-b border-border/40">
+              <div className="h-6 w-24 bg-muted rounded-full" />
+              <div className="h-8 w-48 bg-muted rounded-md mt-2" />
+            </div>
+            <div className="space-y-4">
+              <div className="h-6 w-full bg-muted rounded-md" />
+              <div className="h-6 w-3/4 bg-muted rounded-md" />
+              <div className="h-6 w-5/6 bg-muted rounded-md" />
+            </div>
+            <div className="mt-8 grid gap-3">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-16 w-full bg-muted rounded-xl border border-border/40" />
+              ))}
+            </div>
           </div>
         ) : questionView === "ready" && sessionQuery.isError ? (
           <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
             <h3 className="text-lg font-bold text-destructive">Soal try out belum bisa dimuat</h3>
             <p className="text-sm text-destructive/80 mt-2 mb-6">Buka katalog lalu coba lagi.</p>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to="/app/tryout">
               Buka katalog lagi
             </Link>
           </div>
@@ -583,7 +603,7 @@ function TryoutSessionPage() {
                     Navigasi Soal
                   </h3>
                 </div>
-                <div className="grid grid-cols-4 gap-2.5 max-h-[70vh] overflow-y-auto pb-4">
+                <div className="grid grid-cols-4 gap-2.5 max-h-[70vh] overflow-y-auto pb-4 px-1">
                   {questions.map((question, index) => (
                     <SessionQuestionNavButton
                       key={question.id}
@@ -688,7 +708,7 @@ function TryoutSessionPage() {
                         key={option.key}
                         onClick={() => selectOption(currentQuestion.id, option.key)}
                         disabled={isSubmittingOption}
-                        className={`group relative flex items-center justify-between rounded-xl border p-4 text-left font-medium transition-all text-sm w-full ${
+                        className={`group relative flex items-center justify-between rounded-xl border p-4 text-left font-medium transition-all text-sm w-full focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none hover:-translate-y-0.5 ${
                           isSelected
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border/60 bg-transparent text-foreground hover:bg-muted/30"
@@ -726,6 +746,7 @@ function TryoutSessionPage() {
                     disabled={!hasSelectedAnswer || isAttemptInteractionDisabled || isQuestionMutationPending}
                     onClick={toggleDoubtful}
                     variant="outline"
+                    className="hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                   >
                     <Flag
                         className={`mr-2 h-4 w-4 ${
@@ -742,7 +763,7 @@ function TryoutSessionPage() {
                   disabled={currentIndex === 0 || isQuestionNavigationDisabled}
                   onClick={() => goToQuestion(Math.max(0, currentIndex - 1))}
                   variant="outline"
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Sebelumnya
@@ -754,7 +775,7 @@ function TryoutSessionPage() {
                     loading={submitMutation.isPending}
                     loadingLabel="Mengirim hasil..."
                     onClick={() => setIsSubmitConfirmOpen(true)}
-                    className="w-full sm:w-auto font-bold px-8 shadow-sm"
+                    className="w-full sm:w-auto font-bold px-8 shadow-sm hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                   >
                     Kirim hasil
                     <CheckCircle className="w-4 h-4 ml-2" />
@@ -763,7 +784,7 @@ function TryoutSessionPage() {
                   <Button
                     disabled={isQuestionNavigationDisabled}
                     onClick={() => goToQuestion(Math.min(questions.length - 1, currentIndex + 1))}
-                    className="w-full sm:w-auto px-8"
+                    className="w-full sm:w-auto px-8 hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                   >
                     Selanjutnya
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -781,19 +802,27 @@ function TryoutSessionPage() {
             </div>
           </div>
         ) : questionView === "loading" ? (
-          <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
-            <h3 className="text-lg font-bold text-foreground">Soal try out sedang dimuat</h3>
-            <p className="text-sm mt-1 mb-6">Soal sedang disiapkan.</p>
-            <Link {...getButtonStyleProps({ variant: "secondary" })} to="/app/tryout">
-              Kembali ke katalog try out
-            </Link>
+          <div className="mt-12 flex flex-col gap-8 max-w-4xl animate-pulse">
+            <div className="flex flex-col gap-4 pb-4 border-b border-border/40">
+              <div className="h-6 w-24 bg-muted rounded-full" />
+              <div className="h-8 w-48 bg-muted rounded-md mt-2" />
+            </div>
+            <div className="space-y-4">
+              <div className="h-6 w-full bg-muted rounded-md" />
+              <div className="h-6 w-3/4 bg-muted rounded-md" />
+              <div className="h-6 w-5/6 bg-muted rounded-md" />
+            </div>
+            <div className="mt-8 grid gap-3">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-16 w-full bg-muted rounded-xl border border-border/40" />
+              ))}
+            </div>
           </div>
         ) : questionView === "empty" ? (
           <div className="mt-12 flex flex-col items-center justify-center py-16 text-muted-foreground text-center">
             <h3 className="text-lg font-bold text-foreground">Belum ada soal untuk sesi ini</h3>
             <p className="text-sm mt-1 mb-6">Pilih sesi lain atau kembali nanti.</p>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to="/app/tryout">
               Pilih sesi lain
             </Link>
           </div>
@@ -801,7 +830,7 @@ function TryoutSessionPage() {
           <div className="mt-12 rounded-xl border border-destructive/20 bg-destructive/5 p-6 flex flex-col items-center text-center max-w-md mx-auto">
             <h3 className="text-lg font-bold text-destructive">Soal try out belum bisa dimuat</h3>
             <p className="text-sm text-destructive/80 mt-2 mb-6">Buka katalog lalu coba lagi.</p>
-            <Link {...getButtonStyleProps({ variant: "primary" })} to="/app/tryout">
+            <Link {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })} to="/app/tryout">
               Buka katalog lagi
             </Link>
           </div>

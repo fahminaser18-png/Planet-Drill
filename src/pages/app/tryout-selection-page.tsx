@@ -54,7 +54,16 @@ function TryoutSelectionPage() {
 
         {/* Active Attempt Banner */}
         {isLoading ? (
-          <div className="w-full h-[100px] border-b border-border/40 animate-pulse"></div>
+          <div className="w-full h-[100px] border-b border-border/40 animate-pulse flex items-center justify-between py-6 px-8 rounded-2xl bg-muted/20">
+            <div className="flex items-center gap-5">
+              <div className="h-12 w-12 rounded-full bg-muted" />
+              <div className="space-y-2">
+                <div className="h-5 w-48 bg-muted rounded-md" />
+                <div className="h-4 w-32 bg-muted rounded-md" />
+              </div>
+            </div>
+            <div className="h-10 w-32 bg-muted rounded-md" />
+          </div>
         ) : activeAttempt && (activeAttempt.status === "in_progress" || activeAttempt.status === "paused") ? (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between py-6 px-8 rounded-2xl bg-muted/40 border border-border/60 mb-2">
             <div className="flex items-center gap-5">
@@ -76,7 +85,7 @@ function TryoutSelectionPage() {
                 </p>
               </div>
               <Link
-                {...getButtonStyleProps({ variant: "primary" })}
+                {...getButtonStyleProps({ variant: "primary", className: "hover:-translate-y-0.5 transition-transform focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" })}
                 to={`/app/tryout/session?attempt=${activeAttempt.attemptId}`}
               >
                 Lanjutkan <Play className="ml-2 h-4 w-4 fill-current" />
@@ -107,7 +116,7 @@ function TryoutSelectionPage() {
                 <button
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full md:w-auto cursor-pointer",
+                    className: "w-full md:w-auto cursor-pointer hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                   })}
                   onClick={(e) => {
                     e.preventDefault();
@@ -120,7 +129,7 @@ function TryoutSelectionPage() {
                 <Link
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-colors",
+                    className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                   })}
                   to="/app/tryout/blocks"
                 >
@@ -147,7 +156,7 @@ function TryoutSelectionPage() {
               <Link
                 {...getButtonStyleProps({
                   variant: "outline",
-                  className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-colors",
+                  className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                 })}
                 to="/app/scheduled-tryout"
               >
