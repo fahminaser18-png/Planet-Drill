@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router";
-import { Loader2, AlertCircle, Calendar, PlusCircle, Clock, FileText, Sparkles, RefreshCw, Trash2, Edit3, ArrowRight, ArrowLeft, Layers } from "lucide-react";
+import { Loader2, AlertCircle, Calendar, PlusCircle, Clock, FileText, RefreshCw, Trash2, Edit3, ArrowRight, ArrowLeft } from "lucide-react";
 import Button, { getButtonStyleProps } from "../../components/ui/button";
 import ConfirmDialog from "../../components/ui/confirm-dialog";
 import { Card } from "../../components/ui/card";
@@ -170,111 +170,99 @@ function ScheduledEventsPage() {
     >
       <div className="space-y-8">
         {!isListView ? (
-          /* Feature Selection Landing View (Only 2 Cards shown) */
           <section className="space-y-6">
             <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-amber-500" />
-                <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
-                  Pemilihan Fitur Event Terjadwal
-                </h2>
-              </div>
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
+                Pemilihan Fitur Event Terjadwal
+              </h2>
               <p className="text-xs text-muted-foreground">
                 Pilih salah satu fitur di bawah ini untuk melihat daftar event atau menyusun event baru.
               </p>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
-              {/* Feature Card 1: Daftar Event */}
-              <Card className="p-6 border-primary/30 bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-primary/50 relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+              <Link
+                to="/scheduled-ops/events?view=list"
+                className="group flex min-h-[180px] flex-col justify-between rounded-xl border border-transparent p-6 transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2"
+              >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                      <Calendar className="h-6 w-6" />
-                    </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <Calendar className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                    <h3 className="text-xl font-extrabold tracking-tight text-foreground">
                       Daftar Event
                     </h3>
-                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                       Lihat, kelola, dan pantau status event terjadwal yang sedang aktif, upcoming, draft, maupun yang sudah selesai.
                     </p>
                   </div>
                 </div>
-                <div className="pt-4 mt-6 border-t border-border/40 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-foreground font-mono">
+                <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
+                  <span className="font-mono text-xs font-semibold text-foreground">
                     {events.length} Total Event
                   </span>
-                  <Link
-                    {...getButtonStyleProps({
-                      size: "sm",
-                      variant: "primary",
-                      className: "h-9 px-4 text-xs font-bold shadow-xs cursor-pointer gap-1.5",
-                    })}
-                    to="/scheduled-ops/events?view=list"
-                  >
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
                     Daftar Event
                     <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                  </div>
                 </div>
-              </Card>
+              </Link>
 
-              {/* Feature Card 2: Buat Event */}
-              <Card className="p-6 border-amber-500/30 bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-amber-500/50 relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+              <Link
+                to="/scheduled-ops/events/new?fresh=1"
+                className="group flex min-h-[180px] flex-col justify-between rounded-xl border border-transparent p-6 transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2"
+              >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600">
-                      <PlusCircle className="h-6 w-6" />
-                    </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-700 dark:text-amber-400">
+                    <PlusCircle className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+                    <h3 className="text-xl font-extrabold tracking-tight text-foreground">
                       Buat Event
                     </h3>
-                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                       Susun dan terbitkan sesi event terjadwal baru lengkap dengan durasi, tanggal akses, dan bank soal.
                     </p>
                   </div>
                 </div>
-                <div className="pt-4 mt-6 border-t border-border/40 flex items-center justify-between">
+                <div className="mt-6 flex items-center justify-between border-t border-border/40 pt-4">
                   <span className="text-xs font-semibold text-muted-foreground">
                     Konfigurasi Baru
                   </span>
-                  <Link
-                    {...getButtonStyleProps({
-                      size: "sm",
-                      variant: "primary",
-                      className: "h-9 px-4 text-xs font-bold shadow-xs cursor-pointer gap-1.5",
-                    })}
-                    to="/scheduled-ops/events/new?fresh=1"
-                  >
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
                     Event baru
                     <PlusCircle className="h-3.5 w-3.5" />
-                  </Link>
+                  </div>
                 </div>
-              </Card>
+              </Link>
             </div>
           </section>
         ) : (
-          /* Event List Page View (Opened after clicking Daftar Event card) */
           <div className="space-y-6">
-            {/* Top Back Navigation */}
             <div className="flex items-center justify-between">
               <Link
                 to="/scheduled-ops/events"
-                className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline"
+                className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Kembali ke Pemilihan Fitur
               </Link>
             </div>
 
-            {/* List Overview & Status Stats */}
             {eventsQuery.isLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground border rounded-2xl bg-card/60 shadow-xs backdrop-blur-sm">
-                <Loader2 className="mb-4 h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm font-medium">Menyiapkan daftar event</p>
+              <div className="space-y-6">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="h-[9rem] animate-pulse rounded-xl bg-muted/60" />
+                  ))}
+                </div>
+                <div className="h-20 w-full animate-pulse rounded-xl bg-muted/60" />
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-32 w-full animate-pulse rounded-xl bg-muted/60" />
+                  ))}
+                </div>
               </div>
             ) : eventsQuery.isError ? (
               <Alert variant="destructive" className="border-destructive/50 bg-destructive/5">
@@ -290,12 +278,11 @@ function ScheduledEventsPage() {
               </Alert>
             ) : (
               <div className="space-y-6">
-                {/* Stats Overview */}
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                   {summaryItems.map((item) => (
                     <Card
                       key={item.label}
-                      className="flex min-h-[9rem] flex-col justify-between gap-3 p-5 border-border/80 bg-card shadow-xs transition-all hover:border-primary/30"
+                      className="flex min-h-[9rem] flex-col justify-between gap-3 border-transparent bg-transparent p-5 transition-colors hover:bg-muted/50"
                     >
                       <Badge className="w-fit text-[10px] font-bold uppercase tracking-wider px-2 py-0.5" variant={item.tone}>
                         {item.label}
@@ -310,12 +297,10 @@ function ScheduledEventsPage() {
                   ))}
                 </div>
 
-                {/* List Control Bar */}
-                <Card className="p-6 border-border/80 bg-card shadow-xs">
+                <div className="rounded-xl border border-border/50 bg-transparent p-6">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div>
-                      <h2 className="text-lg font-extrabold tracking-tight text-foreground flex items-center gap-2">
-                        <Layers className="h-4 w-4 text-primary" />
+                      <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-foreground">
                         Daftar event
                       </h2>
                       <p className="mt-1 max-w-2xl text-xs text-muted-foreground leading-relaxed">
@@ -326,7 +311,7 @@ function ScheduledEventsPage() {
                       {...getButtonStyleProps({
                         size: "sm",
                         variant: "primary",
-                        className: "sm:min-w-[10.5rem] h-9 text-xs font-bold cursor-pointer gap-1.5",
+                        className: "sm:min-w-[10.5rem] h-9 text-xs font-bold cursor-pointer gap-1.5 focus-visible:outline-none focus-visible:ring-2",
                       })}
                       to="/scheduled-ops/events/new?fresh=1"
                     >
@@ -334,107 +319,107 @@ function ScheduledEventsPage() {
                       Event baru
                     </Link>
                   </div>
-                </Card>
+                </div>
 
-                {/* Event Items Grid */}
                 <div className="grid gap-4">
                   {events.map((event) => (
-                    <Card key={event.id} className="p-6 border-border/80 bg-card shadow-xs transition-all duration-300 hover:border-primary/30">
-                      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-                        <div className="min-w-0 flex-1 space-y-4">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <Badge 
-                              variant={resolveStatusTone(event.status)}
-                              className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 ${
-                                event.status === "active"
-                                  ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/30"
-                                  : event.status === "upcoming"
-                                    ? "bg-amber-500/10 text-amber-600 border-amber-500/30"
-                                    : ""
-                              }`}
-                            >
-                              {event.statusLabel}
-                            </Badge>
-                            <Badge variant="secondary" className="text-[10px] font-mono font-semibold px-2 py-0.5">
-                              Cycle {event.currentCycle}
-                            </Badge>
-                          </div>
-                          <div className="space-y-1.5">
-                            <h3 className="text-xl font-extrabold leading-tight tracking-tight text-foreground">
-                              {event.title}
-                            </h3>
-                            <p className="max-w-3xl text-xs text-muted-foreground leading-relaxed">
-                              {event.description}
-                            </p>
-                          </div>
-
-                          <div className="rounded-xl border border-border/80 bg-muted/30 p-4 space-y-1">
-                            <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                              <Calendar className="h-3.5 w-3.5 text-primary" />
-                              Jadwal akses
-                            </p>
-                            <p className="text-xs font-semibold text-foreground font-mono">
-                              {event.windowLabel}
-                            </p>
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-2">
-                            <Badge variant="default" className="text-[10px] font-semibold px-2.5 py-0.5">
-                              <FileText className="h-3 w-3 mr-1 inline-block" />
-                              {event.questionCountLabel}
-                            </Badge>
-                            <Badge variant="secondary" className="text-[10px] font-semibold px-2.5 py-0.5">
-                              <Clock className="h-3 w-3 mr-1 inline-block" />
-                              {event.durationLabel}
-                            </Badge>
-                          </div>
-
-                          <p className="text-xs text-muted-foreground leading-relaxed italic">
-                            {resolveStudentLaneVisibilityNote(event.status)}
+                    <div
+                      key={event.id}
+                      className="flex flex-col gap-5 rounded-xl border border-border/40 p-6 transition-colors hover:bg-muted/50 xl:flex-row xl:items-start xl:justify-between"
+                    >
+                      <div className="min-w-0 flex-1 space-y-4">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge 
+                            variant={resolveStatusTone(event.status)}
+                            className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 ${
+                              event.status === "active"
+                                ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/30"
+                                : event.status === "upcoming"
+                                  ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30"
+                                  : ""
+                            }`}
+                          >
+                            {event.statusLabel}
+                          </Badge>
+                          <Badge variant="secondary" className="text-[10px] font-mono font-semibold px-2 py-0.5">
+                            Cycle {event.currentCycle}
+                          </Badge>
+                        </div>
+                        <div className="space-y-1.5">
+                          <h3 className="text-xl font-extrabold leading-tight tracking-tight text-foreground">
+                            {event.title}
+                          </h3>
+                          <p className="max-w-3xl text-xs text-muted-foreground leading-relaxed">
+                            {event.description}
                           </p>
                         </div>
 
-                        <div className="flex shrink-0 flex-col gap-2 border-t border-border/40 pt-4 xl:min-w-[12rem] xl:border-t-0 xl:border-l xl:pl-5 xl:pt-0">
-                          <Link
-                            {...getButtonStyleProps({
-                              size: "sm",
-                              variant: "primary",
-                              className: "h-9 text-xs font-bold cursor-pointer gap-1.5 justify-center",
-                            })}
-                            to={`/scheduled-ops/events/${event.id}/edit`}
-                          >
-                            <Edit3 className="h-3.5 w-3.5" />
-                            Ubah event
-                          </Link>
-                          {event.status === "expired" ? (
-                            <>
-                              <Button
-                                disabled={reactivateMutation.isPending}
-                                onClick={() => {
-                                  void handleReactivate(event.id);
-                                }}
-                                size="sm"
-                                variant="secondary"
-                                className="h-9 text-xs font-semibold cursor-pointer gap-1.5 justify-center"
-                              >
-                                <RefreshCw className="h-3.5 w-3.5 text-primary" />
-                                Aktifkan lagi
-                              </Button>
-                              <Button
-                                disabled={deleteMutation.isPending}
-                                onClick={() => handleDeleteRequest(event.id, event.title)}
-                                size="sm"
-                                variant="destructive"
-                                className="h-9 text-xs font-semibold cursor-pointer gap-1.5 justify-center"
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                                Hapus event
-                              </Button>
-                            </>
-                          ) : null}
+                        <div className="rounded-xl border border-border/80 bg-muted/30 p-4 space-y-1">
+                          <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                            <Calendar className="h-3.5 w-3.5 text-primary" />
+                            Jadwal akses
+                          </p>
+                          <p className="text-xs font-semibold text-foreground font-mono">
+                            {event.windowLabel}
+                          </p>
                         </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge variant="default" className="text-[10px] font-semibold px-2.5 py-0.5">
+                            <FileText className="h-3 w-3 mr-1 inline-block" />
+                            {event.questionCountLabel}
+                          </Badge>
+                          <Badge variant="secondary" className="text-[10px] font-semibold px-2.5 py-0.5">
+                            <Clock className="h-3 w-3 mr-1 inline-block" />
+                            {event.durationLabel}
+                          </Badge>
+                        </div>
+
+                        <p className="text-xs text-muted-foreground leading-relaxed italic">
+                          {resolveStudentLaneVisibilityNote(event.status)}
+                        </p>
                       </div>
-                    </Card>
+
+                      <div className="flex shrink-0 flex-col gap-2 border-t border-border/40 pt-4 xl:min-w-[12rem] xl:border-t-0 xl:border-l xl:pl-5 xl:pt-0">
+                        <Link
+                          {...getButtonStyleProps({
+                            size: "sm",
+                            variant: "primary",
+                            className: "h-9 text-xs font-bold cursor-pointer gap-1.5 justify-center focus-visible:outline-none focus-visible:ring-2",
+                          })}
+                          to={`/scheduled-ops/events/${event.id}/edit`}
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                          Ubah event
+                        </Link>
+                        {event.status === "expired" ? (
+                          <>
+                            <Button
+                              disabled={reactivateMutation.isPending}
+                              onClick={() => {
+                                void handleReactivate(event.id);
+                              }}
+                              size="sm"
+                              variant="secondary"
+                              className="h-9 text-xs font-semibold cursor-pointer gap-1.5 justify-center focus-visible:outline-none focus-visible:ring-2"
+                            >
+                              <RefreshCw className="h-3.5 w-3.5 text-primary" />
+                              Aktifkan lagi
+                            </Button>
+                            <Button
+                              disabled={deleteMutation.isPending}
+                              onClick={() => handleDeleteRequest(event.id, event.title)}
+                              size="sm"
+                              variant="destructive"
+                              className="h-9 text-xs font-semibold cursor-pointer gap-1.5 justify-center focus-visible:outline-none focus-visible:ring-2"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                              Hapus event
+                            </Button>
+                          </>
+                        ) : null}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>

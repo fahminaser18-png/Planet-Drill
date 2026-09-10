@@ -639,10 +639,11 @@ function ScheduledEventEditorPage() {
       description="Siapkan detail event dan jadwal akses sebelum menyusun soal."
     >
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center p-8 space-y-4">
-  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-  <p className="text-sm text-muted-foreground">Form event sedang disiapkan.</p>
-</div>
+        <div className="space-y-6">
+          <div className="h-32 w-full animate-pulse rounded-xl bg-muted/60" />
+          <div className="h-96 w-full animate-pulse rounded-xl bg-muted/60" />
+          <div className="h-96 w-full animate-pulse rounded-xl bg-muted/60" />
+        </div>
       ) : isError ? (
         <Alert variant="destructive">
   <AlertTitle>Form event belum tersedia</AlertTitle>
@@ -661,7 +662,7 @@ function ScheduledEventEditorPage() {
             </div>
           ) : null}
 
-          <Card className="px-5 py-5" >
+          <div className="rounded-xl border border-border/40 bg-transparent p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="space-y-2">
                 <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-foreground">
@@ -683,9 +684,9 @@ function ScheduledEventEditorPage() {
                 </p>
               </div>
             </div>
-          </Card>
+          </div>
 
-          <Card className="space-y-6 px-5 py-5" >
+          <div className="space-y-6 rounded-xl border border-border/40 bg-transparent p-6">
             <section
               aria-labelledby="event-identity-heading"
               className="space-y-4 border-b border-border pb-6"
@@ -707,7 +708,7 @@ function ScheduledEventEditorPage() {
                   Judul event
                   <input
                     id="event-title"
-                    className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                    className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                     onChange={(event) => {
                       setFormState((current) => ({
                         ...current,
@@ -722,7 +723,7 @@ function ScheduledEventEditorPage() {
                   Deskripsi singkat
                   <textarea
                     id="event-description"
-                    className="mt-2 min-h-24 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus:border-border"
+                    className="mt-2 min-h-24 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                     onChange={(event) => {
                       setFormState((current) => ({
                         ...current,
@@ -756,7 +757,7 @@ function ScheduledEventEditorPage() {
                   Status tayang
                   <select
                     id="event-status"
-                    className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                    className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                     onChange={(event) => {
                       setFormState((current) => ({
                         ...current,
@@ -805,7 +806,7 @@ function ScheduledEventEditorPage() {
                     Akses mulai
                     <input
                       id="event-access-start"
-                      className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                      className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                       onChange={(event) => {
                         setFormState((current) => ({
                           ...current,
@@ -821,7 +822,7 @@ function ScheduledEventEditorPage() {
                     Akses selesai
                     <input
                       id="event-access-end"
-                      className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                      className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                       onChange={(event) => {
                         setFormState((current) => ({
                           ...current,
@@ -844,12 +845,12 @@ function ScheduledEventEditorPage() {
                 </div>
               </section>
             </div>
-          </Card>
+          </div>
 
           <div className="space-y-4">
             {formState.questions.map((question, questionIndex) => {
               return (
-                <Card key={`${question.id ?? "draft"}-${questionIndex}`} className="space-y-6 px-5 py-5" >
+                <div key={`${question.id ?? "draft"}-${questionIndex}`} className="space-y-6 rounded-xl border border-border/40 bg-transparent p-6">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <h2 className="text-xl font-semibold text-foreground">
                       Soal {questionIndex + 1}
@@ -870,7 +871,7 @@ function ScheduledEventEditorPage() {
                       {`Pertanyaan ${questionIndex + 1}`}
                       <textarea
                         id={`scheduled-question-${questionIndex}`}
-                        className="mt-2 min-h-28 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus:border-border"
+                        className="mt-2 min-h-28 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                         onChange={(event) => {
                           updateQuestion(questionIndex, (current) => ({
                             ...current,
@@ -895,7 +896,7 @@ function ScheduledEventEditorPage() {
                       {`Gambar pertanyaan ${questionIndex + 1}`}
                       <div className="mt-2 space-y-3 rounded-[1.15rem] border border-border bg-muted px-4 py-3">
                         <label
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
                           htmlFor={`scheduled-question-${questionIndex}-image`}
                         >
                           <Upload className="h-3.5 w-3.5" />
@@ -955,7 +956,7 @@ function ScheduledEventEditorPage() {
                           {`Opsi ${key} soal ${questionIndex + 1}`}
                           <input
                             id={`scheduled-question-${questionIndex}-option-${key}`}
-                            className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                            className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                             onChange={(event) => {
                               updateQuestion(questionIndex, (current) => ({
                                 ...current,
@@ -975,7 +976,7 @@ function ScheduledEventEditorPage() {
                       {`Kunci jawaban soal ${questionIndex + 1}`}
                       <select
                         id={`scheduled-question-${questionIndex}-correct-option`}
-                        className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus:border-border"
+                        className="mt-2 min-h-11 w-full rounded-[1.15rem] border border-border bg-muted px-4 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                         onChange={(event) => {
                           updateQuestion(questionIndex, (current) => ({
                             ...current,
@@ -1013,7 +1014,7 @@ function ScheduledEventEditorPage() {
                       {`Pembahasan soal ${questionIndex + 1}`}
                       <textarea
                         id={`scheduled-question-${questionIndex}-explanation`}
-                        className="mt-2 min-h-24 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus:border-border"
+                        className="mt-2 min-h-24 w-full rounded-[1.15rem] border border-border bg-muted px-4 py-3 text-sm text-foreground outline-none transition focus-visible:outline-none focus-visible:ring-2 focus:border-border"
                         onChange={(event) => {
                           updateQuestion(questionIndex, (current) => ({
                             ...current,
@@ -1028,7 +1029,7 @@ function ScheduledEventEditorPage() {
                       {`Gambar pembahasan ${questionIndex + 1}`}
                       <div className="mt-2 space-y-3 rounded-[1.15rem] border border-border bg-muted px-4 py-3">
                         <label
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/30 bg-primary/10 hover:bg-primary/20 text-xs font-semibold text-primary cursor-pointer transition-all duration-150 active:scale-95 shadow-2xs focus-within:outline-none focus-within:ring-2"
                           htmlFor={`scheduled-question-${questionIndex}-explanation-image`}
                         >
                           <Upload className="h-3.5 w-3.5" />
@@ -1072,6 +1073,7 @@ function ScheduledEventEditorPage() {
                         <Button
                           onClick={handleAddQuestion}
                           size="sm"
+                          className="focus-visible:outline-none focus-visible:ring-2"
                         >
                           Tambah soal
                         </Button>
@@ -1083,12 +1085,13 @@ function ScheduledEventEditorPage() {
                         onClick={() => handleRequestDeleteQuestion(questionIndex)}
                         size="sm"
                         variant="destructive"
+                        className="focus-visible:outline-none focus-visible:ring-2"
                       >
                         Hapus soal
                       </Button>
                     ) : null}
                   </div>
-                </Card>
+                </div>
               );
             })}
           </div>
@@ -1097,11 +1100,12 @@ function ScheduledEventEditorPage() {
             <Button
               onClick={handleSave}
               size="sm"
+              className="focus-visible:outline-none focus-visible:ring-2"
             >
               Simpan event
             </Button>
             <Link
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-border px-4 text-sm font-semibold text-foreground"
+              className="inline-flex min-h-10 items-center justify-center rounded-full border border-border px-4 text-sm font-semibold text-foreground focus-visible:outline-none focus-visible:ring-2"
               to="/scheduled-ops/events"
             >
               Kembali ke daftar event
