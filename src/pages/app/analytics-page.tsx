@@ -22,6 +22,7 @@ import { usePreviewRouteState } from "../../lib/preview-route-state";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { Loader2, PackageSearch, Bot } from "lucide-react";
+import SectionHeading from "../../components/ui/section-heading";
 
 function AnalyticsPage() {
   const { user } = useSession();
@@ -98,15 +99,11 @@ function AnalyticsPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-10 w-full py-8 max-w-4xl">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">
-            Area yang Perlu Diperbaiki
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Lihat topik dan materi yang sering menahan peningkatan skormu pada rentang waktu ini.
-          </p>
-        </div>
+      <div className="flex flex-col gap-10 w-full py-6">
+        <SectionHeading
+          title="Area yang Perlu Diperbaiki"
+          description="Lihat topik dan materi yang sering menahan peningkatan skormu pada rentang waktu ini."
+        />
 
         <DiagnosisRangeControls
           appliedRange={appliedRange}
