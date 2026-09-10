@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, Loader2, Trophy, Crown, Medal, Award } from "lucide-react";
 import { useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Badge } from "../../components/ui/badge";
 import { Card, CardContent } from "../../components/ui/card";

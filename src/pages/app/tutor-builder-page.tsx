@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { MaterialUploaderForm } from "../../features/tutor/components/MaterialUploaderForm";

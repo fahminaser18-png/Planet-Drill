@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Filter, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { Link, useSearchParams, Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button, getButtonStyleProps } from "../../components/ui/button";
@@ -45,24 +46,11 @@ function TryoutTopicSelectionPage() {
     >
       <div className="flex flex-col gap-10 w-full py-6">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
-          <div className="max-w-2xl">
-            <div className="mb-6">
-              <Link
-                to="/app/tryout-selection"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-              >
-                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                <span>Kembali ke Mode Try Out</span>
-              </Link>
-            </div>
-            <h1 className="text-4xl font-black tracking-tight text-foreground">
-              Try Out Per Materi / Topik
-            </h1>
-            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
-              Pilih topik spesifik yang ingin kamu dalami untuk mempertajam penguasaan konsep sebelum simulasi penuh.
-            </p>
-          </div>
+        <div className="pb-6 border-b border-border/40">
+          <SectionHeading
+            title="Try Out Per Materi / Topik"
+            description="Pilih topik spesifik yang ingin kamu dalami untuk mempertajam penguasaan konsep sebelum simulasi penuh."
+          />
         </div>
 
         {error ? (

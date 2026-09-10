@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { listTutorStations, deleteTutorStation } from "../../lib/api/tutor-api";

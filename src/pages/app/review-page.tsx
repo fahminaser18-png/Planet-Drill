@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Link, useParams, useSearchParams } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import Button, { getButtonStyleProps } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
 import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
@@ -111,18 +112,12 @@ function ReviewPage() {
         {!isDetailRoute ? (
           <>
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
-                  Pembahasan Soal
-                </span>
-                <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
-                  Riwayat Pembahasan
-                </h1>
-                <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-                  Pilih hasil try out atau sesi terjadwal untuk mendalami pembahasan dan kunci jawaban.
-                </p>
-              </div>
+            <div className="pb-4 border-b border-border/40">
+              <SectionHeading
+                eyebrow="Pembahasan Soal"
+                title="Riwayat Pembahasan"
+                description="Pilih hasil try out atau sesi terjadwal untuk mendalami pembahasan dan kunci jawaban."
+              />
             </div>
 
             {historyQuery.isLoading ? (
@@ -221,17 +216,13 @@ function ReviewPage() {
         ) : (
           <>
             {/* Header Title Section */}
-            <div className="text-center mb-4 max-w-2xl mx-auto">
-              <Badge variant="outline" className="mb-2.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-primary/5 text-primary border-primary/20">
-                <BookOpenCheck className="mr-1.5 h-3.5 w-3.5 inline-block" />
-                Pembahasan Sesi
-              </Badge>
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-foreground">
-                Jawaban dan Pembahasan
-              </h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Navigasikan nomor soal di sebelah kiri untuk melihat pembahasan detail setiap pertanyaan.
-              </p>
+            <div className="mb-4">
+              <SectionHeading
+                eyebrow="Pembahasan Sesi"
+                title="Jawaban dan Pembahasan"
+                description="Navigasikan nomor soal di sebelah kiri untuk melihat pembahasan detail setiap pertanyaan."
+                
+              />
             </div>
 
             {reviewQuery.isLoading ? (

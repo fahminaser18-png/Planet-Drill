@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link, Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Button, getButtonStyleProps } from "../../components/ui/button";
@@ -76,24 +77,11 @@ function TryoutBlockSelectionPage() {
     >
       <div className="flex flex-col gap-10 w-full py-6">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
-          <div className="max-w-2xl">
-            <div className="mb-6">
-              <Link
-                to="/app/tryout-selection"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-              >
-                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                <span>Kembali ke Mode Try Out</span>
-              </Link>
-            </div>
-            <h1 className="text-4xl font-black tracking-tight text-foreground">
-              Latihan Try Out Per Blok
-            </h1>
-            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
-              Fokuskan penguasaan materi pada salah satu dari kelompok subtes UTBK.
-            </p>
-          </div>
+        <div className="pb-6 border-b border-border/40">
+          <SectionHeading
+            title="Latihan Try Out Per Blok"
+            description="Fokuskan penguasaan materi pada salah satu dari kelompok subtes UTBK."
+          />
         </div>
 
         {error ? (

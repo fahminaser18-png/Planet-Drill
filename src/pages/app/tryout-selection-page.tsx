@@ -3,6 +3,7 @@ import { BookOpen, CalendarClock, ArrowRight, Play, Clock, Lock } from "lucide-r
 import { useState } from "react";
 import { Link } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { PaywallModal } from "../../components/layout/paywall-gate";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
 import { productShellMeta } from "../../mocks/student-dashboard";
@@ -38,18 +39,12 @@ function TryoutSelectionPage() {
     >
       <div className="flex flex-col gap-10 w-full py-6">
         {/* Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
-          <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 block">
-              Mode Latihan
-            </span>
-            <h1 className="text-4xl font-black tracking-tight text-foreground">
-              Pilih Mode Try Out
-            </h1>
-            <p className="text-lg text-muted-foreground mt-4 leading-relaxed">
-              Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UTBK SNBT.
-            </p>
-          </div>
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Mode Latihan"
+            title="Pilih Mode Try Out"
+            description="Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UTBK SNBT."
+          />
         </div>
 
         {/* Active Attempt Banner */}

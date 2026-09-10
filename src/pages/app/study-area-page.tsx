@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getButtonStyleProps } from "../../components/ui/button";
@@ -70,18 +71,12 @@ export default function StudyAreaPage() {
     >
       <div className="flex flex-col gap-8 w-full py-4">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <span className="mb-3 inline-block rounded bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-              Pusat Materi
-            </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
-              Area Belajar
-            </h1>
-            <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar untuk memperkuat persiapan UTBK-mu.
-            </p>
-          </div>
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Pusat Materi"
+            title="Area Belajar"
+            description="Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar untuk memperkuat persiapan UTBK-mu."
+          />
         </div>
 
         <div className="flex flex-col border-t border-border/40 mt-4 w-full">
