@@ -73,9 +73,9 @@ export default function StudyAreaPage() {
         {/* Header Section */}
         <div className="pb-4 border-b border-border/40">
           <SectionHeading
-            eyebrow="Pusat Materi"
+            eyebrow="Kurikulum & Latihan"
             title="Area Belajar"
-            description="Selesaikan materi pembelajaran, pemahaman konsep, dan kartu belajar untuk memperkuat persiapan UTBK-mu."
+            description="Kuasai materi UTBK SNBT melalui modul ringkasan, flash card interaktif, dan simulasi bersama tutor."
           />
         </div>
 
@@ -108,7 +108,7 @@ export default function StudyAreaPage() {
                     <Icon className="h-6 w-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
+                    <h2 className="text-xl font-semibold text-foreground tracking-tight transition-colors">
                       {item.title}
                     </h2>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground max-w-xl">
@@ -158,7 +158,7 @@ export default function StudyAreaPage() {
                       {...getButtonStyleProps({
                         variant: "secondary",
                         className:
-                          "font-medium group-hover:bg-primary group-hover:text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                          "font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:-translate-y-0.5 hover:bg-secondary/80",
                       })}
                       to={item.href}
                     >

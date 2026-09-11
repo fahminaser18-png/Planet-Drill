@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Loader2, AlertCircle, Info, Trophy, Crown, Medal, Award, Clock } from "lucide-react";
 import { Navigate } from "react-router";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import Button from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
 import { Alert, AlertTitle, AlertDescription } from "../../components/ui/alert";
@@ -96,13 +97,12 @@ export default function LeaderboardPage() {
       navItems={studentShell.navItems}
     >
       <div className="flex flex-col gap-6 w-full py-4 ">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-              Leaderboard
-            </h1>
-            
-          </div>
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Peringkat Keseluruhan"
+            title="Leaderboard Nasional"
+            description="Bandingkan skor dan waktu pengerjaanmu dengan peserta lain di berbagai kategori try out."
+          />
         </div>
 
         <div className="flex flex-wrap gap-2">

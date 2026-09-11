@@ -172,7 +172,7 @@ function ReviewPage() {
                         </p>
                       </div>
                       
-                      <h2 className="text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                      <h2 className="text-xl font-bold tracking-tight text-foreground transition-colors">
                         {attempt.title}
                       </h2>
                       
@@ -197,7 +197,7 @@ function ReviewPage() {
                         aria-label={`Buka pembahasan ${attempt.title}`}
                         {...getButtonStyleProps({
                           variant: "outline",
-                          className: "w-full md:w-auto justify-center font-semibold group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                          className: "w-full md:w-auto justify-center font-semibold transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                         })}
                         to={attempt.source === "scheduled"
                           ? `/app/review/${attempt.attemptId}?source=scheduled`

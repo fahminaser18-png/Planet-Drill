@@ -101,8 +101,9 @@ function AnalyticsPage() {
     >
       <div className="flex flex-col gap-10 w-full py-6">
         <SectionHeading
-          title="Area yang Perlu Diperbaiki"
-          description="Lihat topik dan materi yang sering menahan peningkatan skormu pada rentang waktu ini."
+          eyebrow="Evaluasi Performa"
+          title="Diagnosis Kelemahan"
+          description="Identifikasi subtopik yang paling sering menurunkan skormu berdasarkan hasil try out terakhir."
         />
 
         <DiagnosisRangeControls

@@ -41,9 +41,9 @@ function TryoutSelectionPage() {
         {/* Header Banner */}
         <div className="pb-4 border-b border-border/40">
           <SectionHeading
-            eyebrow="Mode Latihan"
+            eyebrow="Simulasi Ujian"
             title="Pilih Mode Try Out"
-            description="Sesuaikan dengan gaya belajar dan kesiapanmu hari ini untuk memaksimalkan persiapan UTBK SNBT."
+            description="Latih kesiapanmu dengan try out mandiri tanpa batas waktu, atau ikuti simulasi terjadwal untuk bersaing secara real-time."
           />
         </div>
 
@@ -124,7 +124,7 @@ function TryoutSelectionPage() {
                 <Link
                   {...getButtonStyleProps({
                     variant: "outline",
-                    className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                    className: "w-full md:w-auto transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                   })}
                   to="/app/tryout/blocks"
                 >
@@ -151,7 +151,7 @@ function TryoutSelectionPage() {
               <Link
                 {...getButtonStyleProps({
                   variant: "outline",
-                  className: "w-full md:w-auto group-hover:border-primary group-hover:text-primary transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                  className: "w-full md:w-auto transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
                 })}
                 to="/app/scheduled-tryout"
               >

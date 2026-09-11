@@ -7,6 +7,7 @@ type SectionHeadingProps = {
   eyebrow?: string;
   actions?: ReactNode;
   className?: string;
+  as?: "h1" | "h2" | "h3";
 };
 
 function SectionHeading({
@@ -15,6 +16,7 @@ function SectionHeading({
   eyebrow,
   actions,
   className,
+  as: Component = "h1",
 }: SectionHeadingProps) {
   return (
     <div
@@ -25,15 +27,18 @@ function SectionHeading({
     >
       <div className="max-w-3xl">
         {eyebrow ? (
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
-            {eyebrow}
-          </p>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px w-6 bg-primary/50"></div>
+            <span className="text-sm font-semibold tracking-wide text-primary">
+              {eyebrow}
+            </span>
+          </div>
         ) : null}
-        <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-tight text-foreground">
+        <Component className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
           {title}
-        </h2>
+        </Component>
         {description ? (
-          <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+          <p className="mt-3 text-lg leading-relaxed text-muted-foreground max-w-2xl">
             {description}
           </p>
         ) : null}
