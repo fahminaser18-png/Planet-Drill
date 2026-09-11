@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { Link } from "react-router";
@@ -36,6 +36,17 @@ function ProductShell({
   navItems,
   disablePadding = false,
 }: ProductShellProps) {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-clinical-surface text-clinical-text-primary flex flex-col relative">
       {/* Top Navigation Bar Header */}
@@ -94,9 +105,11 @@ function ProductShell({
                 className="justify-center text-sm font-bold cursor-pointer transition-all hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 rounded-2xl px-5 py-2.5"
                 variant="outline"
                 size="sm"
-                onClick={() => void logout()}
+                onClick={handleLogout}
+                loading={isLoggingOut}
+                disabled={isLoggingOut}
               >
-                <LogOut className="h-4 w-4 mr-2 text-destructive" />
+                {!isLoggingOut && <LogOut className="h-4 w-4 mr-2 text-destructive" />}
                 <span>Logout</span>
               </Button>
             </div>

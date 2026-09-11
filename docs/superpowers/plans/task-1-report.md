@@ -1,15 +1,22 @@
-# Task 1 Implementation Report: Database Migration & Schema Update
+﻿# Task 1 Report
 
-## What Was Implemented
-Added visual configuration columns (`icon_name`, `color_theme`) to the `public.blocks` table in Supabase via a new SQL migration file. Per requirements, existing blocks/questions were preserved without deletion.
+## What was implemented
+Implemented subscription stacking logic in supabase/functions/midtrans-webhook/index.ts. Before inserting a new active subscription, it fetches the latest active subscription for the user that ends in the future. If found, the new subscription's duration is added on top of the latest subscription's ends_at. If not found, the starts_at is set to the current date.
 
-## Files Changed
-- `supabase/migrations/20260805000000_custom_blocks_visuals.sql` (Created)
+## What was tested and test results
+Locally, there are no tests to run for this function. 
+Deployment via 
+px supabase functions deploy midtrans-webhook --no-verify-jwt failed with an access control error: unexpected deploy status 403: {"message":"Your account does not have the necessary privileges to access this endpoint."}.
 
-## Self-Review Findings
-- SQL syntax verified: `ALTER TABLE public.blocks ADD COLUMN icon_name text, ADD COLUMN color_theme text;` is standard Postgres syntax.
-- Preserved existing data and cascade constraints as per instructions.
-- File follows timestamp naming conventions established in `supabase/migrations/`.
+## Files changed
+- supabase/functions/midtrans-webhook/index.ts
 
-## Issues or Concerns
-None. Migration script is ready for execution in environment reset/deploy pipeline.
+## Self-review findings
+- The supabase client is created successfully and correctly filters the active subscription based on ends_at.
+- The logic handles cases where latestSub?.ends_at is undefined.
+- The startsAt is successfully instantiated either from ends_at or 
+ew Date().
+- The endsAt properly computes the expiration by adding durationDays to startsAt.
+
+## Issues or concerns
+- Deployment failed with a 403 Forbidden error because the account does not have the necessary privileges on Supabase to deploy the Edge Function.

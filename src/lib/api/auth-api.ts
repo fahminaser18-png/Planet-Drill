@@ -109,7 +109,8 @@ export async function logout(
   const { error } = await client.auth.signOut();
 
   if (error) {
-    throw new Error(error.message);
+    console.error("Server signout failed, forcing local signout:", error);
+    await client.auth.signOut({ scope: 'local' });
   }
 }
 

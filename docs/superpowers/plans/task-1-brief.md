@@ -1,26 +1,61 @@
-### Task 1: Database Migration & Schema Update
+### Task 1: Update Webhook Stacking Logic
 
 **Files:**
-- Create: `supabase/migrations/20260805000000_custom_blocks_visuals.sql` (use current date if needed)
+- Modify: `supabase/functions/midtrans-webhook/index.ts`
 
 **Interfaces:**
-- Produces: `public.blocks` now has `icon_name` (text, nullable) and `color_theme` (text, nullable).
+- Consumes: Midtrans payload `custom_field1` (userId) and `custom_field2` (packageCode).
+- Produces: A new row in `subscriptions` with correctly stacked `starts_at` and `ends_at`.
 
-- [ ] **Step 1: Write the migration file**
+- [ ] **Step 1: Write the updated webhook implementation**
 
-```sql
--- 1. Tambahkan kolom visual ke tabel blocks
-ALTER TABLE public.blocks
-ADD COLUMN icon_name text,
-ADD COLUMN color_theme text;
+```typescript
+// Insert this logic before inserting the subscription record in supabase/functions/midtrans-webhook/index.ts
 
--- 2. Hapus data lama
--- (Note from Controller: We decided not to delete the existing blocks/questions to avoid data loss. Just add the columns.)
+// Find the latest active subscription for this user
+const { data: latestSub, error: fetchSubError } = await supabase
+  .from('subscriptions')
+  .select('ends_at')
+  .eq('user_id', userId)
+  .eq('state', 'active')
+  .gt('ends_at', new Date().toISOString())
+  .order('ends_at', { ascending: false })
+  .limit(1)
+  .single()
+
+if (fetchSubError && fetchSubError.code !== 'PGRST116') {
+  console.error("Error fetching latest sub:", fetchSubError)
+}
+
+const startsAt = latestSub?.ends_at ? new Date(latestSub.ends_at) : new Date()
+const endsAt = new Date(startsAt.getTime() + durationDays * 24 * 60 * 60 * 1000)
+
+// Insert subscription record
+const { error: subError } = await supabase.from('subscriptions').insert({
+  user_id: userId,
+  package_code: packageCode,
+  state: 'active',
+  starts_at: startsAt.toISOString(),
+  ends_at: endsAt.toISOString()
+})
 ```
 
-- [ ] **Step 2: Commit**
+- [ ] **Step 2: Apply the changes to the webhook file**
 
 ```bash
-git add supabase/migrations
-git commit -m "feat: add icon and color columns to blocks table"
+# This will be done via tool editing the index.ts file directly.
+```
+
+- [ ] **Step 3: Deploy the updated webhook**
+
+```bash
+npx supabase functions deploy midtrans-webhook --no-verify-jwt
+```
+Expected: PASS with "Deployed Function midtrans-webhook"
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add supabase/functions/midtrans-webhook/index.ts
+git commit -m "feat(webhook): implement subscription stacking logic"
 ```

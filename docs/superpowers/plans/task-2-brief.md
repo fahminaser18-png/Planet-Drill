@@ -1,23 +1,67 @@
-### Task 2: API & Types Update
+### Task 2: Update Cron Job Logic
 
 **Files:**
-- Modify: `src/lib/api/tryout-api.ts`
+- Modify: `supabase/migrations/20260905000000_subscription_cron.sql` (Update the migration file to reflect the new state for version control)
 
 **Interfaces:**
-- Consumes: The new `icon_name` and `color_theme` columns from DB.
-- Produces: `TryoutTemplate`, `TryoutCatalogEntry`, and related types include `iconName?: string | null` and `colorTheme?: string | null`.
+- Consumes: `cron.job` configuration.
+- Produces: Updated SQL command for the `expire_subscriptions` job.
 
-- [ ] **Step 1: Update Types**
-In `src/lib/api/tryout-api.ts`, add `icon_name?: string | null` and `color_theme?: string | null` to `ExamTemplateRow` and `TaxonomyBlockRow`.
-Add `iconName: string | null;` and `colorTheme: string | null;` to the `TryoutTemplate` and `TryoutCatalogEntry` types.
+- [ ] **Step 1: Update the migration file**
 
-- [ ] **Step 2: Update Mappers**
-Update the mapping functions (`mapTemplate`, `mapCatalogEntry`) to map the new fields (e.g. `iconName: row.icon_name ?? null`, `colorTheme: row.color_theme ?? null`).
-Update `listTryoutCatalogEntriesFallback` function: ensure the database query selects the new columns for `blocks` (update the `select` string from `"id, name, slug, sort_order, topics:topics(id, name, slug, sort_order, is_active)"` to include `icon_name` and `color_theme`, and also map them correctly when building the `fallbackEntries` array for blocks).
+Modify `supabase/migrations/20260905000000_subscription_cron.sql` to include the `NOT IN` clause in the first `UPDATE` statement:
+
+```sql
+  update public.profiles
+  set role = ''pendaftar_baru''
+  where role = ''pro''
+    and id in (
+      select user_id
+      from public.subscriptions
+      where ends_at < timezone(''utc'', now())
+    )
+    and id not in (
+      select user_id
+      from public.subscriptions
+      where state = ''active'' and ends_at > timezone(''utc'', now())
+    );
+```
+
+- [ ] **Step 2: Run SQL query to update the live cron job**
+
+```bash
+npx supabase db query "
+select cron.schedule(
+  'expire_subscriptions',
+  '0 0 * * *',
+  \$\$
+  update public.profiles
+  set role = 'pendaftar_baru'
+  where role = 'pro'
+    and id in (
+      select user_id
+      from public.subscriptions
+      where ends_at < timezone('utc', now())
+    )
+    and id not in (
+      select user_id
+      from public.subscriptions
+      where state = 'active' and ends_at > timezone('utc', now())
+    );
+    
+  update public.subscriptions
+  set state = 'expired'
+  where state = 'active'
+    and ends_at < timezone('utc', now());
+  \$\$
+);
+" --linked
+```
+Expected: PASS showing the jobid of the updated cron job.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add src/lib/api/tryout-api.ts
-git commit -m "feat: update tryout api types and mappers for block visuals"
+git add supabase/migrations/20260905000000_subscription_cron.sql
+git commit -m "fix(cron): prevent demotion for stacked active subscriptions"
 ```
