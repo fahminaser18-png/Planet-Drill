@@ -12,7 +12,7 @@ type AdminShellNavItem = {
 type AdminShellProps = {
   children: ReactNode;
   title: string;
-  description: string;
+  description?: string;
   navItems: AdminShellNavItem[];
 };
 
@@ -37,9 +37,11 @@ function AdminShell({
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
               {title}
             </h1>
-            <p className="text-base text-muted-foreground mt-2">
-              {description}
-            </p>
+            {description ? (
+              <p className="text-base text-muted-foreground mt-2">
+                {description}
+              </p>
+            ) : null}
           </div>
         </div>
         
