@@ -467,7 +467,7 @@ function ScheduledTryoutSessionPage() {
           title="Sesi try out terjadwal"
           eyebrow="Sesi aktif"
           actions={(
-            <div className="flex flex-wrap items-center justify-end gap-3"/>
+            <div className="flex flex-wrap items-center justify-end gap-3">
               <Button
                 aria-pressed={isQuestionNavHidden}
                 onClick={() => {

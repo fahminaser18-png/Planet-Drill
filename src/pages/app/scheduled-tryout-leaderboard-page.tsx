@@ -70,7 +70,7 @@ function ScheduledTryoutLeaderboardPage() {
         <div className="pb-4 border-b border-border/40">
           <SectionHeading
             eyebrow="Peringkat Terjadwal"
-            title="Leaderboard Event" - Siklus ${pageData.eventCycle}. Pantau posisi skor terbaikmu di event ini.` : "Pantau posisi dan skor terbaikmu pada event try out terjadwal."}
+            title="Leaderboard Event"
           />
         </div>
 

@@ -503,7 +503,7 @@ function TryoutSessionPage() {
           title="Sesi try out berjalan"
           eyebrow="Sesi aktif"
           actions={
-            <div className="flex flex-wrap items-center justify-end gap-3"/>
+            <div className="flex flex-wrap items-center justify-end gap-3">
               <Button
                 aria-pressed={isQuestionNavHidden}
                 className="transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
