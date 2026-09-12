@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import AdminShell from "../components/layout/admin-shell";
 import ProductShell from "../components/layout/product-shell";
 import { Button } from "../components/ui/button";
+import SectionHeading from "../components/ui/section-heading";
 
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -55,10 +56,9 @@ function ProfileSurface({
     return (
       <AdminShell
         title="Profil akun"
-        description="Kelola identitas akun, keamanan login, foto profil, dan logout di satu tempat."
         navItems={createAdminNavItems("/profile")}
       >
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 w-full py-4">
           {children}
         </div>
       </AdminShell>
@@ -71,15 +71,13 @@ function ProfileSurface({
       tierLabel={resolveStudentTierLabel(role as any)}
       navItems={createProductNavItems("/profile", role as any)}
     >
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
-            Profil akun
-          </h1>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Kelola nama tampilan, password, foto profil, dan akses keluar akunmu.
-          </p>
-        </header>
+      <div className="flex flex-col gap-8 w-full py-4">
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Profil Pengguna"
+            title="Profil akun"
+          />
+        </div>
         {children}
       </div>
     </ProductShell>
