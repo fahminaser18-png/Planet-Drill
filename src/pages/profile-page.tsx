@@ -323,7 +323,7 @@ function ProfilePage() {
   return (
     <ProfileSurface role={role}>
       {isLoadingProfile ? (
-        <div className="mx-auto max-w-3xl flex flex-col divide-y divide-border/40 animate-pulse">
+        <div className="w-full max-w-5xl flex flex-col divide-y divide-border/40 animate-pulse">
           <div className="py-8 space-y-6">
             <div className="flex items-center gap-5">
               <div className="h-20 w-20 rounded-full bg-muted"></div>
@@ -354,7 +354,7 @@ function ProfilePage() {
           </div>
         </div>
       ) : loadError ? (
-        <div className="mx-auto max-w-3xl py-8">
+        <div className="w-full max-w-5xl py-8">
           <div className="rounded-xl border border-destructive/50 bg-destructive/5 p-4 flex gap-3 text-destructive">
             <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
             <div>
@@ -364,7 +364,7 @@ function ProfilePage() {
           </div>
         </div>
       ) : (
-        <div className="mx-auto max-w-3xl flex flex-col divide-y divide-border/40">
+        <div className="w-full max-w-5xl flex flex-col divide-y divide-border/40">
           {/* Profile Identity & Avatar Section */}
           <section className="py-8 space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">

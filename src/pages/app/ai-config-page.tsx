@@ -84,62 +84,62 @@ export default function AiConfigPage() {
           />
         </div>
 
-        <div className="space-y-6 max-w-2xl">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-base font-medium text-foreground">
-                Status Koneksi
-              </h2>
+        <div className="w-full max-w-5xl flex flex-col divide-y divide-border/40">
+          <section className="py-8 grid sm:grid-cols-[1fr_2fr] gap-6">
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-foreground">Koneksi Supabase Vault</h3>
               <p className="text-sm text-muted-foreground">
-                Kredensial disimpan secara terenkripsi di Supabase Vault.
+                Kredensial disimpan secara terenkripsi.
               </p>
             </div>
-            <div>
-              {statusQuery.isLoading ? (
-                <div className="h-5 w-24 bg-muted animate-pulse rounded"></div>
-              ) : statusQuery.data?.hasCredential ? (
-                <span className="inline-flex items-center gap-1.5 text-sm text-emerald-600 dark:text-emerald-400">
-                  <CheckCircle2 className="h-4 w-4" />
-                  Koneksi Aktif
-                </span>
-              ) : (
-                <span className="text-sm text-muted-foreground">Belum Aktif</span>
-              )}
-            </div>
-          </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                {statusQuery.isLoading ? (
+                  <div className="h-5 w-24 bg-muted animate-pulse rounded"></div>
+                ) : statusQuery.data?.hasCredential ? (
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Koneksi Aktif
+                  </span>
+                ) : (
+                  <span className="text-sm text-muted-foreground font-medium">Belum Aktif</span>
+                )}
+              </div>
 
-          {statusQuery.isError ? (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
-              Status koneksi belum bisa dimuat. Muat ulang lalu coba lagi.
-            </div>
-          ) : null}
+              {statusQuery.isError ? (
+                <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20 max-w-md">
+                  Status koneksi belum bisa dimuat. Muat ulang lalu coba lagi.
+                </div>
+              ) : null}
 
-          {!statusQuery.isLoading && statusQuery.data?.hasCredential === false ? (
-            <div className="text-sm text-amber-600 dark:text-amber-400 flex items-start gap-2 bg-amber-500/10 p-3 rounded-md border border-amber-500/20 shadow-sm transition-all duration-300">
-              <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
-              <span>Simpan dan tes API key sebelum menggunakan fitur AI.</span>
+              {!statusQuery.isLoading && statusQuery.data?.hasCredential === false ? (
+                <div className="text-sm text-amber-600 dark:text-amber-400 flex items-start gap-2 bg-amber-500/10 p-3 rounded-md border border-amber-500/20 shadow-sm max-w-md transition-all duration-300">
+                  <ShieldAlert className="h-4 w-4 shrink-0 mt-0.5" />
+                  <span>Simpan dan tes API key sebelum menggunakan fitur AI.</span>
+                </div>
+              ) : null}
             </div>
-          ) : null}
+          </section>
 
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <label htmlFor="gemini-api-key-input" className="block text-sm font-medium text-foreground">
-                API key Gemini
-              </label>
-              <input
-                id="gemini-api-key-input"
-                autoComplete="off"
-                className="w-full h-10 rounded border border-input bg-background px-3 text-sm text-foreground transition-all duration-200 hover:border-primary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-                onChange={(event) => setApiKey(event.target.value)}
-                placeholder={hasCredential ? "•••••••••••••••••••••••••••• (Tersimpan)" : "Masukkan API key Gemini"}
-                type="password"
-                value={apiKey}
-              />
+          <section className="py-8 grid sm:grid-cols-[1fr_2fr] gap-6">
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-foreground">API Key Gemini</h3>
+              <p className="text-sm text-muted-foreground">
+                Model bawaan ditetapkan ke gemini-3.7-flash.
+              </p>
             </div>
-            
-            <p className="text-sm text-muted-foreground">
-              Model bawaan (gemini-3.7-flash) ditetapkan untuk konsistensi.
-            </p>
+            <div className="space-y-4">
+              <div className="space-y-2 max-w-md">
+                <input
+                  id="gemini-api-key-input"
+                  autoComplete="off"
+                  className="w-full h-10 rounded border border-input bg-background px-3 text-sm text-foreground transition-all duration-200 hover:border-primary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                  onChange={(event) => setApiKey(event.target.value)}
+                  placeholder={hasCredential ? "•••••••••••••••••••••••••••• (Tersimpan)" : "Masukkan API key Gemini"}
+                  type="password"
+                  value={apiKey}
+                />
+              </div>
 
             {statusQuery.data?.lastValidatedAt ? (
               <p className="text-xs text-muted-foreground">
@@ -195,8 +195,9 @@ export default function AiConfigPage() {
               </Button>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </ProductShell>
+    </div>
+  </ProductShell>
   );
 }
