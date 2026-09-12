@@ -5,7 +5,6 @@ import {
   Sparkles,
   Layers,
   CalendarClock,
-  Video,
   Presentation,
   ArrowRight,
   Settings2,
@@ -13,6 +12,8 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
+import { getButtonStyleProps } from "../../components/ui/button";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { getGlobalAiCredentialStatus } from "../../lib/api/global-ai-credential-api";
@@ -92,20 +93,16 @@ export default function MentorAreaPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-10 w-full py-8 max-w-4xl">
-        <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-muted-foreground">
-            Panel Pengajaran
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-            Area Mentor
-          </h1>
-          <p className="text-base text-muted-foreground max-w-2xl">
-            Selesaikan pembuatan soal, kelola materi, serta operasional try out untuk membimbing siswa.
-          </p>
+      <div className="flex flex-col gap-10 w-full py-4 max-w-4xl">
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Panel Pengajaran"
+            title="Area Mentor"
+            description="Selesaikan pembuatan soal, kelola materi, serta operasional try out untuk membimbing siswa."
+          />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col border-t border-border/40 mt-4 w-full">
           {MENTOR_FEATURES.map((item) => {
             const Icon = item.icon;
             const isAiFeature = item.id === "penyusun-soal" || item.id === "penyusun-flashcard" || item.id === "pengatur-tutor";
@@ -114,41 +111,57 @@ export default function MentorAreaPage() {
             return (
               <div
                 key={item.id}
-                className={`flex flex-col border border-border rounded-lg p-5 ${
-                  isLocked ? "opacity-60" : "hover:border-primary/50 hover:shadow-sm transition-all duration-200"
+                className={`group flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border/40 py-8 px-4 -mx-4 rounded-xl transition-all duration-300 ease-out ${
+                  isLocked ? "opacity-70 grayscale-[0.3]" : "hover:bg-muted/30 hover:shadow-sm"
                 }`}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <Icon className="h-5 w-5 text-foreground/70" />
-                  <h3 className="font-medium text-foreground">{item.title}</h3>
+                <div className="flex items-start gap-5">
+                  <div className={`mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                    isLocked ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
+                  }`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground tracking-tight transition-colors">
+                      {item.title}
+                    </h2>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground max-w-xl">
+                      {item.description}
+                    </p>
+                    
+                    {isLocked && (
+                      <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-destructive bg-destructive/10 px-2.5 py-1 rounded">
+                        <Lock className="h-3.5 w-3.5" />
+                        Butuh Pengaturan API Key (BYOK)
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
-                <p className="text-sm text-muted-foreground mb-4 flex-grow">
-                  {item.description}
-                </p>
-
-                {isLocked ? (
-                  <div className="mt-auto">
-                    <p className="text-sm text-destructive mb-3 flex items-center gap-1.5">
-                      <Lock className="h-4 w-4" /> Butuh Pengaturan API Key
-                    </p>
+                <div className="shrink-0 pt-2 md:pt-0 pl-16 md:pl-0">
+                  {isLocked ? (
                     <Link
-                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
-                      to="/app/ai-config"
+                      {...getButtonStyleProps({
+                        variant: "outline",
+                        className: "w-full md:w-auto font-medium text-destructive hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2",
+                      })}
+                      to="/app/settings/ai-config"
                     >
-                      Atur Kredensial &rarr;
+                      Atur Kredensial <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                     </Link>
-                  </div>
-                ) : (
-                  <div className="mt-auto">
+                  ) : (
                     <Link
-                      className="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+                      {...getButtonStyleProps({
+                        variant: "outline",
+                        className:
+                          "w-full md:w-auto font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:-translate-y-0.5",
+                      })}
                       to={item.href}
                     >
-                      {item.buttonText} &rarr;
+                      {item.buttonText} <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                     </Link>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             );
           })}
