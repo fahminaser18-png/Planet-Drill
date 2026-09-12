@@ -134,8 +134,8 @@ export default function StudyAreaPage() {
                   {lockReason === "premium" ? (
                     <button
                       {...getButtonStyleProps({
-                        variant: "secondary",
-                        className: "font-medium hover:bg-muted hover:text-foreground text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                        variant: "outline",
+                        className: "w-full md:w-auto font-medium text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                       })}
                       onClick={(e) => {
                         e.preventDefault();
@@ -147,8 +147,8 @@ export default function StudyAreaPage() {
                   ) : lockReason === "api_key" ? (
                     <div
                       {...getButtonStyleProps({
-                        variant: "secondary",
-                        className: "font-medium opacity-50 cursor-not-allowed",
+                        variant: "outline",
+                        className: "w-full md:w-auto font-medium opacity-50 cursor-not-allowed",
                       })}
                     >
                       {item.buttonText} <Lock className="ml-1.5 h-3.5 w-3.5" />
@@ -156,9 +156,9 @@ export default function StudyAreaPage() {
                   ) : (
                     <Link
                       {...getButtonStyleProps({
-                        variant: "secondary",
+                        variant: "outline",
                         className:
-                          "font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:-translate-y-0.5 hover:bg-secondary/80",
+                          "w-full md:w-auto font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:-translate-y-0.5",
                       })}
                       to={item.href}
                     >
