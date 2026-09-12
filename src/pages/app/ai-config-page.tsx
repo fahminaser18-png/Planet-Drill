@@ -10,6 +10,7 @@ import {
 } from "../../lib/api/global-ai-credential-api";
 import { SessionContext } from "../../lib/auth/session-provider";
 import ProductShell from "../../components/layout/product-shell";
+import SectionHeading from "../../components/ui/section-heading";
 import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 
@@ -75,15 +76,15 @@ export default function AiConfigPage() {
       tierLabel={studentShell.tierLabel}
       navItems={studentShell.navItems}
     >
-      <div className="flex flex-col gap-10 w-full py-8 max-w-2xl">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Pengaturan AI</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Kelola Kredensial AI Anda di sini. Sistem menggunakan Bring Your Own Key (BYOK).
-          </p>
+      <div className="flex flex-col gap-8 w-full py-4">
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading
+            eyebrow="Integrasi"
+            title="Pengaturan AI"
+          />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-2xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 className="text-base font-medium text-foreground">
