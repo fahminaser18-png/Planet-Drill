@@ -80,7 +80,6 @@ function TryoutBlockSelectionPage() {
         <div className="pb-6 border-b border-border/40">
           <SectionHeading
             title="Latihan Try Out Per Blok"
-            description="Fokuskan penguasaan materi pada salah satu dari kelompok subtes UTBK."
           />
         </div>
 

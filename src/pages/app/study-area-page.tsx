@@ -75,7 +75,6 @@ export default function StudyAreaPage() {
           <SectionHeading
             eyebrow="Kurikulum & Latihan"
             title="Area Belajar"
-            description="Kuasai materi UTBK SNBT melalui modul ringkasan, flash card interaktif, dan simulasi bersama tutor."
           />
         </div>
 

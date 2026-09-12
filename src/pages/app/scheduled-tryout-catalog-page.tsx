@@ -116,7 +116,6 @@ function ScheduledTryoutCatalogPage() {
       <section id="scheduled-tryout">
         <SectionHeading
           title="Try Out Terjadwal"
-          description="Pilih sesi yang sedang dibuka atau lanjutkan sesi yang tertunda."
           eyebrow="Event aktif"
         />
 

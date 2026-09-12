@@ -101,7 +101,6 @@ export default function LeaderboardPage() {
           <SectionHeading
             eyebrow="Peringkat Keseluruhan"
             title="Leaderboard Nasional"
-            description="Bandingkan skor dan waktu pengerjaanmu dengan peserta lain di berbagai kategori try out."
           />
         </div>
 

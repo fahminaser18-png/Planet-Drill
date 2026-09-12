@@ -43,7 +43,6 @@ function TryoutSelectionPage() {
           <SectionHeading
             eyebrow="Simulasi Ujian"
             title="Pilih Mode Try Out"
-            description="Latih kesiapanmu dengan try out mandiri tanpa batas waktu, atau ikuti simulasi terjadwal untuk bersaing secara real-time."
           />
         </div>
 

@@ -103,7 +103,6 @@ function AnalyticsPage() {
         <SectionHeading
           eyebrow="Evaluasi Performa"
           title="Diagnosis Kelemahan"
-          description="Identifikasi subtopik yang paling sering menurunkan skormu berdasarkan hasil try out terakhir."
         />
 
         <DiagnosisRangeControls

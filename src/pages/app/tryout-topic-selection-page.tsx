@@ -49,7 +49,6 @@ function TryoutTopicSelectionPage() {
         <div className="pb-6 border-b border-border/40">
           <SectionHeading
             title="Try Out Per Materi / Topik"
-            description="Pilih topik spesifik yang ingin kamu dalami untuk mempertajam penguasaan konsep sebelum simulasi penuh."
           />
         </div>
 

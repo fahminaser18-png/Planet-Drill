@@ -98,7 +98,6 @@ export default function MentorAreaPage() {
           <SectionHeading
             eyebrow="Panel Pengajaran"
             title="Area Mentor"
-            description="Selesaikan pembuatan soal, kelola materi, serta operasional try out untuk membimbing siswa."
           />
         </div>
 

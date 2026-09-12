@@ -38,7 +38,6 @@ function ScheduledOpsShell({
         navItems={createProductNavItems(activeHref, role)}
       >
         <SectionHeading
-          description={description}
           eyebrow="Event terjadwal"
           title={title}
         />

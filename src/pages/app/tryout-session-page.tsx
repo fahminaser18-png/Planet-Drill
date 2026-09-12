@@ -501,10 +501,9 @@ function TryoutSessionPage() {
       <section id="tryout">
         <SectionHeading
           title="Sesi try out berjalan"
-          description="Pilih nomor soal untuk berpindah dan kirim hasil saat selesai."
           eyebrow="Sesi aktif"
           actions={
-            <div className="flex flex-wrap items-center justify-end gap-3">
+            <div className="flex flex-wrap items-center justify-end gap-3"/>
               <Button
                 aria-pressed={isQuestionNavHidden}
                 className="transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"

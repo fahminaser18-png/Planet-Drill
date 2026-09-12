@@ -465,10 +465,9 @@ function ScheduledTryoutSessionPage() {
       <section id="scheduled-tryout-session">
         <SectionHeading
           title="Sesi try out terjadwal"
-          description="Kerjakan soal, pantau waktu, dan kirim hasil saat selesai."
           eyebrow="Sesi aktif"
           actions={(
-            <div className="flex flex-wrap items-center justify-end gap-3">
+            <div className="flex flex-wrap items-center justify-end gap-3"/>
               <Button
                 aria-pressed={isQuestionNavHidden}
                 onClick={() => {

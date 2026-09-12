@@ -116,7 +116,6 @@ function ReviewPage() {
               <SectionHeading
                 eyebrow="Pembahasan Soal"
                 title="Riwayat Pembahasan"
-                description="Pilih hasil try out atau sesi terjadwal untuk mendalami pembahasan dan kunci jawaban."
               />
             </div>
 
@@ -220,7 +219,6 @@ function ReviewPage() {
               <SectionHeading
                 eyebrow="Pembahasan Sesi"
                 title="Jawaban dan Pembahasan"
-                description="Navigasikan nomor soal di sebelah kiri untuk melihat pembahasan detail setiap pertanyaan."
                 
               />
             </div>

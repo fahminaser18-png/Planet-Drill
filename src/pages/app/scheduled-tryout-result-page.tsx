@@ -40,7 +40,6 @@ function ScheduledTryoutResultPage() {
       <section id="scheduled-tryout-result">
         <SectionHeading
           title="Hasil sesi terjadwal"
-          description="Skor akhir, hasil per blok, dan pembahasan setelah sesi selesai."
           eyebrow="Hasil akhir"
         />
 
