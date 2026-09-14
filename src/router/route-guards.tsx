@@ -14,6 +14,7 @@ import {
 import { bootstrapProfile } from "../lib/api/auth-api";
 import { getUserSubscription } from "../lib/api/subscription-api";
 import { useWindowFocusRefresh } from "../lib/use-window-focus-refresh";
+import { OnboardingModal } from "../components/onboarding/onboarding-modal";
 
 type GuardState =
   | {
@@ -141,7 +142,12 @@ export function AppRouteGuard() {
   }
 
   if (canAccessStudentApp(guardState.access)) {
-    return <Outlet />;
+    return (
+      <>
+        <OnboardingModal />
+        <Outlet />
+      </>
+    );
   }
 
   return <Navigate replace to="/subscription" />;

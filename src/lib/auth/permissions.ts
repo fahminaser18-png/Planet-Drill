@@ -7,6 +7,10 @@ export type AppProfile = {
   fullName: string | null;
   avatarUrl?: string | null;
   role: UserRole;
+  schoolName?: string | null;
+  phoneNumber?: string | null;
+  referralSource?: string | null;
+  onboardingCompleted?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

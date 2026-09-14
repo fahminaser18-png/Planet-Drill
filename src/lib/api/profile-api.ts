@@ -8,6 +8,10 @@ type ProfileRow = {
   full_name: string | null;
   avatar_url: string | null;
   role: AppProfile["role"];
+  school_name?: string | null;
+  phone_number?: string | null;
+  referral_source?: string | null;
+  onboarding_completed?: boolean;
   created_at?: string;
   updated_at?: string;
 };
@@ -24,6 +28,10 @@ function mapProfileRow(row: ProfileRow): AppProfile {
     fullName: row.full_name,
     avatarUrl: row.avatar_url,
     role: row.role,
+    schoolName: row.school_name ?? null,
+    phoneNumber: row.phone_number ?? null,
+    referralSource: row.referral_source ?? null,
+    onboardingCompleted: row.onboarding_completed ?? false,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -56,7 +64,7 @@ export async function getCurrentProfile(
 ): Promise<AppProfile> {
   const { data, error } = await client
     .from("profiles")
-    .select("id, email, full_name, avatar_url, role, created_at, updated_at")
+    .select("id, email, full_name, avatar_url, role, school_name, phone_number, referral_source, onboarding_completed, created_at, updated_at")
     .single();
 
   if (error) {
