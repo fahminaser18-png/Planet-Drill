@@ -97,12 +97,10 @@ export function OnboardingModal() {
   }
 
   return (
-    <Dialog open modal>
+    <Dialog open modal dismissible={false}>
       <DialogContent
         showCloseButton={false}
         className="sm:max-w-lg"
-        onPointerDownOutside={(e: Event) => e.preventDefault()}
-        onEscapeKeyDown={(e: Event) => e.preventDefault()}
       >
         <DialogHeader>
           <div className="flex items-center gap-3">
