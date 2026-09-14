@@ -84,7 +84,7 @@ export default function AiConfigPage() {
           />
         </div>
 
-        <div className="w-full max-w-5xl flex flex-col divide-y divide-border/40">
+        <div className="w-full flex flex-col divide-y divide-border/40">
           <section className="py-8 grid sm:grid-cols-[1fr_2fr] gap-6">
             <div className="space-y-1">
               <h3 className="text-sm font-semibold text-foreground">Koneksi Supabase Vault</h3>
