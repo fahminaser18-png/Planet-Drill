@@ -104,12 +104,7 @@ function MarketingShell({ children, footer }: MarketingShellProps) {
                   </p>
                 </div>
                 
-                <div className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4 text-sm font-medium">
-                  <a href="#program" className="text-muted-foreground hover:text-primary transition-colors">Program Belajar</a>
-                  <a href="#biaya" className="text-muted-foreground hover:text-primary transition-colors">Pilihan Paket</a>
-                  <a href="#testimoni" className="text-muted-foreground hover:text-primary transition-colors">Testimoni</a>
-                  <Link to="/auth/login" className="text-muted-foreground hover:text-primary transition-colors">Login Siswa</Link>
-                </div>
+
               </div>
             </div>
           </footer>
