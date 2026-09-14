@@ -97,7 +97,7 @@ export function OnboardingModal() {
   }
 
   return (
-    <Dialog open modal dismissible={false}>
+    <Dialog open modal>
       <DialogContent
         showCloseButton={false}
         className="sm:max-w-lg"
