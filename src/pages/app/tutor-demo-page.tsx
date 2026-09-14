@@ -87,15 +87,9 @@ export default function TutorDemoPage() {
       navItems={studentShell.navItems}
       tierLabel={studentShell.tierLabel}
     >
-      <div className="flex flex-col gap-8 w-full py-8 max-w-5xl h-[calc(100vh-4rem)]">
-        <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-muted-foreground">
-            Fitur Pelajar AI
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Ruang Tutor</h1>
-          <p className="text-base text-muted-foreground max-w-2xl">
-            Tanyakan apa saja seputar UTBK. Tutor terhubung dengan seluruh bank soal, pembahasan, flash card, serta materi tambahan yang ada di platform ini.
-          </p>
+      <div className="flex flex-col gap-8 w-full py-4 h-[calc(100vh-4rem)]">
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading eyebrow="Fitur Pelajar AI" title="Ruang Tutor" />
         </div>
         
         {isLoading ? (

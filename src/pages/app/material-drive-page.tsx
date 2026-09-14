@@ -4,6 +4,7 @@ import { productShellMeta } from "../../mocks/student-dashboard";
 import { useStudentShell } from "./use-student-shell";
 import { useSession } from "../../lib/auth/use-session";
 import { DriveExplorer } from "../../components/DriveExplorer/DriveExplorer";
+import SectionHeading from "../../components/ui/section-heading";
 import { PaywallGate } from "../../components/layout/paywall-gate";
 
 type MaterialDrivePageProps = {
@@ -36,18 +37,8 @@ export default function MaterialDrivePage({ driveType }: MaterialDrivePageProps)
     >
       <div className="flex flex-col gap-8 w-full py-4">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <span className="mb-3 inline-block rounded bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-              {driveType === 'rekaman' ? 'Video & Kelas' : 'Dokumen & Modul'}
-            </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-3 text-foreground">
-              {title}
-            </h1>
-            <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              {description}
-            </p>
-          </div>
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading eyebrow={driveType === 'rekaman' ? 'Video & Kelas' : 'Dokumen & Modul'} title={title} />
         </div>
 
         {/* Explorer Card Container */}

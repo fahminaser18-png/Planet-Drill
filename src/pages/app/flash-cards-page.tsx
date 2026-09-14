@@ -3,6 +3,7 @@ import { Link, Navigate, useSearchParams } from "react-router";
 import { Filter, ArrowRight, AlertCircle } from "lucide-react";
 import ProductShell from "../../components/layout/product-shell";
 import { Button, getButtonStyleProps } from "../../components/ui/button";
+import SectionHeading from "../../components/ui/section-heading";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { listPublishedFlashCardSubtopics } from "../../lib/api/flash-card-api";
 import { productShellMeta } from "../../mocks/student-dashboard";
@@ -42,19 +43,8 @@ function FlashCardsPage() {
     >
       <div className="flex flex-col gap-8 w-full py-4">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40">
-          <div>
-            <span className="mb-3 inline-flex items-center rounded bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-              <Filter className="mr-1.5 h-3 w-3" />
-              Latihan Mandiri
-            </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
-              Kartu Belajar
-            </h1>
-            <p className="text-base text-muted-foreground mt-2 max-w-2xl">
-              Pilih submateri lalu ulang poin penting dengan kartu belajar singkat.
-            </p>
-          </div>
+        <div className="pb-4 border-b border-border/40">
+          <SectionHeading eyebrow="Latihan Mandiri" title="Kartu Belajar" />
         </div>
 
         {isError ? (
